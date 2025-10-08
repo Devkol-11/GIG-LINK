@@ -1,18 +1,26 @@
 import { LoginUserCommand, LoginUserResult } from "../dtos/Login";
-import { AuthRepository } from "../../domain/interfaces/AuthRepository";
+import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
 import { AuthService } from "../../domain/services/AuthService";
-import { EventPublisher } from "../../infrastructure/events/EventPublisher";
+import { logger } from "@core/logging/winston";
 import { DomainException } from "../../domain/exceptions/DomainException";
+import { IEventPublisher } from "../../domain/interfaces/EventPublisher";
 
-export class LoginUserUseCase {
+//IMPORT IMPLEMENTATIONS
+import { authservice } from "../../domain/services/AuthService";
+import { prismaRepository } from "../../infrastructure/PrismaRepository";
+import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
+
+export class LoginUseCase {
   constructor(
-    private authRepository: AuthRepository,
     private authService: AuthService,
-    private eventPublisher: EventPublisher
+    private authRepository: IAuthRepository,
+    private eventPublisher: IEventPublisher
   ) {}
 
   async Execute(DTO: LoginUserCommand): Promise<LoginUserResult> {
     const { email, password } = DTO;
+
+    logger.info("[UseCase] RegisterExecute", { email });
 
     const user = await this.authRepository.findByEmail(email);
 
@@ -22,6 +30,7 @@ export class LoginUserUseCase {
         404
       );
     }
+
     const comparePassword = await this.authService.comparePassword(
       password,
       user.password
@@ -31,9 +40,13 @@ export class LoginUserUseCase {
       throw new DomainException("invalid Password", 404);
     }
 
-    const accessToken = this.authService.generateAuthToken(user.id, user.email);
+    const accessToken = this.authService.generateAccessToken(
+      user.id,
+      user.email
+    );
 
     return {
+      message: "Login successful , Welcome back !",
       user: {
         id: user.id,
         email: user.email,
@@ -47,3 +60,9 @@ export class LoginUserUseCase {
     };
   }
 }
+
+export const loginUseCase = new LoginUseCase(
+  authservice,
+  prismaRepository,
+  rabbitMQEventPublisher
+);

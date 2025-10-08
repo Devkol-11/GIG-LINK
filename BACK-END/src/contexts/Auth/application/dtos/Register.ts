@@ -1,12 +1,13 @@
 export interface RegisterUserCommand {
   email: string;
   password: string;
-  phoneNumber: number;
+  phoneNumber: string;
   firstName: string;
   lastName: string;
 }
 
 export interface RegisterUserResult {
+  message: string;
   user: {
     id: string;
     email: string;

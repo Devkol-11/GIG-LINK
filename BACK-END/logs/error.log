@@ -1,0 +1,17 @@
+[2025-10-06T14:39:48.760Z] [31merror[39m: It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`.
+[2025-10-06T15:09:17.144Z] [31merror[39m: User Already Exists
+[2025-10-06T17:00:49.531Z] [31merror[39m: User Already Exists
+[2025-10-06T17:01:12.781Z] [31merror[39m: User Already Exists
+[2025-10-06T17:01:16.049Z] [31merror[39m: User Already Exists
+[2025-10-06T17:19:32.168Z] [31merror[39m: invalid userId
+[2025-10-06T17:19:59.319Z] [31merror[39m: invalid userId
+[2025-10-06T21:59:33.413Z] [31merror[39m: User Already Exists
+[2025-10-06T22:05:09.978Z] [31merror[39m: Cannot destructure property 'email' of 'req.body' as it is undefined.
+[2025-10-06T22:06:47.031Z] [31merror[39m: Cannot destructure property 'email' of 'req.body' as it is undefined.
+[2025-10-06T22:07:13.897Z] [31merror[39m: User Already Exists
+[2025-10-06T22:07:30.199Z] [31merror[39m: Cannot destructure property 'email' of 'req.body' as it is undefined.
+[2025-10-06T22:08:28.794Z] [31merror[39m: User Already Exists
+[2025-10-07T18:16:06.541Z] [31merror[39m: User Already Exists
+[2025-10-07T18:38:21.823Z] [31merror[39m: User Already Exists
+[2025-10-07T18:38:38.969Z] [31merror[39m: User Already Exists
+[2025-10-07T18:39:34.983Z] [31merror[39m: User : liam.turner@example.com Already Exists

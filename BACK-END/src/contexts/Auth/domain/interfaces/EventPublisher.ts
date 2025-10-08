@@ -1,3 +1,3 @@
-export interface EventPublisher {
+export interface IEventPublisher {
   publish(event: string, payload: any): Promise<void>;
 }

@@ -1,11 +1,13 @@
 import { DomainException } from "../exceptions/DomainException";
+import { createId } from "@paralleldrive/cuid2";
+
 export interface UserProps {
   id: string;
   email: string;
   password: string;
   firstName: string;
   lastName: string;
-  phoneNumber: number;
+  phoneNumber: string;
   isEmailVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -17,17 +19,21 @@ export class User {
   public static create(
     props: Omit<UserProps, "id" | "isEmailVerified" | "createdAt" | "updatedAt">
   ): User {
-    const id = crypto.randomUUID();
     const now = new Date();
-
-    // create a new user
     return new User({
       ...props,
-      id,
+      id: createId(),
       isEmailVerified: false,
       createdAt: now,
       updatedAt: now,
     });
+  }
+
+  public static rehydrate(props: UserProps) {
+    if (!props.id) {
+      throw new DomainException("invalid userId", 404);
+    }
+    return new User(props);
   }
 
   // getters - return only
@@ -49,10 +55,13 @@ export class User {
   get isEmailVerified(): boolean {
     return this.props.isEmailVerified;
   }
-  get createdAt(): Date {
+  get phoneNumber(): string {
+    return this.props.phoneNumber;
+  }
+  get createdAt(): Date | undefined {
     return this.props.createdAt;
   }
-  get updatedAt(): Date {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt;
   }
 
@@ -67,9 +76,6 @@ export class User {
   }
 
   updateEmail(email: string): void {
-    if (!email.includes("@")) {
-      throw new DomainException("invalid email", 404);
-    }
     this.props.email = email;
     this.props.updatedAt = new Date();
   }
