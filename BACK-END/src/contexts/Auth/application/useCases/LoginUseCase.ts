@@ -20,8 +20,6 @@ export class LoginUseCase {
   async Execute(DTO: LoginUserCommand): Promise<LoginUserResult> {
     const { email, password } = DTO;
 
-    logger.info("[UseCase] RegisterExecute", { email });
-
     const user = await this.authRepository.findByEmail(email);
 
     if (!user) {

@@ -3,8 +3,8 @@ import { RegisterUserCommand, RegisterUserResult } from "../dtos/Register";
 import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
 import { AuthService } from "../../domain/services/AuthService";
 import { DomainException } from "../../domain/exceptions/DomainException";
-import { logger } from "@core/logging/winston";
 import { IEventPublisher } from "../../domain/interfaces/EventPublisher";
+import { UserRegisteredEvent } from "../../domain/events/UserRegisteredEvent";
 
 //IMPORT IMPLEMENTATIONS
 import { authservice } from "../../domain/services/AuthService";
@@ -42,18 +42,20 @@ export class RegisterUseCase {
       newUser.id
     );
 
-    const payload = {
-      userId: newUser.id,
-      email: newUser.email,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
-      timestamp: new Date(),
-    };
+    const userRegisteredEvent = new UserRegisteredEvent(
+      newUser.id,
+      newUser.email,
+      newUser.firstName,
+      newUser.lastName
+    );
 
-    await this.eventPublisher.publish("User Registered", payload);
+    await this.eventPublisher.publish(
+      userRegisteredEvent.routing_key,
+      userRegisteredEvent
+    );
 
     return {
-      message: "Registration Successful  ,  Welcome !",
+      message: "Registration Successful , Welcome !",
       user: {
         id: newUser.id,
         email: user.email,

@@ -1,4 +1,3 @@
-// core/messaging/rabbitmq.service.ts
 import amqp from "amqplib";
 import { logger } from "@core/logging/winston";
 
@@ -73,7 +72,7 @@ export class RabbitMQService {
         await onMessage(payload);
         ch.ack(msg);
       } catch (err) {
-        console.error("consumer error:", err);
+        logger.warn("consumer error:", err);
         ch.nack(msg, false, true);
       }
     });

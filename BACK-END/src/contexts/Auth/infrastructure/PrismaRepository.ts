@@ -72,7 +72,6 @@ export class PrismaRepository implements IAuthRepository {
   }
 
   private toDomainEntity(persisteDdata: any): User {
-    // map DB fields (passwordHash) -> domain (password)
     const user = User.rehydrate({
       id: persisteDdata.id,
       email: persisteDdata.email,
@@ -88,7 +87,6 @@ export class PrismaRepository implements IAuthRepository {
   }
 
   private toPersistence(user: User) {
-    // map domain -> persistence (password -> passwordHash)
     return {
       id: user.id,
       email: user.email,

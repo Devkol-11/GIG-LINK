@@ -612,3 +612,30 @@ Please make sure your database server is running at `ep-purple-mountain-abap29ss
 [2025-10-07T18:44:12.608Z] [32minfo[39m: database connection successful
 [2025-10-07T18:44:12.610Z] [32minfo[39m: database connected successfully
 [2025-10-07T18:44:12.628Z] [32minfo[39m: server runnning on port 3000
+[2025-10-11T21:59:58.066Z] [32minfo[39m: Email sent : <c47890c1-14f8-d7e0-87ed-2dd9b2e28a37@giglink.app>
+[2025-10-11T22:00:53.639Z] [32minfo[39m: Email sent : <7cf4df34-d897-044d-5f71-4c4fa56a1d48@giglink.app>
+[2025-10-11T23:30:14.680Z] [32minfo[39m: Email sent : <cf228958-916b-404c-9b9c-fd19123a3470@giglink.app>
+[2025-10-11T23:59:26.378Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-11T23:59:26.577Z] [32minfo[39m: consuming queue="array_test_queue" bound to exchange="app_exchange" key="User"
+[2025-10-12T00:06:37.476Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-12T00:06:37.486Z] [32minfo[39m: Publishing: {"id":1,"email":"kol@gmail.com"}
+[2025-10-12T00:06:37.503Z] [32minfo[39m: Publishing: {"id":2,"email":"jol@gmail.com"}
+[2025-10-12T00:06:37.547Z] [32minfo[39m: Publishing: {"id":3,"email":"lol@gmail.com"}
+[2025-10-12T00:11:14.511Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-12T00:11:14.582Z] [32minfo[39m: consuming queue="array_test_queue" bound to exchange="app_exchange" key="User"
+[2025-10-12T00:11:14.631Z] [32minfo[39m: 📩 Event received:
+[2025-10-12T00:11:14.632Z] [32minfo[39m: Simulating email sending to: kol@gmail.com...
+[2025-10-12T00:11:14.637Z] [32minfo[39m: 📩 Event received:
+[2025-10-12T00:11:14.637Z] [32minfo[39m: Simulating email sending to: jol@gmail.com...
+[2025-10-12T00:11:14.640Z] [32minfo[39m: 📩 Event received:
+[2025-10-12T00:11:14.640Z] [32minfo[39m: Simulating email sending to: lol@gmail.com...
+[2025-10-12T00:12:52.516Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-12T00:12:52.518Z] [32minfo[39m: Publishing: {"id":1,"email":"kol@gmail.com"}
+[2025-10-12T00:12:52.530Z] [32minfo[39m: Publishing: {"id":2,"email":"jol@gmail.com"}
+[2025-10-12T00:12:52.575Z] [32minfo[39m: Publishing: {"id":3,"email":"lol@gmail.com"}
+[2025-10-12T00:12:52.631Z] [32minfo[39m: 📩 Event received:
+[2025-10-12T00:12:52.669Z] [32minfo[39m: Simulating email sending to: kol@gmail.com...
+[2025-10-12T00:12:52.722Z] [32minfo[39m: 📩 Event received:
+[2025-10-12T00:12:52.724Z] [32minfo[39m: Simulating email sending to: jol@gmail.com...
+[2025-10-12T00:12:52.729Z] [32minfo[39m: 📩 Event received:
+[2025-10-12T00:12:52.732Z] [32minfo[39m: Simulating email sending to: lol@gmail.com...
