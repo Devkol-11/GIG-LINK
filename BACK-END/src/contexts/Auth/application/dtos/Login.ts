@@ -4,6 +4,7 @@ export interface LoginUserCommand {
 }
 
 export interface LoginUserResult {
+  message : string,
   user: {
     id: string;
     email: string;

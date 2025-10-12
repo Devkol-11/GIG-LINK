@@ -1,4 +1,4 @@
-import { HttpError } from "./appError";
+import { HttpError } from "./httpError";
 
 export class NotFound extends HttpError {
   constructor(message = "Resource not found") {

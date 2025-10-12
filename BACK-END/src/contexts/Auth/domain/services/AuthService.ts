@@ -1,7 +1,13 @@
+import { IpasswordHasher } from "../interfaces/PasswordHasher.ts";
+import { ITokenGenerator } from "../interfaces/TokenGenerator";
+//IMPORT IMPLEMANTATIONS
+import { jwtLibary } from "../../infrastructure/JwtService";
+import { bcryptLibary } from "../../infrastructure/BcryptService";
+
 export class AuthService {
   constructor(
-    private passwordHasher: passwordHasher,
-    private tokenGenerator: TokenGenerator
+    private tokenGenerator: ITokenGenerator,
+    private passwordHasher: IpasswordHasher
   ) {}
 
   async hashPassword(password: string): Promise<string> {
@@ -15,21 +21,20 @@ export class AuthService {
     return this.passwordHasher.compare(plainPassoword, hashedPassword);
   }
 
-  generateAuthToken(userId: string, email: string): string {
-    return this.tokenGenerator.generateToken({ userId, email });
+  generateAccessToken(email: string, userId?: string): string {
+    return this.tokenGenerator.generateAccessToken({ userId, email });
+  }
+  generateRefreshToken(userId: string, email: string): string {
+    return this.tokenGenerator.generateRefreshToken({ userId, email });
   }
 
-  verifyAuthToken(token: string): any {
-    return this.tokenGenerator.verifyToken(token);
+  verifyAccessToken(token: string): any {
+    return this.tokenGenerator.verifyAccessToken(token);
+  }
+
+  verifyRefreshToken(token: string): any {
+    return this.tokenGenerator.verifyRefreshToken(token);
   }
 }
 
-export interface passwordHasher {
-  hash(plainPassoword: string): Promise<string>;
-  compare(plainPassoword: string, hashedPassword: string): Promise<boolean>;
-}
-
-export interface TokenGenerator {
-  generateToken(payload: object): string;
-  verifyToken(token: string): any;
-}
+export const authservice = new AuthService(jwtLibary, bcryptLibary);

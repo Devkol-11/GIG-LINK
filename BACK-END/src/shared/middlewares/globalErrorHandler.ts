@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { logger } from "@core/logging/winston";
 import { DomainException } from "@src/contexts/Auth/domain/exceptions/DomainException";
 import { sendResponse } from "../helpers/ResponseHelpers";
-import { HttpError } from "../errors/appError";
+import { HttpError } from "../errors/httpError";
 
 export const globalErrorHandler = (
   err: any,
   _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   logger.error(err);
 

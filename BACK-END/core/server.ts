@@ -12,16 +12,16 @@ const PORT = config.PORT || 3000;
 
 const server: Server = http.createServer(ExpressApplication);
 
-const startServer = async () => {
+const startServer = async (server: Server) => {
   try {
-    logger.info("connecting to the databse");
+    logger.info("connecting to the database...");
 
     await connectDB();
 
     logger.info("database connected successfully");
 
     server.listen(PORT, () => {
-      logger.info(`server runnning on port  ${PORT}`);
+      logger.info(`server runnning on port ${PORT}`);
     });
   } catch (error) {
     logger.warn("error starting the server", error);
@@ -35,7 +35,7 @@ const shutdown = (server: Server) => {
   });
 };
 
-startServer();
-
 process.on("SIGINT", () => shutdown(server));
 process.on("SIGTERM", () => shutdown(server));
+
+startServer(server);
