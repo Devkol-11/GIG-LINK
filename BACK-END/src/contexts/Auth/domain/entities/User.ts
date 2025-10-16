@@ -1,4 +1,4 @@
-import { DomainException } from "../exceptions/DomainException";
+import { DomainException } from "../errors/DomainErrors";
 import { createId } from "@paralleldrive/cuid2";
 
 export interface UserProps {

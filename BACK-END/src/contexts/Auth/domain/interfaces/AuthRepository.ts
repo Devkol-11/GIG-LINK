@@ -1,10 +1,16 @@
-import { User } from "../entities/User";
+import { User } from "@prisma/client";
+import { RefreshToken } from "@prisma/client";
 
 export interface IAuthRepository {
+  save(userData: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<User>;
+  saveRefreshToken(
+    userId: string,
+    token: string,
+    expiresAt: Date
+  ): Promise<RefreshToken>;
+  update(email: string, updateData: Partial<User>): Promise<User>;
   findByEmail(email: string): Promise<User | null>;
   findById(id: string): Promise<User | null>;
-  save(user: User): Promise<User>;
   existsByEmail(email: string): Promise<boolean>;
-  create(user: User): Promise<User>;
-  update(user: User): Promise<User>;
+  updatePassword(userId: string, newPasswordHash: string): Promise<void>;
 }

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { logger } from "@core/logging/winston";
-import { DomainException } from "@src/contexts/Auth/domain/exceptions/DomainException";
-import { sendResponse } from "../helpers/ResponseHelpers";
+import { BusinessError } from "@src/contexts/Auth/domain/errors/DomainErrors";
+import { sendError } from "../helpers/sendError";
 import { HttpError } from "../errors/httpError";
 
 export const globalErrorHandler = (
@@ -12,16 +12,19 @@ export const globalErrorHandler = (
 ) => {
   logger.error(err);
 
-  if (err instanceof DomainException) {
-    return sendResponse(res, err.statusCode, {
-      err,
+  if (err instanceof BusinessError) {
+    return sendError(res, err.statusCode, {
       message: err.message,
+      err,
     });
   }
 
   if (err instanceof HttpError) {
-    return sendResponse(res, err.statusCode, err.message);
+    return sendError(res, err.statusCode, err.message);
   }
 
-  return sendResponse(res, 500, "Internal Server Error");
+  return sendError(res, 500, {
+    message: "Internal Server Error",
+    err: err,
+  });
 };

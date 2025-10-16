@@ -1,70 +1,73 @@
-import { User } from "../../domain/entities/User";
+// import { User } from "../../domain/entities/User";
 import { RegisterUserCommand, RegisterUserResult } from "../dtos/Register";
 import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
 import { AuthService } from "../../domain/services/AuthService";
-import { DomainException } from "../../domain/exceptions/DomainException";
-import { IEventPublisher } from "../../domain/interfaces/EventPublisher";
-import { UserRegisteredEvent } from "../../domain/events/UserRegisteredEvent";
+import { BusinessError } from "../../domain/errors/DomainErrors";
+// import { IEventBus } from "../../domain/interfaces/EventbBus";
+// import { UserRegisteredEvent } from "../../domain/events/UserRegisteredEvent";
 
 //IMPORT IMPLEMENTATIONS
 import { authservice } from "../../domain/services/AuthService";
-import { prismaRepository } from "../../infrastructure/PrismaRepository";
-import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
+import { authRepository } from "../../infrastructure/AuthRepository";
+// import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
 
 export class RegisterUseCase {
   constructor(
     private authservice: AuthService,
-    private authRepository: IAuthRepository,
-    private eventPublisher: IEventPublisher
+    private authRepository: IAuthRepository // private eventBus: IEventBus
   ) {}
 
   async Execute(DTO: RegisterUserCommand): Promise<RegisterUserResult> {
     const { email, password, firstName, lastName, phoneNumber } = DTO;
 
     if (await this.authRepository.findByEmail(email)) {
-      throw new DomainException(`User : ${email} Already Exists`, 404);
+      throw BusinessError.notFound(`User with email : ${email} already exists`);
     }
 
-    const hashedPassword = await this.authservice.hashPassword(password);
+    const passwordHash = await this.authservice.hashPassword(password);
 
-    const user = User.create({
-      email: email,
-      password: hashedPassword,
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-    });
+    const userData = {
+      email,
+      passwordHash,
+      firstName,
+      lastName,
+      phoneNumber,
+      isEmailVerified: false,
+      refreshToken: null,
+    };
 
-    const newUser = await this.authRepository.create(user);
+    const newUser = await this.authRepository.save(userData);
 
     const accessToken = this.authservice.generateAccessToken(
       newUser.id,
-      newUser.id
+      newUser.email
     );
 
-    const userRegisteredEvent = new UserRegisteredEvent(
+    const refreshToken = this.authservice.generateRefreshToken(
       newUser.id,
-      newUser.email,
-      newUser.firstName,
-      newUser.lastName
+      newUser.email
     );
 
-    await this.eventPublisher.publish(
-      userRegisteredEvent.routing_key,
-      userRegisteredEvent
+    const expiresAt = this.authservice.calculateTokenExpiryDate(7);
+
+    await this.authRepository.saveRefreshToken(
+      newUser.id,
+      refreshToken,
+      expiresAt
     );
 
     return {
-      message: "Registration Successful , Welcome !",
+      message: "Registration Successful , welcome !",
       user: {
         id: newUser.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        isEmailVerified: user.isEmailVerified,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        isEmailVerified: newUser.isEmailVerified,
       },
-      token: {
+      tokens: {
         accessToken,
+        refreshToken,
       },
     };
   }
@@ -72,6 +75,6 @@ export class RegisterUseCase {
 
 export const registerUseCase = new RegisterUseCase(
   authservice,
-  prismaRepository,
-  rabbitMQEventPublisher
+  authRepository
+  // rabbitMQEventPublisher
 );
