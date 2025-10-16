@@ -1,7 +1,7 @@
-import { IEventPublisher } from "../domain/interfaces/EventPublisher";
+import { IEventBus } from "../domain/interfaces/EventbBus";
 import { rabbitMQService } from "@core/message-broker/RabbitMQ";
 
-export class RabbitMQEventPublisher implements IEventPublisher {
+export class RabbitMQEventPublisher implements IEventBus {
   private exchange: string;
   constructor() {
     this.exchange = "auth.exchange";

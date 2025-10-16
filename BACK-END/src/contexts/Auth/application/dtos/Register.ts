@@ -15,7 +15,8 @@ export interface RegisterUserResult {
     lastName: string;
     isEmailVerified: boolean;
   };
-  token: {
+  tokens: {
     accessToken: string;
+    refreshToken: string;
   };
 }

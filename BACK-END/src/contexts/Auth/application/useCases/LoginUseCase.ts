@@ -2,19 +2,18 @@ import { LoginUserCommand, LoginUserResult } from "../dtos/Login";
 import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
 import { AuthService } from "../../domain/services/AuthService";
 import { logger } from "@core/logging/winston";
-import { DomainException } from "../../domain/exceptions/DomainException";
-import { IEventPublisher } from "../../domain/interfaces/EventPublisher";
+import { BusinessError } from "../../domain/errors/DomainErrors";
+// import { IEventBus } from "../../domain/interfaces/EventbBus";
 
 //IMPORT IMPLEMENTATIONS
 import { authservice } from "../../domain/services/AuthService";
-import { prismaRepository } from "../../infrastructure/PrismaRepository";
+import { authRepository } from "../../infrastructure/AuthRepository";
 import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
 
 export class LoginUseCase {
   constructor(
     private authService: AuthService,
-    private authRepository: IAuthRepository,
-    private eventPublisher: IEventPublisher
+    private authRepository: IAuthRepository // private eventPublisher: IEventPublisher
   ) {}
 
   async Execute(DTO: LoginUserCommand): Promise<LoginUserResult> {
@@ -23,22 +22,26 @@ export class LoginUseCase {
     const user = await this.authRepository.findByEmail(email);
 
     if (!user) {
-      throw new DomainException(
-        `could not find user with email : ${email}`,
-        404
+      throw BusinessError.notFound(
+        `user with email : ${email} was not found , please register `
       );
     }
 
     const comparePassword = await this.authService.comparePassword(
       password,
-      user.password
+      user.passwordHash
     );
 
     if (!comparePassword) {
-      throw new DomainException("invalid Password", 404);
+      throw BusinessError.badRequest("Invalid Password");
     }
 
     const accessToken = this.authService.generateAccessToken(
+      user.id,
+      user.email
+    );
+
+    const refreshToken = this.authService.generateRefreshToken(
       user.id,
       user.email
     );
@@ -52,8 +55,9 @@ export class LoginUseCase {
         lastName: user.lastName,
         isEmailVerified: user.isEmailVerified,
       },
-      token: {
+      tokens: {
         accessToken,
+        refreshToken,
       },
     };
   }
@@ -61,6 +65,6 @@ export class LoginUseCase {
 
 export const loginUseCase = new LoginUseCase(
   authservice,
-  prismaRepository,
-  rabbitMQEventPublisher
+  authRepository
+  // rabbitMQEventPublisher
 );

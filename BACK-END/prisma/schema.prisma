@@ -7,27 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Auth Context Tables
 model User {
-  id              String   @id @db.Text
+  id              String   @id @default(uuid())
   email           String   @unique
   passwordHash    String
   firstName       String
   lastName        String
   phoneNumber     String
-  isEmailVerified Boolean?  @default(false)
+  isEmailVerified Boolean  @default(false)
   refreshToken    String?
-  createdAt       DateTime? @default(now())
-  updatedAt       DateTime? @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  profile UserProfile?
-  tokens  RefreshToken[]
+  profile       UserProfile?
+  refreshTokens RefreshToken[]
+  otp           Otp[]
 
   @@map("users")
 }
 
 model RefreshToken {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   token     String   @unique
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -37,9 +37,8 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
-// User Profile Context Tables (for reference)
 model UserProfile {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   bio       String?
   skills    String[]
   interests String[]
@@ -50,3 +49,16 @@ model UserProfile {
 
   @@map("user_profiles")
 }
+
+model Otp {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}
+

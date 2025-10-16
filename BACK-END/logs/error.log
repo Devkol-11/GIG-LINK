@@ -15,3 +15,12 @@
 [2025-10-07T18:38:21.823Z] [31merror[39m: User Already Exists
 [2025-10-07T18:38:38.969Z] [31merror[39m: User Already Exists
 [2025-10-07T18:39:34.983Z] [31merror[39m: User : liam.turner@example.com Already Exists
+[2025-10-15T21:06:19.733Z] [31merror[39m: User with email : john.doe@gmail.com already exists
+[2025-10-15T21:08:00.289Z] [31merror[39m: User with email : john.doe@gmail.com already exists
+[2025-10-15T21:09:10.452Z] [31merror[39m: User with email : john.doe@gmail.com already exists
+[2025-10-15T21:29:42.485Z] [31merror[39m: User with email : amaka.obi@outlook.com already exists
+[2025-10-15T21:54:13.190Z] [31merror[39m: Invalid Password
+[2025-10-15T21:55:00.326Z] [31merror[39m: user with email : grace.udeh@outlook.com was not found , please register 
+[2025-10-15T22:25:51.435Z] [31merror[39m: User with email : bethelcollins1000@gmail.com was not found
+[2025-10-15T22:26:35.614Z] [31merror[39m: User with email : bethelcollins1000@gmail.com was not found
+[2025-10-15T23:44:08.447Z] [31merror[39m: User with email : bethelcollins1000@gmail.com was not found

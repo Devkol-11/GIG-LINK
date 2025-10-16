@@ -4,7 +4,7 @@ export interface LoginUserCommand {
 }
 
 export interface LoginUserResult {
-  message : string,
+  message: string;
   user: {
     id: string;
     email: string;
@@ -12,7 +12,8 @@ export interface LoginUserResult {
     lastName: string;
     isEmailVerified: boolean;
   };
-  token: {
+  tokens: {
     accessToken: string;
+    refreshToken: string;
   };
 }

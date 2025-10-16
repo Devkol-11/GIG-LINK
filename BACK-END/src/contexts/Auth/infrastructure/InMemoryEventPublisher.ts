@@ -1,6 +1,6 @@
-import { IEventPublisher } from "../domain/interfaces/EventPublisher";
+import { IEventBus } from "../domain/interfaces/EventbBus";
 
-export class InMemoryEventPublisher implements IEventPublisher {
+export class InMemoryEventPublisher implements IEventBus {
   public published: Array<{ eventName: string; payload: any }> = [];
 
   async publish(eventName: string, payload: any): Promise<void> {
