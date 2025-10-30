@@ -1,10 +1,10 @@
-import { rabbitMQService } from "@core/message-broker/RabbitMQ";
-import { SendPasswordResetEmailUseCase } from "../useCases/sendPasswordResetEmailUseCase";
-import { IEventConsumer } from "../interfaces/IEventConsumer";
-import { logger } from "@core/logging/winston";
+import { rabbitMQService } from "@core/message-brokers/RabbitMQ.js";
+import { SendPasswordResetEmailUseCase } from "../useCases/sendPasswordResetEmailUseCase.js";
+import { IEventConsumer } from "../interfaces/IEventConsumer.js";
+import { logger } from "@core/logging/winston.js";
 
 // IMPORT IMPLEMENTATION
-import { sendPasswordResetEmailUseCase } from "../useCases/sendPasswordResetEmailUseCase";
+import { sendPasswordResetEmailUseCase } from "../useCases/sendPasswordResetEmailUseCase.js";
 
 export class PasswordResetConsumer implements IEventConsumer {
   private readonly exchange = "auth.exchange";

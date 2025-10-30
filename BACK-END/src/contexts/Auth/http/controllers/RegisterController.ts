@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { RegisterUseCase } from "../../application/useCases/RegisterUseCase";
-import { sendResponse } from "../../../../shared/helpers/sendResponse";
-import { httpStatus } from "../../../../shared/constants/httpStatusCode";
-import { catchAsync } from "@src/shared/helpers/catchAsync";
+import { RegisterUseCase } from "../../application/useCases/RegisterUseCase.js";
+import { sendResponse } from "../../../../shared/helpers/sendResponse.js";
+import { httpStatus } from "../../../../shared/constants/httpStatusCode.js";
+import { catchAsync } from "@src/shared/helpers/catchAsync.js";
 
 //IMPORT IMPLEMENTATION
-import { registerUseCase } from "../../application/useCases/RegisterUseCase";
+import { registerUseCase } from "../../application/useCases/RegisterUseCase.js";
 
 export class RegisterController {
   constructor(private registerUseCase: RegisterUseCase) {}

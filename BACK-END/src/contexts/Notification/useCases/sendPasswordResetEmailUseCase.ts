@@ -1,18 +1,18 @@
-import { IEmailService } from "../interfaces/IEmailService";
-import { logger } from "@core/logging/winston";
+import { IEmailService } from "../interfaces/IEmailService.js";
+import { logger } from "@core/logging/winston.js";
 
 // IMPORT IMPLEMENTATION
-import { emailTransporter } from "../email/EmailTransporter";
+import { emailTransporter } from "../email/EmailTransporter.js";
 export class SendPasswordResetEmailUseCase {
   constructor(private emailService: IEmailService) {}
 
-  async Execute(email: string, resetLink: string) {
+  async Execute(email: string, resetOTP: string) {
     const subject = "Token to reset your password";
     const body = `
         <h3>Password Reset</h3>
-        <p>We received a request to reset your password. Click the link below to set a new one:</p>
-        <a href="${resetLink}">${resetLink}</a>
-        <p>This link will expire in 15 minutes.</p>
+        <p>Use the Code below to reset your password:</p>
+        <a href="${resetOTP}">${resetOTP}</a>
+        <p>This code will expire in 10 minutes.</p>
       `;
 
     await this.emailService.sendEmail(email, subject, body);

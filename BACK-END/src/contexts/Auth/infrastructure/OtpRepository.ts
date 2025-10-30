@@ -1,6 +1,6 @@
 import { Otp } from "@prisma/client";
-import { prisma } from "@core/database/prismaClient";
-import { IOtpRepository } from "../domain/interfaces/OtpRepository";
+import { prisma } from "@core/database/prismaClient.js";
+import { IOtpRepository } from "../domain/interfaces/OtpRepository.js";
 
 export class OtpRepository implements IOtpRepository {
   constructor() {}

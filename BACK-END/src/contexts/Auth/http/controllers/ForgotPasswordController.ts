@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { ForgotPasswordUseCase } from "../../application/useCases/ForgotPasswordUseCase";
-import { sendResponse } from "@src/shared/helpers/sendResponse";
-import { httpStatus } from "@src/shared/constants/httpStatusCode";
-import { catchAsync } from "@src/shared/helpers/catchAsync";
+import { ForgotPasswordUseCase } from "../../application/useCases/ForgotPasswordUseCase.js";
+import { sendResponse } from "@src/shared/helpers/sendResponse.js";
+import { httpStatus } from "@src/shared/constants/httpStatusCode.js";
+import { catchAsync } from "@src/shared/helpers/catchAsync.js";
 
 // IMPORT IMPLEMENTATIONS
-import { forgotPasswordUseCase } from "../../application/useCases/ForgotPasswordUseCase";
+import { forgotPasswordUseCase } from "../../application/useCases/ForgotPasswordUseCase.js";
 
 export class ForgotPasswordController {
   constructor(private forgotPasswordUseCase: ForgotPasswordUseCase) {}

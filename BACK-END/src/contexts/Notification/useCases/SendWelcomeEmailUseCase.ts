@@ -1,7 +1,7 @@
-import { IEmailService } from "../interfaces/IEmailService";
+import { IEmailService } from "../interfaces/IEmailService.js";
 
 // IMPORT IMPLEMENTATION
-import { emailTransporter } from "../email/EmailTransporter";
+import { emailTransporter } from "../email/EmailTransporter.js";
 
 export class SendWelcomeEmailUseCase {
   constructor(private readonly emailService: IEmailService) {}

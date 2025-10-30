@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { logger } from "../logging/winston";
+
+import { logger } from "../logging/winston.js";
 
 export class PrismaService {
-  private static instance: PrismaClient;
+  private static instance: any;
   constructor() {}
 
-  public static getInstance() {
+  public static getInstance(): PrismaClient {
     if (!PrismaService.instance) {
       PrismaService.instance = new PrismaClient({
         log: ["query", "info", "warn", "error"],

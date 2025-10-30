@@ -1,10 +1,10 @@
-import { rabbitMQService } from "@core/message-broker/RabbitMQ";
-import { SendWelcomeEmailUseCase } from "../useCases/SendWelcomeEmailUseCase";
-import { IEventConsumer } from "../interfaces/IEventConsumer";
-import { logger } from "@core/logging/winston";
+import { rabbitMQService } from "@core/message-brokers/RabbitMQ.js";
+import { SendWelcomeEmailUseCase } from "../useCases/SendWelcomeEmailUseCase.js";
+import { IEventConsumer } from "../interfaces/IEventConsumer.js";
+import { logger } from "@core/logging/winston.js";
 
 // IMPORT IMPLEMENTATION
-import { sendWelcomeEmailUseCase } from "../useCases/SendWelcomeEmailUseCase";
+import { sendWelcomeEmailUseCase } from "../useCases/SendWelcomeEmailUseCase.js";
 
 export class UserRegisteredConsumer implements IEventConsumer {
   private readonly exchange = "auth.exchange";

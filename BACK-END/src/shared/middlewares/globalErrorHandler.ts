@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { logger } from "@core/logging/winston";
-import { BusinessError } from "@src/contexts/Auth/domain/errors/DomainErrors";
-import { sendError } from "../helpers/sendError";
-import { HttpError } from "../errors/httpError";
+import { logger } from "@core/logging/winston.js";
+import { sendError } from "../helpers/sendError.js";
+import { HttpError } from "../errors/httpError.js";
 
 export const globalErrorHandler = (
   err: any,
@@ -12,15 +11,25 @@ export const globalErrorHandler = (
 ) => {
   logger.error(err);
 
-  if (err instanceof BusinessError) {
-    return sendError(res, err.statusCode, {
+  if (err.isBusinessError || (err.statusCode && err.statusCode < 500)) {
+    const statusCode = err.statusCode || 400;
+    return sendError(res, statusCode, {
       message: err.message,
-      err,
+      err: {
+        statusCode: err.statusCode,
+        name: err.name,
+      },
     });
   }
 
   if (err instanceof HttpError) {
-    return sendError(res, err.statusCode, err.message);
+    sendError(res, err.statusCode, {
+      message: err.message,
+      err: {
+        statusCode: err.statusCode,
+        name: err.name,
+      },
+    });
   }
 
   return sendError(res, 500, {

@@ -1,4 +1,4 @@
-import { emailTransporter } from "../email/EmailTransporter";
+import { emailTransporter } from "../email/EmailTransporter.js";
 
 (async () => {
   try {

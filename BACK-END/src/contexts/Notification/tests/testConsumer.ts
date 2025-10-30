@@ -1,3 +1,3 @@
-import { consumeTest } from "./testRMQ";
+import { consumeTest } from "./testRMQ.js";
 
 consumeTest();

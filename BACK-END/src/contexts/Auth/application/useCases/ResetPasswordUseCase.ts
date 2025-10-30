@@ -1,12 +1,12 @@
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
-import { IOtpRepository } from "../../domain/interfaces/OtpRepository";
-import { BusinessError } from "../../domain/errors/DomainErrors";
-import { AuthService } from "../../domain/services/AuthService";
+import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
+import { IOtpRepository } from "../../domain/interfaces/OtpRepository.js";
+import { BusinessError } from "../../domain/errors/BusinessError.js";
+import { AuthService } from "../../domain/services/AuthService.js";
 
 //IMPORT IMPLEMENTATIONS
-import { authservice } from "../../domain/services/AuthService";
-import { authRepository } from "../../infrastructure/AuthRepository";
-import { otpRepository } from "../../infrastructure/OtpRepository";
+import { authservice } from "../../domain/services/AuthService.js";
+import { authRepository } from "../../infrastructure/AuthRepository.js";
+import { otpRepository } from "../../infrastructure/OtpRepository.js";
 
 export class ResetPasswordUseCase {
   constructor(

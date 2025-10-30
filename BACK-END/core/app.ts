@@ -1,15 +1,17 @@
 import Express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import { authRoutes } from "@src/contexts/Auth/http/routes/AuthRoutes";
-import { logger } from "./logging/winston";
+import { authRoutes } from "@src/contexts/Auth/http/routes/AuthRoutes.js";
+import { userRoutes } from "@src/contexts/User/http/routes/UserRoutes.js";
+import { logger } from "./logging/winston.js";
 
-import { globalErrorHandler } from "@src/shared/middlewares/globalErrorHandler";
+import { globalErrorHandler } from "@src/shared/middlewares/globalErrorHandler.js";
 
 logger.info("request entered Express");
 
 const createExpressApplication = (
-  authRoutes: Express.Router
+  authRoutes: Express.Router,
+  userRoutes: Express.Router
 ): Express.Application => {
   const ExpressApplication = Express();
 
@@ -18,10 +20,14 @@ const createExpressApplication = (
   ExpressApplication.use(helmet());
 
   ExpressApplication.use("/api/auth", authRoutes);
+  ExpressApplication.use("/api/users", userRoutes);
 
   ExpressApplication.use(globalErrorHandler);
 
   return ExpressApplication;
 };
 
-export const ExpressApplication = createExpressApplication(authRoutes);
+export const ExpressApplication = createExpressApplication(
+  authRoutes,
+  userRoutes
+);

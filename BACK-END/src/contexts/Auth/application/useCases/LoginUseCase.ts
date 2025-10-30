@@ -1,14 +1,14 @@
-import { LoginUserCommand, LoginUserResult } from "../dtos/Login";
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
-import { AuthService } from "../../domain/services/AuthService";
-import { logger } from "@core/logging/winston";
-import { BusinessError } from "../../domain/errors/DomainErrors";
+import { LoginUserCommand, LoginUserResult } from "../dtos/Login.js";
+import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
+import { AuthService } from "../../domain/services/AuthService.js";
+import { logger } from "@core/logging/winston.js";
+import { BusinessError } from "../../domain/errors/BusinessError.js";
 // import { IEventBus } from "../../domain/interfaces/EventbBus";
 
 //IMPORT IMPLEMENTATIONS
-import { authservice } from "../../domain/services/AuthService";
-import { authRepository } from "../../infrastructure/AuthRepository";
-import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
+import { authservice } from "../../domain/services/AuthService.js";
+import { authRepository } from "../../infrastructure/AuthRepository.js";
+import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
 
 export class LoginUseCase {
   constructor(
@@ -20,6 +20,8 @@ export class LoginUseCase {
     const { email, password } = DTO;
 
     const user = await this.authRepository.findByEmail(email);
+
+    console.log(user);
 
     if (!user) {
       throw BusinessError.notFound(
@@ -38,13 +40,11 @@ export class LoginUseCase {
 
     const accessToken = this.authService.generateAccessToken(
       user.id,
-      user.email
+      user.email,
+      user.role
     );
 
-    const refreshToken = this.authService.generateRefreshToken(
-      user.id,
-      user.email
-    );
+    const { refreshToken } = this.authService.generateRefreshToken(user.id, 7);
 
     return {
       message: "Login successful , Welcome back !",

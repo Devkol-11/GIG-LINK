@@ -1,14 +1,14 @@
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
-import { IOtpRepository } from "../../domain/interfaces/OtpRepository";
-import { AuthService } from "../../domain/services/AuthService";
-import { IEventBus } from "../../domain/interfaces/EventbBus";
-import { BusinessError } from "../../domain/errors/DomainErrors";
-import { PasswordResetEvent } from "../../domain/events/PasswordResetEvent";
+import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
+import { IOtpRepository } from "../../domain/interfaces/OtpRepository.js";
+import { AuthService } from "../../domain/services/AuthService.js";
+import { IEventBus } from "../../domain/interfaces/EventbBus.js";
+import { BusinessError } from "../../domain/errors/BusinessError.js";
+import { PasswordResetEvent } from "../../domain/events/PasswordResetEvent.js";
 
 //IMPORT IMPLEMENTATIONS
-import { authRepository } from "../../infrastructure/AuthRepository";
-import { otpRepository } from "../../infrastructure/OtpRepository";
-import { authservice } from "../../domain/services/AuthService";
+import { authRepository } from "../../infrastructure/AuthRepository.js";
+import { otpRepository } from "../../infrastructure/OtpRepository.js";
+import { authservice } from "../../domain/services/AuthService.js";
 // import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
 
 export class ForgotPasswordUseCase {

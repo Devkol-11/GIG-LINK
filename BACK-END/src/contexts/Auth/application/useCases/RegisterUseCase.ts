@@ -1,15 +1,16 @@
 // import { User } from "../../domain/entities/User";
-import { RegisterUserCommand, RegisterUserResult } from "../dtos/Register";
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository";
-import { AuthService } from "../../domain/services/AuthService";
-import { BusinessError } from "../../domain/errors/DomainErrors";
-// import { IEventBus } from "../../domain/interfaces/EventbBus";
-// import { UserRegisteredEvent } from "../../domain/events/UserRegisteredEvent";
+import { RegisterUserCommand, RegisterUserResult } from "../dtos/Register.js";
+import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
+import { AuthService } from "../../domain/services/AuthService.js";
+import { BusinessError } from "../../domain/errors/BusinessError.js";
+import { IEventBus } from "../../domain/interfaces/EventbBus.js";
+import { UserRegisteredEvent } from "../../domain/events/UserRegisteredEvent.js";
+import { ROLE } from "@prisma/client";
 
 //IMPORT IMPLEMENTATIONS
-import { authservice } from "../../domain/services/AuthService";
-import { authRepository } from "../../infrastructure/AuthRepository";
-// import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService";
+import { authservice } from "../../domain/services/AuthService.js";
+import { authRepository } from "../../infrastructure/AuthRepository.js";
+import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
 
 export class RegisterUseCase {
   constructor(
@@ -31,6 +32,7 @@ export class RegisterUseCase {
       passwordHash,
       firstName,
       lastName,
+      role: ROLE.CLIENT,
       phoneNumber,
       isEmailVerified: false,
       refreshToken: null,
@@ -40,21 +42,28 @@ export class RegisterUseCase {
 
     const accessToken = this.authservice.generateAccessToken(
       newUser.id,
-      newUser.email
+      newUser.email,
+      newUser.role
     );
 
-    const refreshToken = this.authservice.generateRefreshToken(
+    const { refreshToken, expiresAt } = this.authservice.generateRefreshToken(
       newUser.id,
-      newUser.email
+      7
     );
-
-    const expiresAt = this.authservice.calculateTokenExpiryDate(7);
 
     await this.authRepository.saveRefreshToken(
       newUser.id,
       refreshToken,
       expiresAt
     );
+
+    const payload = new UserRegisteredEvent(
+      newUser.id,
+      newUser.email,
+      newUser.firstName
+    );
+
+    // await this.eventBus.publish(payload.routing_key, payload);
 
     return {
       message: "Registration Successful , welcome !",

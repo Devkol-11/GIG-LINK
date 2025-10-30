@@ -1,9 +1,9 @@
-import { IpasswordHasher } from "../interfaces/PasswordHasher.ts";
-import { ITokenGenerator } from "../interfaces/TokenGenerator";
+import { IpasswordHasher } from "../interfaces/PasswordHasher.js";
+import { ITokenGenerator } from "../interfaces/TokenGenerator.js";
 import { randomBytes } from "crypto";
 //IMPORT IMPLEMANTATIONS
-import { jwtLibary } from "../../infrastructure/JwtService";
-import { bcryptLibary } from "../../infrastructure/BcryptService";
+import { jwtLibary } from "../../infrastructure/JwtService.js";
+import { bcryptLibary } from "../../infrastructure/BcryptService.js";
 
 export class AuthService {
   constructor(
@@ -22,11 +22,15 @@ export class AuthService {
     return this.passwordHasher.compare(plainPassoword, hashedPassword);
   }
 
-  generateAccessToken(email: string, userId?: string): string {
-    return this.tokenGenerator.generateAccessToken({ userId, email });
+  generateAccessToken(userId: string, email: string, role: string): string {
+    return this.tokenGenerator.generateAccessToken({ userId, email, role });
   }
-  generateRefreshToken(userId: string, email: string): string {
-    return this.tokenGenerator.generateRefreshToken({ userId, email });
+  generateRefreshToken(userId: string, days: number) {
+    const refreshToken = this.tokenGenerator.generateRefreshToken({
+      userId,
+    });
+    const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+    return { refreshToken, expiresAt };
   }
 
   verifyAccessToken(token: string): any {

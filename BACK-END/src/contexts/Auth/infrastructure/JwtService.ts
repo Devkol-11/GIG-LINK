@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { ITokenGenerator } from "../domain/interfaces/TokenGenerator";
-import { config } from "@core/config/env";
+import { ITokenGenerator } from "../domain/interfaces/TokenGenerator.js";
+import { config } from "@core/config/env.js";
 
 class JwtLibary implements ITokenGenerator {
   constructor(
@@ -10,12 +10,12 @@ class JwtLibary implements ITokenGenerator {
 
   generateAccessToken(payload: object): string {
     return jwt.sign(payload, this.accessSecretKey, {
-      expiresIn: 15,
+      expiresIn: "15m",
     });
   }
-  generateRefreshToken(payload: object): string {
+  generateRefreshToken(payload: object): any {
     return jwt.sign(payload, this.refreshSecretKey, {
-      expiresIn: 15,
+      expiresIn: "7d",
     });
   }
 

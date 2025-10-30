@@ -1,6 +1,6 @@
 import "module-alias/register";
-import { logger } from "@core/logging/winston";
-import { rabbitMQService } from "@core/message-broker/RabbitMQ";
+import { logger } from "@core/logging/winston.js";
+import { rabbitMQService } from "@core/message-brokers/RabbitMQ.js";
 
 const events = [
   {

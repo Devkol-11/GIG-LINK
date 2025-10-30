@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { LoginUseCase } from "../../application/useCases/LoginUseCase";
-import { sendResponse } from "@src/shared/helpers/sendResponse";
-import { httpStatus } from "@src/shared/constants/httpStatusCode";
-import { catchAsync } from "@src/shared/helpers/catchAsync";
+import { LoginUseCase } from "../../application/useCases/LoginUseCase.js";
+import { sendResponse } from "@src/shared/helpers/sendResponse.js";
+import { httpStatus } from "@src/shared/constants/httpStatusCode.js";
+import { catchAsync } from "@src/shared/helpers/catchAsync.js";
 
 //IMPOER TIMPLEMENTATIONS
-import { loginUseCase } from "../../application/useCases/LoginUseCase";
-import { logger } from "@core/logging/winston";
+import { loginUseCase } from "../../application/useCases/LoginUseCase.js";
+import { logger } from "@core/logging/winston.js";
 
 export class LoginController {
   constructor(private loginUseCase: LoginUseCase) {}

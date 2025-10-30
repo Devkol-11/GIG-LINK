@@ -1,9 +1,8 @@
-import { IEventBus } from "../domain/interfaces/EventbBus";
+import { IEventBus } from "../domain/interfaces/EventbBus.js";
+import { localEmitter } from "@core/message-brokers/LocalEmitter.js";
 
 export class InMemoryEventPublisher implements IEventBus {
-  public published: Array<{ eventName: string; payload: any }> = [];
-
   async publish(eventName: string, payload: any): Promise<void> {
-    this.published.push({ eventName, payload });
+    localEmitter.publish(eventName, payload);
   }
 }

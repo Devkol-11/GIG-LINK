@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { ResetPasswordUseCase } from "../../application/useCases/ResetPasswordUseCase";
-import { sendResponse } from "@src/shared/helpers/sendResponse";
-import { catchAsync } from "@src/shared/helpers/catchAsync";
-import { httpStatus } from "@src/shared/constants/httpStatusCode";
+import { ResetPasswordUseCase } from "../../application/useCases/ResetPasswordUseCase.js";
+import { sendResponse } from "@src/shared/helpers/sendResponse.js";
+import { catchAsync } from "@src/shared/helpers/catchAsync.js";
+import { httpStatus } from "@src/shared/constants/httpStatusCode.js";
 
 //IMPORT IMPLEMENTATIONS
-import { resetPasswordUseCase } from "../../application/useCases/ResetPasswordUseCase";
+import { resetPasswordUseCase } from "../../application/useCases/ResetPasswordUseCase.js";
 
 export class ResetPasswordController {
   constructor(private resetPasswordUseCase: ResetPasswordUseCase) {}

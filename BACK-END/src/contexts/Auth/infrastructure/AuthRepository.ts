@@ -1,7 +1,7 @@
-import { IAuthRepository } from "../domain/interfaces/AuthRepository";
-import { prisma } from "@core/database/prismaClient";
-import { logger } from "@core/logging/winston";
-import { User } from "@prisma/client";
+import { IAuthRepository } from "../domain/interfaces/AuthRepository.js";
+import { prisma } from "@core/database/prismaClient.js";
+import { logger } from "@core/logging/winston.js";
+import type { User } from "@prisma/client";
 import { RefreshToken } from "@prisma/client";
 
 export class AuthRepository implements IAuthRepository {

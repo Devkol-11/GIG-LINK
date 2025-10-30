@@ -1,5 +1,5 @@
-import { IEventBus } from "../domain/interfaces/EventbBus";
-import { rabbitMQService } from "@core/message-broker/RabbitMQ";
+import { IEventBus } from "../domain/interfaces/EventbBus.js";
+import { rabbitMQService } from "@core/message-brokers/RabbitMQ.js";
 
 export class RabbitMQEventPublisher implements IEventBus {
   private exchange: string;
@@ -7,9 +7,9 @@ export class RabbitMQEventPublisher implements IEventBus {
     this.exchange = "auth.exchange";
   }
 
-  async publish(eventname: string, message: object) {
+  async publish(routing_key: string, message: object) {
     await rabbitMQService.connect();
-    await rabbitMQService.publish(this.exchange, eventname, message);
+    await rabbitMQService.publish(this.exchange, routing_key, message);
   }
 }
 

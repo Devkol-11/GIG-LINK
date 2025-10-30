@@ -1,10 +1,11 @@
 import "module-alias/register";
 import http, { Server } from "http";
 import dotenv from "dotenv";
-import { ExpressApplication } from "./app";
-import { config } from "./config/env";
-import { connectDB } from "./database/prismaClient";
-import { logger } from "./logging/winston";
+import { ExpressApplication } from "./app.js";
+import { config } from "./config/env.js";
+import { connectDB } from "./database/prismaClient.js";
+import { rabbitMQService } from "./message-brokers/RabbitMQ.js";
+import { logger } from "./logging/winston.js";
 
 dotenv.config();
 
@@ -14,11 +15,11 @@ const server: Server = http.createServer(ExpressApplication);
 
 const startServer = async (server: Server) => {
   try {
-    logger.info("connecting to the database...");
-
     await connectDB();
 
-    logger.info("database connected successfully");
+    // await rabbitMQService.connect();
+
+    logger.info("RabbitMQ connected Successfully");
 
     server.listen(PORT, () => {
       logger.info(`server runnning on port ${PORT}`);

@@ -803,3 +803,658 @@ Please make sure your database server is running at `ep-purple-mountain-abap29ss
 [2025-10-16T00:23:01.148Z] [32minfo[39m: database connection successful
 [2025-10-16T00:23:01.149Z] [32minfo[39m: database connected successfully
 [2025-10-16T00:23:01.156Z] [32minfo[39m: server runnning on port 3000
+[2025-10-16T22:53:18.870Z] [32minfo[39m: request entered Express
+[2025-10-16T22:53:18.886Z] [32minfo[39m: connecting to the database...
+[2025-10-16T22:53:18.886Z] [32minfo[39m: connecting to the database
+[2025-10-16T22:53:21.034Z] [32minfo[39m: database connection successful
+[2025-10-16T22:53:21.035Z] [32minfo[39m: database connected successfully
+[2025-10-16T22:53:21.645Z] [33mwarn[39m: error starting the server
+[2025-10-17T00:52:05.338Z] [32minfo[39m: request entered Express
+[2025-10-17T00:52:05.688Z] [32minfo[39m: connecting to the database...
+[2025-10-17T00:52:05.689Z] [32minfo[39m: connecting to the database
+[2025-10-17T00:52:12.116Z] [32minfo[39m: database connection successful
+[2025-10-17T00:52:12.117Z] [32minfo[39m: database connected successfully
+[2025-10-17T00:52:15.464Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-17T00:52:15.466Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-17T00:52:15.516Z] [32minfo[39m: server runnning on port 3000
+[2025-10-17T01:01:10.679Z] [32minfo[39m: request entered Express
+[2025-10-17T01:01:10.724Z] [32minfo[39m: connecting to the database...
+[2025-10-17T01:01:10.725Z] [32minfo[39m: connecting to the database
+[2025-10-17T01:01:12.577Z] [32minfo[39m: database connection successful
+[2025-10-17T01:01:12.579Z] [32minfo[39m: database connected successfully
+[2025-10-17T01:01:12.954Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-17T01:01:12.957Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-17T01:01:12.965Z] [32minfo[39m: server runnning on port 3000
+[2025-10-17T02:11:26.510Z] [32minfo[39m: request entered Express
+[2025-10-17T02:11:26.533Z] [32minfo[39m: connecting to the database...
+[2025-10-17T02:11:26.536Z] [32minfo[39m: connecting to the database
+[2025-10-17T02:11:28.612Z] [32minfo[39m: database connection successful
+[2025-10-17T02:11:28.614Z] [32minfo[39m: database connected successfully
+[2025-10-17T02:11:29.219Z] [32minfo[39m:  RabbitMQ connected
+[2025-10-17T02:11:29.221Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-17T02:11:29.230Z] [32minfo[39m: server runnning on port 3000
+[2025-10-17T16:39:49.790Z] [32minfo[39m: request entered Express
+[2025-10-17T16:39:49.803Z] [32minfo[39m: connecting to the database
+[2025-10-17T16:39:55.378Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-17T16:40:52.081Z] [32minfo[39m: request entered Express
+[2025-10-17T16:40:52.091Z] [32minfo[39m: connecting to the database
+[2025-10-17T16:40:57.263Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-17T16:41:19.341Z] [32minfo[39m: request entered Express
+[2025-10-17T16:41:19.354Z] [32minfo[39m: connecting to the database
+[2025-10-17T16:41:24.611Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-17T16:47:20.910Z] [32minfo[39m: request entered Express
+[2025-10-17T16:47:20.927Z] [32minfo[39m: connecting to the database
+[2025-10-17T16:47:22.780Z] [32minfo[39m: database connection successful
+[2025-10-17T16:47:22.846Z] [33mwarn[39m: error starting the server
+[2025-10-22T18:36:15.534Z] [32minfo[39m: request entered Express
+[2025-10-22T18:36:15.558Z] [32minfo[39m: connecting to the database
+[2025-10-22T18:36:21.418Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-22T18:36:42.991Z] [32minfo[39m: request entered Express
+[2025-10-22T18:36:43.003Z] [32minfo[39m: connecting to the database
+[2025-10-22T18:36:44.544Z] [32minfo[39m: database connection successful
+[2025-10-22T18:36:44.613Z] [33mwarn[39m: error starting the server
+[2025-10-22T18:38:16.063Z] [32minfo[39m: request entered Express
+[2025-10-22T18:38:16.090Z] [32minfo[39m: connecting to the database
+[2025-10-22T18:38:19.608Z] [32minfo[39m: database connection successful
+[2025-10-22T18:38:19.611Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-22T18:38:19.624Z] [32minfo[39m: server runnning on port 3000
+[2025-10-22T18:38:32.296Z] [31merror[39m: User with email : michael.balogun@tmail.com already exists
+[2025-10-22T18:38:59.746Z] [31merror[39m: 
+Invalid `prisma.refreshToken.create()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\Auth\infrastructure\AuthRepository.ts:24:32
+
+  21   token: string,
+  22   expiresAt: Date
+  23 ): Promise<RefreshToken> {
+→ 24   return prisma.refreshToken.create({
+         data: {
+           userId: "47b45658-53be-42c7-b74b-3410ae893a86",
+           expiresAt: new Date("2025-10-29T18:38:59.573Z"),
+       +   token: String
+         }
+       })
+
+Argument `token` is missing.
+[2025-10-22T23:01:10.952Z] [32minfo[39m: request entered Express
+[2025-10-22T23:01:10.965Z] [32minfo[39m: connecting to the database
+[2025-10-22T23:01:15.017Z] [32minfo[39m: database connection successful
+[2025-10-22T23:01:15.025Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-22T23:01:15.034Z] [32minfo[39m: server runnning on port 3000
+[2025-10-22T23:01:28.686Z] [31merror[39m: User with email : jane.doe@example.com already exists
+[2025-10-22T23:03:37.401Z] [32minfo[39m: request entered Express
+[2025-10-22T23:03:37.413Z] [32minfo[39m: connecting to the database
+[2025-10-22T23:03:38.536Z] [32minfo[39m: database connection successful
+[2025-10-22T23:03:38.538Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-22T23:03:38.543Z] [32minfo[39m: server runnning on port 3000
+[2025-10-22T23:04:24.915Z] [32minfo[39m: Server closed , Exiting process...
+[2025-10-23T15:20:48.799Z] [32minfo[39m: request entered Express
+[2025-10-23T15:20:48.811Z] [32minfo[39m: connecting to the database
+[2025-10-23T15:20:51.096Z] [32minfo[39m: database connection successful
+[2025-10-23T15:20:51.098Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T15:20:51.105Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T15:24:16.197Z] [32minfo[39m: request entered Express
+[2025-10-23T15:24:16.261Z] [32minfo[39m: connecting to the database
+[2025-10-23T15:24:18.431Z] [32minfo[39m: database connection successful
+[2025-10-23T15:24:18.464Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T15:24:18.506Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T15:35:34.361Z] [32minfo[39m: request entered Express
+[2025-10-23T15:35:34.408Z] [32minfo[39m: connecting to the database
+[2025-10-23T15:35:36.204Z] [32minfo[39m: database connection successful
+[2025-10-23T15:35:36.205Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T15:35:36.214Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T15:35:38.069Z] [32minfo[39m: Server closed , Exiting process...
+[2025-10-23T15:41:35.670Z] [32minfo[39m: request entered Express
+[2025-10-23T15:41:35.710Z] [32minfo[39m: connecting to the database
+[2025-10-23T15:41:37.739Z] [32minfo[39m: database connection successful
+[2025-10-23T15:41:37.741Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T15:41:37.747Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T15:56:36.894Z] [32minfo[39m: request entered Express
+[2025-10-23T15:56:36.903Z] [32minfo[39m: connecting to the database
+[2025-10-23T15:56:38.628Z] [32minfo[39m: database connection successful
+[2025-10-23T15:56:38.635Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T15:56:38.651Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T15:57:18.802Z] [31merror[39m: jwt expired
+[2025-10-23T15:58:53.366Z] [31merror[39m: 
+Invalid `prisma.userProfile.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\User\infrastructure\profileRepository.ts:7:45
+
+  4 
+  5 export class ProfileRepository implements IProfileRepository {
+  6   async findUserProfileById(userId: string): Promise<UserProfile | null> {
+→ 7     const record = await prisma.userProfile.findUnique({
+          where: {
+            userId: undefined,
+        ?   id?: String,
+        ?   AND?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   OR?: UserProfileWhereInput[],
+        ?   NOT?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   bio?: StringNullableFilter | String | Null,
+        ?   skills?: StringNullableListFilter,
+        ?   avatarUrl?: StringNullableFilter | String | Null,
+        ?   interests?: StringNullableListFilter,
+        ?   location?: StringFilter | String,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   user?: UserScalarRelationFilter | UserWhereInput
+          }
+        })
+
+Argument `where` of type UserProfileWhereUniqueInput needs at least one of `id` or `userId` arguments. Available options are marked with ?.
+[2025-10-23T16:30:55.420Z] [32minfo[39m: request entered Express
+[2025-10-23T16:30:55.430Z] [32minfo[39m: connecting to the database
+[2025-10-23T16:30:57.336Z] [32minfo[39m: database connection successful
+[2025-10-23T16:30:57.337Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T16:30:57.345Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T16:31:48.001Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T16:32:59.623Z] [32minfo[39m: request entered Express
+[2025-10-23T16:32:59.677Z] [32minfo[39m: connecting to the database
+[2025-10-23T16:33:01.130Z] [32minfo[39m: database connection successful
+[2025-10-23T16:33:01.174Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T16:33:01.248Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T16:33:13.660Z] [32minfo[39m: request entered Express
+[2025-10-23T16:33:13.699Z] [32minfo[39m: connecting to the database
+[2025-10-23T16:33:15.237Z] [32minfo[39m: database connection successful
+[2025-10-23T16:33:15.238Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T16:33:15.246Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T16:33:30.182Z] [32minfo[39m: [object Object]
+[2025-10-23T16:33:30.542Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T16:34:32.724Z] [32minfo[39m: request entered Express
+[2025-10-23T16:34:32.752Z] [32minfo[39m: connecting to the database
+[2025-10-23T16:34:34.692Z] [32minfo[39m: database connection successful
+[2025-10-23T16:34:34.694Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T16:34:34.703Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T16:34:42.146Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T16:40:17.619Z] [32minfo[39m: request entered Express
+[2025-10-23T16:40:17.648Z] [32minfo[39m: connecting to the database
+[2025-10-23T16:40:19.616Z] [32minfo[39m: database connection successful
+[2025-10-23T16:40:19.643Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T16:40:19.653Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T16:40:25.567Z] [32minfo[39m: request entered Express
+[2025-10-23T16:40:25.589Z] [32minfo[39m: connecting to the database
+[2025-10-23T16:40:26.762Z] [32minfo[39m: database connection successful
+[2025-10-23T16:40:26.764Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T16:40:26.769Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T16:40:32.974Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T17:20:14.942Z] [32minfo[39m: request entered Express
+[2025-10-23T17:20:14.994Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:20:17.047Z] [32minfo[39m: database connection successful
+[2025-10-23T17:20:17.049Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T17:20:17.061Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T17:21:09.396Z] [32minfo[39m: request entered Express
+[2025-10-23T17:21:09.427Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:21:10.630Z] [32minfo[39m: database connection successful
+[2025-10-23T17:21:10.632Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T17:21:10.643Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T17:21:34.242Z] [32minfo[39m: request entered Express
+[2025-10-23T17:21:34.262Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:21:35.415Z] [32minfo[39m: database connection successful
+[2025-10-23T17:21:35.420Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T17:21:35.434Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T17:22:53.739Z] [32minfo[39m: request entered Express
+[2025-10-23T17:22:53.763Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:22:54.993Z] [32minfo[39m: database connection successful
+[2025-10-23T17:22:54.994Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T17:22:54.998Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T17:23:07.357Z] [31merror[39m: jwt expired
+[2025-10-23T17:29:43.892Z] [31merror[39m: 
+Invalid `prisma.user.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\Auth\infrastructure\AuthRepository.ts:42:38
+
+  39 }
+  40 
+  41 async findByEmail(email: string): Promise<User | null> {
+→ 42   const record = await prisma.user.findUnique(
+Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T17:30:40.444Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T17:30:54.514Z] [32minfo[39m: Server closed , Exiting process...
+[2025-10-23T17:31:07.921Z] [32minfo[39m: request entered Express
+[2025-10-23T17:31:07.930Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:31:13.170Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T17:31:29.833Z] [32minfo[39m: request entered Express
+[2025-10-23T17:31:29.843Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:31:31.834Z] [32minfo[39m: database connection successful
+[2025-10-23T17:31:31.835Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T17:31:31.843Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T17:31:36.886Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T17:59:15.761Z] [32minfo[39m: request entered Express
+[2025-10-23T17:59:15.785Z] [32minfo[39m: connecting to the database
+[2025-10-23T17:59:18.583Z] [32minfo[39m: database connection successful
+[2025-10-23T17:59:18.584Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T17:59:18.595Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:02:25.186Z] [32minfo[39m: request entered Express
+[2025-10-23T18:02:25.236Z] [32minfo[39m: connecting to the database
+[2025-10-23T18:02:26.508Z] [32minfo[39m: database connection successful
+[2025-10-23T18:02:26.510Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T18:02:26.523Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:03:16.873Z] [32minfo[39m: request entered Express
+[2025-10-23T18:03:16.917Z] [32minfo[39m: connecting to the database
+[2025-10-23T18:03:18.065Z] [32minfo[39m: database connection successful
+[2025-10-23T18:03:18.066Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T18:03:18.073Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:03:23.267Z] [31merror[39m: jwt expired
+[2025-10-23T18:04:02.870Z] [32minfo[39m: request entered Express
+[2025-10-23T18:04:02.889Z] [32minfo[39m: connecting to the database
+[2025-10-23T18:04:04.130Z] [32minfo[39m: database connection successful
+[2025-10-23T18:04:04.133Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T18:04:04.147Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:06:57.146Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-23T18:08:01.100Z] [32minfo[39m: request entered Express
+[2025-10-23T18:08:01.139Z] [32minfo[39m: connecting to the database
+[2025-10-23T18:08:04.652Z] [32minfo[39m: database connection successful
+[2025-10-23T18:08:04.659Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T18:08:04.723Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:19:11.040Z] [32minfo[39m: request entered Express
+[2025-10-23T18:19:11.093Z] [32minfo[39m: connecting to the database
+[2025-10-23T18:19:13.071Z] [32minfo[39m: database connection successful
+[2025-10-23T18:19:13.072Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T18:19:13.081Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:20:13.169Z] [31merror[39m: profile already exists for this user
+[2025-10-23T18:31:41.702Z] [31merror[39m: jwt expired
+[2025-10-23T18:31:43.796Z] [31merror[39m: jwt expired
+[2025-10-23T18:32:34.967Z] [31merror[39m: profile already exists for this user
+[2025-10-23T18:43:06.210Z] [32minfo[39m: request entered Express
+[2025-10-23T18:43:06.224Z] [32minfo[39m: connecting to the database
+[2025-10-23T18:43:08.581Z] [32minfo[39m: database connection successful
+[2025-10-23T18:43:08.586Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T18:43:08.596Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T18:43:16.555Z] [31merror[39m: profile already exists for this user
+[2025-10-23T19:07:07.871Z] [32minfo[39m: request entered Express
+[2025-10-23T19:07:07.888Z] [32minfo[39m: connecting to the database
+[2025-10-23T19:07:09.893Z] [32minfo[39m: database connection successful
+[2025-10-23T19:07:09.894Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T19:07:09.901Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T20:59:33.980Z] [32minfo[39m: request entered Express
+[2025-10-23T20:59:34.085Z] [32minfo[39m: connecting to the database
+[2025-10-23T20:59:39.321Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T20:59:55.522Z] [32minfo[39m: request entered Express
+[2025-10-23T20:59:55.536Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:00:00.738Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T21:00:18.233Z] [32minfo[39m: request entered Express
+[2025-10-23T21:00:18.244Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:00:23.405Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T21:00:45.465Z] [32minfo[39m: request entered Express
+[2025-10-23T21:00:45.474Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:00:50.788Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T21:08:16.945Z] [32minfo[39m: request entered Express
+[2025-10-23T21:08:16.956Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:08:21.912Z] [32minfo[39m: database connection successful
+[2025-10-23T21:08:21.914Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T21:08:21.925Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T21:09:01.049Z] [31merror[39m: profile already exists for this user
+[2025-10-23T21:11:25.109Z] [32minfo[39m: request entered Express
+[2025-10-23T21:11:25.260Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:11:27.916Z] [32minfo[39m: database connection successful
+[2025-10-23T21:11:27.919Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T21:11:27.929Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T21:13:25.358Z] [32minfo[39m: request entered Express
+[2025-10-23T21:13:25.396Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:13:30.606Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-23T21:13:49.855Z] [32minfo[39m: request entered Express
+[2025-10-23T21:13:49.878Z] [32minfo[39m: connecting to the database
+[2025-10-23T21:13:53.907Z] [32minfo[39m: database connection successful
+[2025-10-23T21:13:53.909Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-23T21:13:53.917Z] [32minfo[39m: server runnning on port 3000
+[2025-10-23T21:14:04.486Z] [31merror[39m: profile already exists for this user
+[2025-10-23T21:26:09.966Z] [31merror[39m: Cannot read properties of undefined (reading 'createAvatar')
+[2025-10-25T03:48:05.655Z] [32minfo[39m: request entered Express
+[2025-10-25T03:48:05.667Z] [32minfo[39m: connecting to the database
+[2025-10-25T03:48:11.435Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-25T03:48:32.304Z] [32minfo[39m: request entered Express
+[2025-10-25T03:48:32.311Z] [32minfo[39m: connecting to the database
+[2025-10-25T03:48:33.330Z] [32minfo[39m: database connection successful
+[2025-10-25T03:48:33.332Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T03:48:33.341Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T03:51:52.465Z] [31merror[39m: this.avatarGenerator.createAvatar is not a function
+[2025-10-25T03:54:16.747Z] [32minfo[39m: request entered Express
+[2025-10-25T03:54:16.760Z] [32minfo[39m: connecting to the database
+[2025-10-25T03:54:18.226Z] [32minfo[39m: database connection successful
+[2025-10-25T03:54:18.226Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T03:54:18.233Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:00:24.801Z] [32minfo[39m: request entered Express
+[2025-10-25T04:00:24.848Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:00:26.802Z] [32minfo[39m: database connection successful
+[2025-10-25T04:00:26.802Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:00:26.808Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:14:07.774Z] [32minfo[39m: request entered Express
+[2025-10-25T04:14:07.785Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:14:07.924Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-25T04:15:36.833Z] [32minfo[39m: request entered Express
+[2025-10-25T04:15:36.841Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:15:36.995Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-25T04:17:08.565Z] [32minfo[39m: request entered Express
+[2025-10-25T04:17:08.574Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:17:10.447Z] [32minfo[39m: database connection successful
+[2025-10-25T04:17:10.448Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:17:10.453Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:17:20.329Z] [31merror[39m: jwt expired
+[2025-10-25T04:19:35.026Z] [32minfo[39m: request entered Express
+[2025-10-25T04:19:35.074Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:19:36.338Z] [32minfo[39m: database connection successful
+[2025-10-25T04:19:36.339Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:19:36.350Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:22:38.068Z] [32minfo[39m: request entered Express
+[2025-10-25T04:22:38.094Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:22:39.692Z] [32minfo[39m: database connection successful
+[2025-10-25T04:22:39.698Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:22:39.730Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:33:26.596Z] [32minfo[39m: request entered Express
+[2025-10-25T04:33:26.603Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:33:28.541Z] [32minfo[39m: database connection successful
+[2025-10-25T04:33:28.542Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:33:28.546Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:33:33.844Z] [31merror[39m: jwt expired
+[2025-10-25T04:33:55.458Z] [31merror[39m: profile already exists for this user
+[2025-10-25T04:34:09.015Z] [31merror[39m: Profile not found
+[2025-10-25T04:42:09.347Z] [31merror[39m: Profile not found
+[2025-10-25T04:42:50.289Z] [32minfo[39m: request entered Express
+[2025-10-25T04:42:50.343Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:42:51.678Z] [32minfo[39m: database connection successful
+[2025-10-25T04:42:51.681Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:42:51.692Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:43:00.387Z] [31merror[39m: Profile not found
+[2025-10-25T04:44:20.543Z] [32minfo[39m: request entered Express
+[2025-10-25T04:44:20.568Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:44:21.896Z] [32minfo[39m: database connection successful
+[2025-10-25T04:44:21.897Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:44:21.902Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:44:29.604Z] [31merror[39m: Profile not found
+[2025-10-25T04:45:40.822Z] [32minfo[39m: request entered Express
+[2025-10-25T04:45:40.838Z] [32minfo[39m: connecting to the database
+[2025-10-25T04:45:42.138Z] [32minfo[39m: database connection successful
+[2025-10-25T04:45:42.140Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T04:45:42.153Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T04:45:47.727Z] [31merror[39m: Profile not found
+[2025-10-25T04:59:58.140Z] [32minfo[39m: request entered Express
+[2025-10-25T04:59:58.147Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:00:00.142Z] [32minfo[39m: database connection successful
+[2025-10-25T05:00:00.145Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:00:00.165Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:01:29.160Z] [32minfo[39m: request entered Express
+[2025-10-25T05:01:29.189Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:01:30.406Z] [32minfo[39m: database connection successful
+[2025-10-25T05:01:30.407Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:01:30.415Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:03:17.520Z] [32minfo[39m: request entered Express
+[2025-10-25T05:03:17.536Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:03:18.668Z] [32minfo[39m: database connection successful
+[2025-10-25T05:03:18.669Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:03:18.676Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:04:23.386Z] [32minfo[39m: request entered Express
+[2025-10-25T05:04:23.413Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:04:24.599Z] [32minfo[39m: database connection successful
+[2025-10-25T05:04:24.601Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:04:24.616Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:04:25.199Z] [31merror[39m: 
+Invalid `prisma.userProfile.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\User\infrastructure\profileRepository.ts:14:45
+
+  11 }
+  12 
+  13 async findProfileById(profileId: string): Promise<UserProfile | null> {
+→ 14   const record = await prisma.userProfile.findUnique({
+         where: {
+           profileId: "bc0bb611-4bf0-4f19-b8aa-10448f483907",
+           ~~~~~~~~~
+       ?   id?: String,
+       ?   userId?: String,
+       ?   AND?: UserProfileWhereInput | UserProfileWhereInput[],
+       ?   OR?: UserProfileWhereInput[],
+       ?   NOT?: UserProfileWhereInput | UserProfileWhereInput[],
+       ?   bio?: StringNullableFilter | String | Null,
+       ?   skills?: StringNullableListFilter,
+       ?   avatarUrl?: StringNullableFilter | String | Null,
+       ?   interests?: StringNullableListFilter,
+       ?   location?: StringFilter | String,
+       ?   createdAt?: DateTimeFilter | DateTime,
+       ?   updatedAt?: DateTimeFilter | DateTime,
+       ?   user?: UserScalarRelationFilter | UserWhereInput
+         }
+       })
+
+Unknown argument `profileId`. Available options are marked with ?.
+[2025-10-25T05:06:30.704Z] [32minfo[39m: request entered Express
+[2025-10-25T05:06:30.721Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:06:32.183Z] [32minfo[39m: database connection successful
+[2025-10-25T05:06:32.185Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:06:32.191Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:15:26.223Z] [32minfo[39m: request entered Express
+[2025-10-25T05:15:26.230Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:15:28.101Z] [32minfo[39m: database connection successful
+[2025-10-25T05:15:28.102Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:15:28.111Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:24:30.707Z] [32minfo[39m: request entered Express
+[2025-10-25T05:24:30.718Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:24:31.855Z] [32minfo[39m: database connection successful
+[2025-10-25T05:24:31.856Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:24:31.862Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:28:51.138Z] [32minfo[39m: request entered Express
+[2025-10-25T05:28:51.148Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:28:53.460Z] [32minfo[39m: database connection successful
+[2025-10-25T05:28:53.461Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:28:53.466Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:30:47.638Z] [32minfo[39m: request entered Express
+[2025-10-25T05:30:47.650Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:30:49.012Z] [32minfo[39m: database connection successful
+[2025-10-25T05:30:49.014Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:30:49.023Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:31:13.975Z] [31merror[39m: profile already exists for this user
+[2025-10-25T05:34:55.816Z] [31merror[39m: jwt expired
+[2025-10-25T05:35:14.163Z] [31merror[39m: Profile not found
+[2025-10-25T05:35:42.336Z] [31merror[39m: profile already exists for this user
+[2025-10-25T05:39:38.842Z] [31merror[39m: 
+Invalid `prisma.userProfile.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\User\infrastructure\profileRepository.ts:7:45
+
+  4 
+  5 export class ProfileRepository implements IProfileRepository {
+  6   async findUserById(userId: string): Promise<UserProfile | null> {
+→ 7     const record = await prisma.userProfile.findUnique({
+          where: {
+            userId: undefined,
+        ?   id?: String,
+        ?   AND?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   OR?: UserProfileWhereInput[],
+        ?   NOT?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   bio?: StringNullableFilter | String | Null,
+        ?   skills?: StringNullableListFilter,
+        ?   avatarUrl?: StringNullableFilter | String | Null,
+        ?   interests?: StringNullableListFilter,
+        ?   location?: StringFilter | String,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   user?: UserScalarRelationFilter | UserWhereInput
+          }
+        })
+
+Argument `where` of type UserProfileWhereUniqueInput needs at least one of `id` or `userId` arguments. Available options are marked with ?.
+[2025-10-25T05:41:25.405Z] [32minfo[39m: request entered Express
+[2025-10-25T05:41:25.419Z] [32minfo[39m: connecting to the database
+[2025-10-25T05:41:26.853Z] [32minfo[39m: database connection successful
+[2025-10-25T05:41:26.854Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T05:41:26.861Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T05:41:28.713Z] [31merror[39m: 
+Invalid `prisma.userProfile.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\User\infrastructure\profileRepository.ts:7:45
+
+  4 
+  5 export class ProfileRepository implements IProfileRepository {
+  6   async findUserById(userId: string): Promise<UserProfile | null> {
+→ 7     const record = await prisma.userProfile.findUnique({
+          where: {
+            userId: undefined,
+        ?   id?: String,
+        ?   AND?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   OR?: UserProfileWhereInput[],
+        ?   NOT?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   bio?: StringNullableFilter | String | Null,
+        ?   skills?: StringNullableListFilter,
+        ?   avatarUrl?: StringNullableFilter | String | Null,
+        ?   interests?: StringNullableListFilter,
+        ?   location?: StringFilter | String,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   user?: UserScalarRelationFilter | UserWhereInput
+          }
+        })
+
+Argument `where` of type UserProfileWhereUniqueInput needs at least one of `id` or `userId` arguments. Available options are marked with ?.
+[2025-10-25T13:41:36.704Z] [32minfo[39m: request entered Express
+[2025-10-25T13:41:36.711Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:41:38.957Z] [32minfo[39m: database connection successful
+[2025-10-25T13:41:38.959Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:41:38.966Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:42:21.609Z] [31merror[39m: invalid token
+[2025-10-25T13:42:43.574Z] [31merror[39m: 
+Invalid `prisma.userProfile.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\BACK-END\src\contexts\User\infrastructure\profileRepository.ts:7:45
+
+  4 
+  5 export class ProfileRepository implements IProfileRepository {
+  6   async findUserById(userId: string): Promise<UserProfile | null> {
+→ 7     const record = await prisma.userProfile.findUnique({
+          where: {
+            userId: undefined,
+        ?   id?: String,
+        ?   AND?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   OR?: UserProfileWhereInput[],
+        ?   NOT?: UserProfileWhereInput | UserProfileWhereInput[],
+        ?   bio?: StringNullableFilter | String | Null,
+        ?   skills?: StringNullableListFilter,
+        ?   avatarUrl?: StringNullableFilter | String | Null,
+        ?   interests?: StringNullableListFilter,
+        ?   location?: StringFilter | String,
+        ?   createdAt?: DateTimeFilter | DateTime,
+        ?   updatedAt?: DateTimeFilter | DateTime,
+        ?   user?: UserScalarRelationFilter | UserWhereInput
+          }
+        })
+
+Argument `where` of type UserProfileWhereUniqueInput needs at least one of `id` or `userId` arguments. Available options are marked with ?.
+[2025-10-25T13:47:58.382Z] [32minfo[39m: request entered Express
+[2025-10-25T13:47:58.393Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:47:59.994Z] [32minfo[39m: database connection successful
+[2025-10-25T13:47:59.994Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:48:00.002Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:48:23.094Z] [32minfo[39m: request entered Express
+[2025-10-25T13:48:23.101Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:48:24.167Z] [32minfo[39m: database connection successful
+[2025-10-25T13:48:24.168Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:48:24.175Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:49:00.736Z] [32minfo[39m: request entered Express
+[2025-10-25T13:49:00.751Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:49:01.999Z] [32minfo[39m: database connection successful
+[2025-10-25T13:49:02.004Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:49:02.013Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:49:27.069Z] [32minfo[39m: request entered Express
+[2025-10-25T13:49:27.076Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:49:28.235Z] [32minfo[39m: database connection successful
+[2025-10-25T13:49:28.237Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:49:28.243Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:50:04.808Z] [32minfo[39m: request entered Express
+[2025-10-25T13:50:04.814Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:50:06.120Z] [32minfo[39m: database connection successful
+[2025-10-25T13:50:06.121Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:50:06.124Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:51:25.713Z] [32minfo[39m: request entered Express
+[2025-10-25T13:51:25.722Z] [32minfo[39m: connecting to the database
+[2025-10-25T13:51:26.879Z] [32minfo[39m: database connection successful
+[2025-10-25T13:51:26.880Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T13:51:26.885Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T13:51:36.137Z] [31merror[39m: not allowed
+[2025-10-25T18:59:55.422Z] [32minfo[39m: request entered Express
+[2025-10-25T18:59:55.440Z] [32minfo[39m: connecting to the database
+[2025-10-25T18:59:55.596Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-25T19:12:16.877Z] [32minfo[39m: request entered Express
+[2025-10-25T19:12:16.886Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:12:19.034Z] [32minfo[39m: database connection successful
+[2025-10-25T19:12:19.034Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:12:19.042Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:14:07.733Z] [32minfo[39m: request entered Express
+[2025-10-25T19:14:07.742Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:14:09.496Z] [32minfo[39m: database connection successful
+[2025-10-25T19:14:09.497Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:14:09.507Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:14:27.226Z] [31merror[39m: not allowed
+[2025-10-25T19:16:43.906Z] [32minfo[39m: request entered Express
+[2025-10-25T19:16:43.918Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:16:45.680Z] [32minfo[39m: database connection successful
+[2025-10-25T19:16:45.681Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:16:45.687Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:17:23.796Z] [31merror[39m: not allowed
+[2025-10-25T19:18:21.590Z] [32minfo[39m: request entered Express
+[2025-10-25T19:18:21.810Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:18:23.577Z] [32minfo[39m: database connection successful
+[2025-10-25T19:18:23.579Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:18:23.590Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:18:44.223Z] [31merror[39m: not allowed
+[2025-10-25T19:23:16.966Z] [32minfo[39m: request entered Express
+[2025-10-25T19:23:16.987Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:23:18.473Z] [32minfo[39m: database connection successful
+[2025-10-25T19:23:18.474Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:23:18.482Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:25:09.934Z] [32minfo[39m: request entered Express
+[2025-10-25T19:25:09.942Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:25:13.059Z] [32minfo[39m: database connection successful
+[2025-10-25T19:25:13.061Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:25:13.071Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:29:23.363Z] [32minfo[39m: request entered Express
+[2025-10-25T19:29:23.375Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:29:25.229Z] [32minfo[39m: database connection successful
+[2025-10-25T19:29:25.230Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:29:25.237Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:29:54.413Z] [32minfo[39m: request entered Express
+[2025-10-25T19:29:54.427Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:29:55.752Z] [32minfo[39m: database connection successful
+[2025-10-25T19:29:55.753Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:29:55.759Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T19:30:12.492Z] [31merror[39m: jwt expired
+[2025-10-25T19:36:07.746Z] [32minfo[39m: request entered Express
+[2025-10-25T19:36:07.891Z] [32minfo[39m: connecting to the database
+[2025-10-25T19:36:10.085Z] [32minfo[39m: database connection successful
+[2025-10-25T19:36:10.086Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-10-25T19:36:10.161Z] [32minfo[39m: server runnning on port 3000
+[2025-10-25T20:11:18.951Z] [32minfo[39m: request entered Express
+[2025-10-25T20:11:18.976Z] [32minfo[39m: connecting to the database
+[2025-10-25T20:11:19.161Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-25T20:12:01.650Z] [32minfo[39m: request entered Express
+[2025-10-25T20:12:01.771Z] [32minfo[39m: connecting to the database
+[2025-10-25T20:12:02.026Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-10-26T22:50:21.274Z] [32minfo[39m: request entered Express
+[2025-10-26T22:50:21.293Z] [32minfo[39m: connecting to the database
+[2025-10-27T15:11:29.816Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.

@@ -1,7 +1,7 @@
-import { DomainException } from "../errors/DomainErrors";
+import { DomainException } from "../errors/BusinessError.js";
 import { createId } from "@paralleldrive/cuid2";
 
-export interface UserProps {
+export type UserProps = {
   id: string;
   email: string;
   password: string;
@@ -11,7 +11,7 @@ export interface UserProps {
   isEmailVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
 export class User {
   private constructor(private readonly props: UserProps) {}
@@ -36,7 +36,6 @@ export class User {
     return new User(props);
   }
 
-  // getters - return only
   get id(): string {
     return this.props.id;
   }

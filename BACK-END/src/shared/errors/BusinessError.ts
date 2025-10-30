@@ -6,6 +6,7 @@ export class BusinessError extends Error {
   ) {
     super(message);
     this.name = "BusinessError";
+    Object.setPrototypeOf(this, BusinessError.prototype);
   }
 
   static badRequest(message: string, code?: string) {

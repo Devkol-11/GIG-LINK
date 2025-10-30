@@ -1,5 +1,5 @@
 import amqp from "amqplib";
-import { logger } from "@core/logging/winston";
+import { logger } from "@core/logging/winston.js";
 
 export class RabbitMQService {
   private static instance: RabbitMQService;
