@@ -189,8 +189,8 @@ model Contract {
   id            String @id
   gigId         String @unique
   applicationId String @unique
-  creatorId     String
-  freelancerId  String
+  creatorId     String @unique
+  freelancerId  String @unique
 
   startDate     DateTime
   endDate       DateTime?

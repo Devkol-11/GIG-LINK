@@ -1,7 +1,7 @@
 import { Response } from "express";
 
 export const sendError = (res: Response, statusCode: number, data: any) => {
-  res.status(statusCode).json({
+  (res as Response).status(statusCode).json({
     ...data,
   });
 };

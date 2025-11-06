@@ -12,7 +12,7 @@ export class LoginController {
   constructor(private loginUseCase: LoginUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const { email, password } = req.body;
       const data = await this.loginUseCase.Execute({ email, password });
 

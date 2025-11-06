@@ -11,7 +11,7 @@ export class GetProfileHandler {
   constructor(private getProfileUseCase: GetProfileUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const profileId = req.params.id;
       console.log(profileId);
       console.log(typeof profileId);

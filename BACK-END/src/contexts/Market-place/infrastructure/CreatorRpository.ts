@@ -1,8 +1,8 @@
 import { prisma } from "@core/database/prismaClient.js";
 import { Creator } from "../domain/entities/Creator.js";
-import { ICreatorRepository } from "../domain/interfaces/ICreatorRepository.js";
+import { ICreatorRepository } from "../ports/ICreatorRepository.js";
 
-export class PrismaCreatorRepository implements ICreatorRepository {
+export class CreatorRepository implements ICreatorRepository {
   async save(creator: Creator): Promise<Creator> {
     const data = creator.getState();
 
@@ -25,12 +25,29 @@ export class PrismaCreatorRepository implements ICreatorRepository {
     return record ? Creator.create({ ...record }) : null;
   }
 
-  async findAll(): Promise<Creator[]> {
-    const records = await prisma.creator.findMany();
-    return records.map((r) => Creator.create({ ...r }));
+  async findAll(options?: {
+    skip?: number;
+    take?: number;
+  }): Promise<{ creators: Creator[]; total: number }> {
+    const skip = options?.skip ?? 0;
+    const take = options?.take ?? 10;
+
+    const [records, total] = await Promise.all([
+      prisma.creator.findMany({
+        skip,
+        take,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.creator.count(),
+    ]);
+
+    const creators = records.map((r) => Creator.create({ ...r }));
+    return { creators, total };
   }
 
   async delete(id: string): Promise<void> {
     await prisma.creator.delete({ where: { id } });
   }
 }
+
+export const creatorRepository = new CreatorRepository();

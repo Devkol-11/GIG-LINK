@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ITokenGenerator } from "../domain/interfaces/TokenGenerator.js";
+import { ITokenGenerator } from "../ports/TokenGenerator.js";
 import { config } from "@core/config/env.js";
 
 class JwtLibary implements ITokenGenerator {

@@ -1,11 +1,11 @@
-import { IAvatarGenerator } from "../interfaces/IAvatarGenerator.js";
+import { IAvatarGenerator } from "../ports/IAvatarGenerator.js";
 
 //IMPORT IMPLEMENTATION
-import { avatarGenerator } from "../../infrastructure/avatarGenerator.js";
+import { avatarGenerator } from "../infrastructure/avatarGenerator.js";
 export class UserService {
   constructor(private avatarGenerator: IAvatarGenerator) {}
 
-  createAvtar() {
+  createAvatar() {
     const avatar = this.avatarGenerator.generateAvatar();
     return avatar;
   }

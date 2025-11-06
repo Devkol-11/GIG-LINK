@@ -11,7 +11,7 @@ export class RegisterController {
   constructor(private registerUseCase: RegisterUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const { email, password, phoneNumber, firstName, lastName } = req.body;
       const data = await this.registerUseCase.Execute({
         email,

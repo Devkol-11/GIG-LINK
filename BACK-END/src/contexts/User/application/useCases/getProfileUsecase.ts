@@ -1,5 +1,5 @@
-import { IProfileRepository } from "../../domain/interfaces/IProfileRepository.js";
-import { BusinessError } from "../../domain/errors/DomainError.js";
+import { IProfileRepository } from "../../ports/IProfileRepository.js";
+import { BusinessError } from "../../domain/errors/BusinessError.js";
 
 //IMPORT IMPLEMENTATIONS
 import { profileRepository } from "../../infrastructure/profileRepository.js";

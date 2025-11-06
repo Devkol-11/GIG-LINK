@@ -1,8 +1,8 @@
 import { prisma } from "@core/database/prismaClient.js";
 import { Freelancer } from "../domain/entities/Freelancer.js";
-import { IFreelancerRepository } from "../domain/interfaces/IFreelancerRepository.js";
+import { IFreelancerRepository } from "../ports/IFreelancerRepository.js";
 
-export class PrismaFreelancerRepository implements IFreelancerRepository {
+export class FreelancerRepository implements IFreelancerRepository {
   async save(freelancer: Freelancer): Promise<Freelancer> {
     const data = freelancer.getState();
 
@@ -25,12 +25,31 @@ export class PrismaFreelancerRepository implements IFreelancerRepository {
     return record ? Freelancer.create({ ...record }) : null;
   }
 
-  async findAll(): Promise<Freelancer[]> {
-    const records = await prisma.freelancer.findMany();
-    return records.map((r) => Freelancer.create({ ...r }));
+  async findAll(
+    options: { skip?: number; take?: number } = {}
+  ): Promise<{ freelancers: Freelancer[]; total: number }> {
+    const { skip = 0, take = 10 } = options;
+
+    // Fetch data and total count in parallel
+    const [records, total] = await Promise.all([
+      prisma.freelancer.findMany({
+        skip,
+        take,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.freelancer.count(),
+    ]);
+
+    const freelancers = records.map((r) => Freelancer.create({ ...r }));
+    return {
+      freelancers,
+      total,
+    };
   }
 
   async delete(id: string): Promise<void> {
     await prisma.freelancer.delete({ where: { id } });
   }
 }
+
+export const freelancerRepository = new FreelancerRepository();

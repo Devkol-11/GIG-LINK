@@ -11,7 +11,7 @@ export class ForgotPasswordController {
   constructor(private forgotPasswordUseCase: ForgotPasswordUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const { email } = req.body;
 
       const response = await this.forgotPasswordUseCase.Execute(email);

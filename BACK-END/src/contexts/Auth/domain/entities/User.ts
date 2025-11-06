@@ -2,7 +2,7 @@ import { DomainException } from "../errors/BusinessError.js";
 import { createId } from "@paralleldrive/cuid2";
 
 export type UserProps = {
-  id: string;
+  id: string | null;
   email: string;
   password: string;
   firstName: string;
@@ -22,7 +22,7 @@ export class User {
     const now = new Date();
     return new User({
       ...props,
-      id: createId(),
+      id: null,
       isEmailVerified: false,
       createdAt: now,
       updatedAt: now,

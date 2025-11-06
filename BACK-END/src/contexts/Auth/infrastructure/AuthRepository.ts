@@ -1,4 +1,4 @@
-import { IAuthRepository } from "../domain/interfaces/AuthRepository.js";
+import { IAuthRepository } from "../ports/AuthRepository.js";
 import { prisma } from "@core/database/prismaClient.js";
 import { logger } from "@core/logging/winston.js";
 import type { User } from "@prisma/client";

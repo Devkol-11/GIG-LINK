@@ -1,5 +1,5 @@
-import { IProfileRepository } from "../../domain/interfaces/IProfileRepository.js";
-import { BusinessError } from "../../domain/errors/DomainError.js";
+import { IProfileRepository } from "../../ports/IProfileRepository.js";
+import { BusinessError } from "../../domain/errors/BusinessError.js";
 
 //IMPORT IMPLEMENTATIONS
 import { profileRepository } from "../../infrastructure/profileRepository.js";
@@ -8,9 +8,7 @@ export class UpdateAvatarUseCase {
   constructor(private profileRepository: IProfileRepository) {}
 
   async Execute(userId: string, newAvatarUrl: string) {
-    const ProfileData = await this.profileRepository.findProfileById(
-      userId
-    );
+    const ProfileData = await this.profileRepository.findProfileById(userId);
 
     if (!ProfileData) {
       throw BusinessError.notFound("profile not found");

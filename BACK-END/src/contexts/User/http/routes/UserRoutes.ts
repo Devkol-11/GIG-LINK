@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Authenticate } from "@src/shared/middlewares/authMiddleware.js";
+import { Authenticate } from "@src/shared/middlewares/authenticationMiddleware.js";
 import { CreateProfileHandler } from "../controllers/createProfileHandler.js";
 import { GetProfileHandler } from "../controllers/getProfileHandler.js";
 import { UpdateAvatarHandler } from "../controllers/updateAvaterHandler.js";

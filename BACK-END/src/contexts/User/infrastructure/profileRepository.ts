@@ -1,5 +1,5 @@
 import { prisma } from "@core/database/prismaClient.js";
-import { IProfileRepository } from "../domain/interfaces/IProfileRepository.js";
+import { IProfileRepository } from "../ports/IProfileRepository.js";
 import { UserProfile } from "@prisma/client";
 
 export class ProfileRepository implements IProfileRepository {

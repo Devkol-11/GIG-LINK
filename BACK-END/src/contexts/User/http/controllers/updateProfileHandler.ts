@@ -10,7 +10,7 @@ export class UpdateProfileHandler {
   constructor(private updateProfileUseCase: UpdateProfileUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const userId = req.user.userId;
       const profileId = req.params.id;
       const updateProfileData = req.body;

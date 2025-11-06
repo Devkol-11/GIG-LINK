@@ -11,7 +11,7 @@ export class ResetPasswordController {
   constructor(private resetPasswordUseCase: ResetPasswordUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const { otp, password } = req.body;
       const response = await this.resetPasswordUseCase.Execute(otp, password);
       sendResponse(res, httpStatus.Success, response);

@@ -1,5 +1,5 @@
-import { IpasswordHasher } from "../interfaces/PasswordHasher.js";
-import { ITokenGenerator } from "../interfaces/TokenGenerator.js";
+import { IpasswordHasher } from "../../ports/PasswordHasher.js";
+import { ITokenGenerator } from "../../ports/TokenGenerator.js";
 import { randomBytes } from "crypto";
 //IMPORT IMPLEMANTATIONS
 import { jwtLibary } from "../../infrastructure/JwtService.js";

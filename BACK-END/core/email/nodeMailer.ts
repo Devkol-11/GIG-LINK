@@ -2,12 +2,11 @@ import "module-alias/register";
 import nodemailer from "nodemailer";
 import { logger } from "@core/logging/winston.js";
 import { config } from "@core/config/env.js";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 export class NodeMailer {
   private static instance: NodeMailer;
   private transporter;
-  private transportOptions: SMTPTransport.Options;
+  private transportOptions;
 
   private constructor() {
     NodeMailer.instance = new NodeMailer();

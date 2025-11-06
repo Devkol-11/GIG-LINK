@@ -1,5 +1,5 @@
 import { LoginUserCommand, LoginUserResult } from "../dtos/Login.js";
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
+import { IAuthRepository } from "../../ports/AuthRepository.js";
 import { AuthService } from "../../domain/services/AuthService.js";
 import { logger } from "@core/logging/winston.js";
 import { BusinessError } from "../../domain/errors/BusinessError.js";

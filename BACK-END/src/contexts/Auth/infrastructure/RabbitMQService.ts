@@ -1,4 +1,4 @@
-import { IEventBus } from "../domain/interfaces/EventbBus.js";
+import { IEventBus } from "../ports/EventbBus.js";
 import { rabbitMQService } from "@core/message-brokers/RabbitMQ.js";
 
 export class RabbitMQEventPublisher implements IEventBus {

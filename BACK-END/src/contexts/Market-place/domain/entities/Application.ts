@@ -46,6 +46,13 @@ export class Application {
     this.props.status = ApplicationStatus.WITHDRAWN;
     this.props.updatedAt = new Date();
   }
+  public updateStatus(updateStatus: ApplicationStatus) {
+    this.props.status = updateStatus;
+  }
+  public updateCoverLetter(coverLetter: string) {
+    this.props.coverLetter = coverLetter;
+    this.props.updatedAt = new Date();
+  }
 
   // Returns persistence-ready plain object
   getState() {

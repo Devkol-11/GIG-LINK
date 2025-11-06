@@ -1,5 +1,5 @@
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
-import { IOtpRepository } from "../../domain/interfaces/OtpRepository.js";
+import { IAuthRepository } from "../../ports/AuthRepository.js";
+import { IOtpRepository } from "../../ports/OtpRepository.js";
 import { BusinessError } from "../../domain/errors/BusinessError.js";
 import { AuthService } from "../../domain/services/AuthService.js";
 
@@ -27,8 +27,10 @@ export class ResetPasswordUseCase {
 
     const passwordHash = await this.authService.hashPassword(newPassword);
 
-    await this.authRepository.updatePassword(tokenData.userId, passwordHash);
-    await this.otpRepository.deleteAllForUser(tokenData.userId);
+    await Promise.allSettled([
+      this.authRepository.updatePassword(tokenData.userId, passwordHash),
+      this.otpRepository.deleteAllForUser(tokenData.userId),
+    ]);
 
     return {
       message: "Password reset Successful",

@@ -1,9 +1,9 @@
 // import { User } from "../../domain/entities/User";
 import { RegisterUserCommand, RegisterUserResult } from "../dtos/Register.js";
-import { IAuthRepository } from "../../domain/interfaces/AuthRepository.js";
+import { IAuthRepository } from "../../ports/AuthRepository.js";
 import { AuthService } from "../../domain/services/AuthService.js";
 import { BusinessError } from "../../domain/errors/BusinessError.js";
-import { IEventBus } from "../../domain/interfaces/EventbBus.js";
+import { IEventBus } from "../../ports/EventbBus.js";
 import { UserRegisteredEvent } from "../../domain/events/UserRegisteredEvent.js";
 import { ROLE } from "@prisma/client";
 
@@ -32,7 +32,7 @@ export class RegisterUseCase {
       passwordHash,
       firstName,
       lastName,
-      role: ROLE.CLIENT,
+      role: ROLE.FREELANCER,
       phoneNumber,
       isEmailVerified: false,
       refreshToken: null,

@@ -11,7 +11,7 @@ export class CreateProfileHandler {
   constructor(private createProfileUseCase: CreateProfileUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const userId = req.user.userId;
       const profile = req.body;
 

@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-
 import { logger } from "../logging/winston.js";
 
 export class PrismaService {

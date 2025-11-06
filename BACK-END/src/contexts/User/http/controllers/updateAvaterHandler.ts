@@ -11,7 +11,7 @@ export class UpdateAvatarHandler {
   constructor(private updateAvatarUseCase: UpdateAvatarUseCase) {}
 
   Execute = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const userId = req.user.id;
       const { newAvatarUrl } = req.body;
       const response = await this.updateAvatarUseCase.Execute(

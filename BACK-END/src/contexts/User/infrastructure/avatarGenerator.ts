@@ -1,6 +1,6 @@
 import { createAvatar } from "@dicebear/core";
 import { dylan } from "@dicebear/collection";
-import { IAvatarGenerator } from "../domain/interfaces/IAvatarGenerator.js";
+import { IAvatarGenerator } from "../ports/IAvatarGenerator.js";
 
 export class AvatarGenerator implements IAvatarGenerator {
   private seed: string;

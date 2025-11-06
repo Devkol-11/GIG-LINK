@@ -30,6 +30,8 @@ export class Creator {
     });
   }
 
+  // ----- DOMAIN BEHAVIOURS -----
+
   public verifyCreator() {
     this.props.verified = true;
   }

@@ -1,4 +1,4 @@
-import { IEventBus } from "../domain/interfaces/EventbBus.js";
+import { IEventBus } from "../ports/EventbBus.js";
 import { localEmitter } from "@core/message-brokers/LocalEmitter.js";
 
 export class InMemoryEventPublisher implements IEventBus {
