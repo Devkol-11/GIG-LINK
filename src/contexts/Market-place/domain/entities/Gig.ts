@@ -44,6 +44,7 @@ export class Gig {
   }
 
   // ----- DOMAIN BEHAVIOURS -----
+
   public activate() {
     if (this.props.status !== GigStatus.DRAFT) {
       throw new BusinessError("Only drafts can be activated.");

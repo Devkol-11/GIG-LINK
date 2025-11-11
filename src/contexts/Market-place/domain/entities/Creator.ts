@@ -17,16 +17,24 @@ export class Creator {
   /** Factory method to create a new Gig */
 
   public static create(
-    props: Omit<CreatorProps, "id" | "rating" | "totalGigsPosted" | "verified">
+    props: Omit<
+      CreatorProps,
+      | "id"
+      | "rating"
+      | "totalGigsPosted"
+      | "verified"
+      | "createdAt"
+      | "updatedAt"
+    >
   ): Creator {
     return new Creator({
       id: randomUUID(),
       rating: 0,
       totalGigsPosted: 0,
       verified: false,
-      ...props,
       createdAt: new Date(),
       updatedAt: new Date(),
+      ...props,
     });
   }
 

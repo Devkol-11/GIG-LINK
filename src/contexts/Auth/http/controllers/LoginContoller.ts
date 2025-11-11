@@ -14,17 +14,14 @@ export class LoginController {
   Execute = catchAsync(
     async (req: Request, res: Response, _next: NextFunction) => {
       const { email, password } = req.body;
-      const data = await this.loginUseCase.Execute({ email, password });
+      const response = await this.loginUseCase.Execute({ email, password });
 
-      const response = {
-        message: data.message,
-        user: data.user,
-        accessToken: data.tokens.accessToken,
-      };
-
-      const refreshToken = data.tokens.refreshToken;
-
-      sendResponse(res, httpStatus.Success, response, refreshToken);
+      sendResponse(
+        res,
+        httpStatus.Success,
+        response,
+        response.tokens.refreshToken
+      );
     }
   );
 }

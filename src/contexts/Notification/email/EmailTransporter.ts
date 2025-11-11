@@ -2,7 +2,7 @@ import "module-alias/register";
 import nodemailer from "nodemailer";
 import { logger } from "@core/logging/winston.js";
 import { IEmailService } from "../interfaces/IEmailService.js";
-import { config } from "@core/config/env.js";
+import { config } from "@core/env-config/env.js";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 export class EmailService implements IEmailService {

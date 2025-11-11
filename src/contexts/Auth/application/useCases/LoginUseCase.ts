@@ -8,7 +8,7 @@ import { BusinessError } from "../../domain/errors/BusinessError.js";
 //IMPORT IMPLEMENTATIONS
 import { authservice } from "../../domain/services/AuthService.js";
 import { authRepository } from "../../infrastructure/AuthRepository.js";
-import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
+// import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
 
 export class LoginUseCase {
   constructor(
@@ -29,12 +29,17 @@ export class LoginUseCase {
       );
     }
 
+    if (!user.passwordHash)
+      throw BusinessError.badRequest(
+        "you need to update your password , click the password reset link below"
+      );
+
     const comparePassword = await this.authService.comparePassword(
       password,
       user.passwordHash
     );
 
-    if (!comparePassword) {
+    if (comparePassword === false) {
       throw BusinessError.badRequest("Invalid Password");
     }
 

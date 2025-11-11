@@ -6,7 +6,7 @@ export enum ContractStatus {
   CANCELLED = "CANCELLED",
 }
 
-export enum PaymentStatus {
+export enum ContractPaymentStatus {
   PENDING = "PENDING",
   PAID = "PAID",
   FAILED = "FAILED",
@@ -21,7 +21,7 @@ export type ContractProps = {
   startDate: Date;
   endDate: Date | null;
   status: ContractStatus;
-  paymentStatus: PaymentStatus;
+  paymentStatus: ContractPaymentStatus;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -40,7 +40,7 @@ export class Contract {
     return new Contract({
       id: randomUUID(),
       status: ContractStatus.ACTIVE,
-      paymentStatus: PaymentStatus.PENDING,
+      paymentStatus: ContractPaymentStatus.PENDING,
       createdAt: new Date(),
       updatedAt: new Date(),
       ...props,
@@ -48,7 +48,7 @@ export class Contract {
   }
   // ----- DOMAIN BEHAVIOURS -----
   public markAsPaid() {
-    this.props.paymentStatus = PaymentStatus.PAID;
+    this.props.paymentStatus = ContractPaymentStatus.PAID;
   }
 
   public markAsCompleted() {

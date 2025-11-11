@@ -2,9 +2,8 @@ import "module-alias/register";
 import http, { Server } from "http";
 import dotenv from "dotenv";
 import { ExpressApplication } from "./app.js";
-import { config } from "./config/env.js";
+import { config } from "./env-config/env.js";
 import { connectDB } from "./database/prismaClient.js";
-import { rabbitMQService } from "./message-brokers/RabbitMQ.js";
 import { logger } from "./logging/winston.js";
 
 dotenv.config();

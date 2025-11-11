@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { ApplicationAcceptedEvent } from "../events/applicationAcceptedEvent.js";
 
 export enum ApplicationStatus {
   PENDING = "PENDING",
@@ -8,7 +9,7 @@ export enum ApplicationStatus {
 }
 
 export type ApplicationProps = {
-  id: string;
+  readonly id: string;
   gigId: string;
   freelancerId: string;
   coverLetter: string;
@@ -37,6 +38,7 @@ export class Application {
   public accept() {
     this.props.status = ApplicationStatus.ACCEPTED;
     this.props.updatedAt = new Date();
+    return new ApplicationAcceptedEvent(this.props.id, this.props.freelancerId);
   }
   public reject() {
     this.props.status = ApplicationStatus.REJECTED;
@@ -54,12 +56,11 @@ export class Application {
     this.props.updatedAt = new Date();
   }
 
-  // Returns persistence-ready plain object
   getState() {
     return { ...this.props };
   }
 
-  // ----- GETTERS (one-liners) -----
+  // ----- GETTERS -----
   get id() {
     return this.props.id;
   }

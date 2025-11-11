@@ -1458,3 +1458,8 @@ Please make sure your database server is running at `ep-purple-mountain-abap29ss
 [2025-10-27T15:11:29.816Z] [33mwarn[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
 
 Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-11-06T23:42:34.264Z] [32minfo[39m: request entered Express
+[2025-11-06T23:42:34.276Z] [32minfo[39m: connecting to the database
+[2025-11-06T23:42:39.272Z] [32minfo[39m: database connection successful
+[2025-11-06T23:42:39.274Z] [32minfo[39m: RabbitMQ connected Successfully
+[2025-11-06T23:42:39.283Z] [32minfo[39m: server runnning on port 3000

@@ -1,13 +1,9 @@
 export class UserRegisteredEvent {
-  public readonly event_name = "User_Registered_Event";
-  public readonly routing_key = "auth.registered";
-  public readonly timeStamp = new Date();
-  
+  static eventName = "user.registered";
   constructor(
     public readonly userId: string,
     public readonly email: string,
-    public readonly firstName: string
-  ) {
-
-  }
+    public readonly firstName: string,
+    public readonly role: string
+  ) {}
 }

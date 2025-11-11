@@ -97,7 +97,7 @@ export const MarketplaceRoutes = ({
   );
 
   router.patch(
-    "/applications/:id/:action(accept|reject|withdraw)",
+    "/applications/:id/:action",
     Authenticate,
     updateApplicationStatusController.Execute
   );
@@ -123,6 +123,8 @@ export const MarketplaceRoutes = ({
     Authorize("CREATOR", "FREELANCER"),
     getContractController.Execute
   );
+
+  router.post("/become-a-creator", Authenticate, Authorize("FREELANCER"));
 
   return router;
 };

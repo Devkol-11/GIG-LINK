@@ -2,6 +2,7 @@
 import { ApplicationRepository } from "../../infrastructure/ApplicationRepository.js";
 import { ApplicationStatus } from "../../domain/entities/Application.js";
 import { BusinessError } from "@src/shared/errors/BusinessError.js";
+import { ApplicationAcceptedEvent } from "../../domain/events/applicationAcceptedEvent.js";
 
 // IMPORT IMPLEMENTATION
 import { applicationRepository } from "../../infrastructure/ApplicationRepository.js";
@@ -41,6 +42,15 @@ export class UpdateApplicationUseCase {
     //Apply status update
     if (updates.status)
       application.updateStatus(updates.status as ApplicationStatus);
+
+    if (updates.status === ApplicationStatus.ACCEPTED) {
+      const applicationAcceptedEvent = new ApplicationAcceptedEvent(
+        application.id,
+        application.freelancerId
+      );
+
+      //await this.eventBus.publish(applicationAcceptedEvent.eventName , applicationAcceptedEvent)
+    }
 
     //Apply coverLetter update
     if (updates.coverLetter) application.updateCoverLetter(updates.coverLetter);

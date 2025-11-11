@@ -19,6 +19,9 @@ declare global {
       MAIL_USERNAME: string;
       MAIL_PASSWORD: string;
       MAIL_FROM: string;
+      GOOGLE_CLIENT_ID: string;
+      GOOGLE_CLIENT_SECRET: string;
+      GOOGLE_CALLBACK_URL: string;
     }
   }
 }

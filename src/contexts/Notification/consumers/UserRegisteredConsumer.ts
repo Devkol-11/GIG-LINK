@@ -1,4 +1,4 @@
-import { rabbitMQService } from "@core/message-brokers/RabbitMQ.js";
+import { rabbitMQService } from "@core/message-brokers/infrastructure/RabbitMQ.-impl.js";
 import { SendWelcomeEmailUseCase } from "../useCases/SendWelcomeEmailUseCase.js";
 import { IEventConsumer } from "../interfaces/IEventConsumer.js";
 import { logger } from "@core/logging/winston.js";

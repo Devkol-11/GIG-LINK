@@ -2,8 +2,8 @@ import { IpasswordHasher } from "../../ports/PasswordHasher.js";
 import { ITokenGenerator } from "../../ports/TokenGenerator.js";
 import { randomBytes } from "crypto";
 //IMPORT IMPLEMANTATIONS
-import { jwtLibary } from "../../infrastructure/JwtService.js";
-import { bcryptLibary } from "../../infrastructure/BcryptService.js";
+import { jwtLibary } from "../../infrastructure/Jwt-impl.js";
+import { bcryptLibary } from "../../infrastructure/Bcrypt-impl.js";
 
 export class AuthService {
   constructor(

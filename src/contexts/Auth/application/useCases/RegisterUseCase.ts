@@ -1,6 +1,7 @@
 // import { User } from "../../domain/entities/User";
 import { RegisterUserCommand, RegisterUserResult } from "../dtos/Register.js";
 import { IAuthRepository } from "../../ports/AuthRepository.js";
+
 import { AuthService } from "../../domain/services/AuthService.js";
 import { BusinessError } from "../../domain/errors/BusinessError.js";
 import { IEventBus } from "../../ports/EventbBus.js";
@@ -10,12 +11,13 @@ import { ROLE } from "@prisma/client";
 //IMPORT IMPLEMENTATIONS
 import { authservice } from "../../domain/services/AuthService.js";
 import { authRepository } from "../../infrastructure/AuthRepository.js";
-import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
+
+// import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
 
 export class RegisterUseCase {
   constructor(
-    private authservice: AuthService,
-    private authRepository: IAuthRepository // private eventBus: IEventBus
+    private authService: AuthService,
+    private authRepository: IAuthRepository
   ) {}
 
   async Execute(DTO: RegisterUserCommand): Promise<RegisterUserResult> {
@@ -25,7 +27,7 @@ export class RegisterUseCase {
       throw BusinessError.notFound(`User with email : ${email} already exists`);
     }
 
-    const passwordHash = await this.authservice.hashPassword(password);
+    const passwordHash = await this.authService.hashPassword(password);
 
     const userData = {
       email,
@@ -40,13 +42,13 @@ export class RegisterUseCase {
 
     const newUser = await this.authRepository.save(userData);
 
-    const accessToken = this.authservice.generateAccessToken(
+    const accessToken = this.authService.generateAccessToken(
       newUser.id,
       newUser.email,
       newUser.role
     );
 
-    const { refreshToken, expiresAt } = this.authservice.generateRefreshToken(
+    const { refreshToken, expiresAt } = this.authService.generateRefreshToken(
       newUser.id,
       7
     );
@@ -57,16 +59,16 @@ export class RegisterUseCase {
       expiresAt
     );
 
-    const payload = new UserRegisteredEvent(
-      newUser.id,
-      newUser.email,
-      newUser.firstName
-    );
+    // const payload = new UserRegisteredEvent(
+    //   newUser.id,
+    //   newUser.email,
+    //   newUser.firstName
+    // );
 
     // await this.eventBus.publish(payload.routing_key, payload);
 
     return {
-      message: "Registration Successful , welcome !",
+      message: `Registration Successful , welcome ${newUser.firstName} !`,
       user: {
         id: newUser.id,
         email: newUser.email,
@@ -85,5 +87,6 @@ export class RegisterUseCase {
 export const registerUseCase = new RegisterUseCase(
   authservice,
   authRepository
+
   // rabbitMQEventPublisher
 );

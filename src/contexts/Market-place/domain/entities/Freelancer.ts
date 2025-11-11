@@ -18,16 +18,19 @@ export class Freelancer {
   /** Factory method to create a new Gig */
 
   public static create(
-    props: Omit<FreelancerProps, "id" | "rating" | "totalJobs" | "verified">
+    props: Omit<
+      FreelancerProps,
+      "id" | "rating" | "totalJobs" | "verified" | "createdAt" | "updatedAt"
+    >
   ): Freelancer {
     return new Freelancer({
       id: randomUUID(),
       rating: 0,
       totalJobs: 0,
       verified: false,
-      ...props,
       createdAt: new Date(),
       updatedAt: new Date(),
+      ...props,
     });
   }
 

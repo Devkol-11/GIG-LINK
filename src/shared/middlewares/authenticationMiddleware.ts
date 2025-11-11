@@ -1,6 +1,6 @@
 // middlewares/auth.middleware.ts
 import { Request, Response, NextFunction } from "express";
-import { jwtLibary } from "@src/contexts/Auth/infrastructure/JwtService.js";
+import { jwtLibary } from "@src/contexts/Auth/infrastructure/Jwt-impl.js";
 import { logger } from "@core/logging/winston.js";
 
 export const Authenticate = (
