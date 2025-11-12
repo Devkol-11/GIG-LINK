@@ -2,17 +2,18 @@ import { BusinessError } from "@src/shared/errors/BusinessError.js";
 import { randomUUID } from "crypto";
 
 export interface WalletProps {
-  id: string;
-  userId: string;
+  readonly id: string;
+  readonly userId: string;
   balanceCents: number;
   reservedCents: number;
+  currency: string;
   version: number; // optimistic lock
-  createdAt: Date;
+  readonly createdAt: Date;
   updatedAt: Date;
 }
 
 export class Wallet {
-  private constructor(private readonly props: WalletProps) {
+  private constructor(private props: WalletProps) {
     if (props.balanceCents !== 0)
       throw BusinessError.forbidden("Balance must start at Zero");
     if (props.reservedCents !== 0)
@@ -30,6 +31,7 @@ export class Wallet {
       | "version"
       | "createdAt"
       | "updatedAt"
+      | "currency"
     >
   ): Wallet {
     return new Wallet({
@@ -39,6 +41,7 @@ export class Wallet {
       version: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
+      currency: "NGN",
       ...props,
     });
   }
@@ -59,22 +62,39 @@ export class Wallet {
     if (amount > this.availableCents)
       throw BusinessError.forbidden("insufficient funds");
     this.props.balanceCents -= amount;
+    this.props.reservedCents += amount;
     this.props.updatedAt = new Date();
   }
   releaseReserved(amount: number) {
     if (amount > this.props.reservedCents)
       throw BusinessError.forbidden("insufficient funds in reserved");
     this.props.reservedCents -= amount;
-    this.props.balanceCents -= amount;
     this.props.updatedAt = new Date();
+    this.incrementVersion();
   }
+
+  // ----- PRIVATE METHODS -----
+
+  private incrementVersion(): void {
+    this.props.version += 1;
+  }
+
   getState() {
     return { ...this.props };
+  }
+
+  public static toEntity(data: WalletProps): Wallet {
+    return new Wallet({
+      ...data,
+    });
   }
 
   // ----- GETTERS -----
 
   get availableCents() {
     return this.props.balanceCents - this.props.reservedCents;
+  }
+  get id() {
+    return this.props.id;
   }
 }

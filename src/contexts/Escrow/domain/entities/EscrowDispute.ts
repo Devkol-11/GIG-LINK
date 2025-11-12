@@ -23,7 +23,7 @@ export class EscrowDispute {
 
   public static create(
     props: Omit<EscrowDisputeProps, "id" | "createdAt" | "_resolvedAt">
-  ) {
+  ) : EscrowDispute {
     return new EscrowDispute({
       id: randomUUID(),
       createdAt: new Date(),

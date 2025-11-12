@@ -1,16 +1,23 @@
 import { randomUUID } from "crypto";
+import { readonly } from "zod";
+
+export enum PaymentStatus {
+  INITIATED = "INITIATED",
+  PENDING = "PENDING",
+  SUCCESS = " SUCCESS",
+}
 
 export interface PaymentProps {
-  id: String;
-  walledId: string;
-  userId: string;
-  provider: string;
-  amountCents: number;
-  currency: string;
-  status: "INITIATED" | "PENDING" | "SUCCESS";
-  providerReference?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  readonly id: String;
+  readonly walledId: string;
+  readonly userId: string;
+  readonly provider: string;
+  readonly amountCents: number;
+  readonly currency: string;
+  readonlystatus: PaymentStatus;
+  readonly providerReference?: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
 }
 
 export class Payment {

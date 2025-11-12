@@ -20,7 +20,9 @@ interface EscrowReleaseProps {
 export class EscrowRelease {
   private constructor(private props: EscrowReleaseProps) {}
 
-  public static create(props: Omit<EscrowReleaseProps, "id" | "releasedAt">) {
+  public static create(
+    props: Omit<EscrowReleaseProps, "id" | "releasedAt">
+  ): EscrowRelease {
     return new EscrowRelease({
       id: randomUUID(),
       releasedAt: new Date(),

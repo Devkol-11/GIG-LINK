@@ -26,9 +26,10 @@ interface EscrowTransactionProps {
 
 export class EscrowTransaction {
   private constructor(private props: EscrowTransactionProps) {}
+
   public static create(
     props: Omit<EscrowTransactionProps, "id" | "createdAt">
-  ) {
+  ): EscrowTransaction {
     return new EscrowTransaction({
       id: randomUUID(),
       createdAt: new Date(),

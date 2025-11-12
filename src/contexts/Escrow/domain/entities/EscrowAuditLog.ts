@@ -12,7 +12,10 @@ interface EscrowAuditLogProps {
 
 export class EscrowAuditLog {
   private constructor(private props: EscrowAuditLogProps) {}
-  public static create(props: Omit<EscrowAuditLogProps, "id" | "createdAt">) {
+
+  public static create(
+    props: Omit<EscrowAuditLogProps, "id" | "createdAt">
+  ): EscrowAuditLog {
     return new EscrowAuditLog({
       id: randomUUID(),
       createdAt: new Date(),

@@ -6,13 +6,13 @@ export class ContractRepository implements IContractRepository {
   async save(contract: Contract): Promise<Contract> {
     const data = contract.getState();
 
-    await prisma.contract.upsert({
+    const record = await prisma.contract.upsert({
       where: { id: data.id },
       update: data,
       create: data,
     });
 
-    return Contract.create({ ...data });
+    return Contract.create({ ...record });
   }
 
   async findById(id: string): Promise<Contract | null> {
