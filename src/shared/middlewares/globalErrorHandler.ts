@@ -22,6 +22,17 @@ export const globalErrorHandler = (
     });
   }
 
+  if (err.isConcurrencyError || (err.statusCode && err.statusCode < 500)) {
+    const statusCode = err.statusCode;
+    return sendError(res, statusCode, {
+      message: err.message,
+      error: {
+        statusCode: err.statusCode,
+        name: err.name,
+      },
+    });
+  }
+
   if (err instanceof HttpError) {
     sendError(res, err.statusCode, {
       message: err.message,

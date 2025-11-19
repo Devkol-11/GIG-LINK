@@ -2,27 +2,28 @@ import { prisma } from "@core/database/prismaClient.js";
 import { Creator } from "../domain/entities/Creator.js";
 import { ICreatorRepository } from "../ports/ICreatorRepository.js";
 
+
 export class CreatorRepository implements ICreatorRepository {
   async save(creator: Creator): Promise<Creator> {
     const data = creator.getState();
 
-    await prisma.creator.upsert({
+    const record = await prisma.creator.upsert({
       where: { id: data.id },
       update: data,
       create: data,
     });
 
-    return Creator.create({ ...data });
+    return Creator.toEntity(record);
   }
 
   async findById(id: string): Promise<Creator | null> {
     const record = await prisma.creator.findUnique({ where: { id } });
-    return record ? Creator.create({ ...record }) : null;
+    return record ? Creator.toEntity(record) : null;
   }
 
   async findByUserId(userId: string): Promise<Creator | null> {
     const record = await prisma.creator.findUnique({ where: { userId } });
-    return record ? Creator.create({ ...record }) : null;
+    return record ? Creator.toEntity(record) : null;
   }
 
   async findAll(options?: {
@@ -41,7 +42,7 @@ export class CreatorRepository implements ICreatorRepository {
       prisma.creator.count(),
     ]);
 
-    const creators = records.map((r) => Creator.create({ ...r }));
+    const creators = records.map((record) => Creator.toEntity(record));
     return { creators, total };
   }
 

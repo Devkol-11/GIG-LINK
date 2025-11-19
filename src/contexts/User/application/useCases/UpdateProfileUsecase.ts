@@ -30,7 +30,7 @@ export class UpdateProfileUseCase {
       }
     );
 
-    return { message: "Profile Update Successful", ...updatedData };
+    return { message: "Profile Update Successful", data: { ...updatedData } };
   }
 }
 

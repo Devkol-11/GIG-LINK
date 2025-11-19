@@ -21,8 +21,6 @@ export class LoginUseCase {
 
     const user = await this.authRepository.findByEmail(email);
 
-    console.log(user);
-
     if (!user) {
       throw BusinessError.notFound(
         `user with email : ${email} was not found , please register `

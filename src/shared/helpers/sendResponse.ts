@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { RequestHandler, Response } from "express";
 
 export const sendResponse = (
   res: Response,
@@ -18,4 +18,3 @@ export const sendResponse = (
       ...data,
     });
 };
-let res: Response;

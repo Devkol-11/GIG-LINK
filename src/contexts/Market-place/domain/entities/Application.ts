@@ -1,19 +1,16 @@
 import { randomUUID } from "crypto";
 import { ApplicationAcceptedEvent } from "../events/applicationAcceptedEvent.js";
-
-export enum ApplicationStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  REJECTED = "REJECTED",
-  WITHDRAWN = "WITHDRAWN",
-}
+import {
+  ApplicationStatus,
+  ApplicationStatusType,
+} from "../enums/DomainEnums.js";
 
 export type ApplicationProps = {
   readonly id: string;
   gigId: string;
   freelancerId: string;
   coverLetter: string;
-  status: ApplicationStatus;
+  status: ApplicationStatusType;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -48,7 +45,7 @@ export class Application {
     this.props.status = ApplicationStatus.WITHDRAWN;
     this.props.updatedAt = new Date();
   }
-  public updateStatus(updateStatus: ApplicationStatus) {
+  public updateStatus(updateStatus: ApplicationStatusType) {
     this.props.status = updateStatus;
   }
   public updateCoverLetter(coverLetter: string) {
@@ -59,7 +56,11 @@ export class Application {
   getState() {
     return { ...this.props };
   }
-
+  public static toEntity(data: ApplicationProps): Application {
+    return new Application({
+      ...data,
+    });
+  }
   // ----- GETTERS -----
   get id() {
     return this.props.id;

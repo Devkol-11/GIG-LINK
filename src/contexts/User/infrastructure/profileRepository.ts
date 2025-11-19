@@ -22,7 +22,7 @@ export class ProfileRepository implements IProfileRepository {
   }
 
   async createUserProfile(
-    data: Omit<UserProfile, "id" | "createdAt" | "updatedAt">
+    data: Omit<UserProfile, "createdAt" | "updatedAt">
   ): Promise<UserProfile | null> {
     const record = await prisma.userProfile.create({ data });
     return record;

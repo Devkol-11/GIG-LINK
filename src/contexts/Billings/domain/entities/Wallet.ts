@@ -1,9 +1,11 @@
 import { BusinessError } from "@src/shared/errors/BusinessError.js";
 import { randomUUID } from "crypto";
+import { WalletStatus, WalletStatusType } from "../enums/DomainEnums.js";
 
 export interface WalletProps {
   readonly id: string;
   readonly userId: string;
+  status: WalletStatusType;
   balanceCents: number;
   reservedCents: number;
   currency: string;
@@ -28,6 +30,7 @@ export class Wallet {
       | "id"
       | "balanceCents"
       | "reservedCents"
+      | "status"
       | "version"
       | "createdAt"
       | "updatedAt"
@@ -42,6 +45,7 @@ export class Wallet {
       createdAt: new Date(),
       updatedAt: new Date(),
       currency: "NGN",
+      status: WalletStatus.ACTIVE,
       ...props,
     });
   }
@@ -49,15 +53,29 @@ export class Wallet {
   // ----- DOMAIN BEHAVIOURS -----
 
   fund(amount: number) {
+    if (this.props.status !== WalletStatus.ACTIVE)
+      throw BusinessError.forbidden("wallet not active");
     if (amount <= 0) throw BusinessError.forbidden("invalid amount");
+    // max single deposit (domain rule)
+    const MAX_SINGLE_FUND = 200_000 * 100; // cents
+    if (amount > MAX_SINGLE_FUND)
+      throw BusinessError.forbidden("exceeds maximum single top-up");
     this.props.balanceCents += amount;
     this.props.updatedAt = new Date();
+    this.incrementVersion();
   }
+
   debit(amount: number) {
+    if (this.props.status !== WalletStatus.ACTIVE)
+      throw BusinessError.forbidden("wallet not active");
+    if (amount <= 0) throw BusinessError.forbidden("invalid amount");
     if (amount > this.availableCents)
       throw BusinessError.forbidden("insufficient funds");
     this.props.balanceCents -= amount;
+    this.props.updatedAt = new Date();
+    this.incrementVersion();
   }
+
   reserve(amount: number) {
     if (amount > this.availableCents)
       throw BusinessError.forbidden("insufficient funds");
@@ -96,5 +114,14 @@ export class Wallet {
   }
   get id() {
     return this.props.id;
+  }
+  get userId() {
+    return this.props.userId;
+  }
+  get status() {
+    return this.props.status;
+  }
+  get currency() {
+    return this.props.currency;
   }
 }

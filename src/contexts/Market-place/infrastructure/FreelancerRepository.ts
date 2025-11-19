@@ -6,23 +6,23 @@ export class FreelancerRepository implements IFreelancerRepository {
   async save(freelancer: Freelancer): Promise<Freelancer> {
     const data = freelancer.getState();
 
-    await prisma.freelancer.upsert({
+    const record = await prisma.freelancer.upsert({
       where: { id: data.id },
       update: data,
       create: data,
     });
 
-    return Freelancer.create({ ...data });
+    return Freelancer.toEntity(record);
   }
 
   async findById(id: string): Promise<Freelancer | null> {
     const record = await prisma.freelancer.findUnique({ where: { id } });
-    return record ? Freelancer.create({ ...record }) : null;
+    return record ? Freelancer.toEntity(record) : null;
   }
 
   async findByUserId(userId: string): Promise<Freelancer | null> {
     const record = await prisma.freelancer.findUnique({ where: { userId } });
-    return record ? Freelancer.create({ ...record }) : null;
+    return record ? Freelancer.toEntity(record) : null;
   }
 
   async findAll(
@@ -40,7 +40,7 @@ export class FreelancerRepository implements IFreelancerRepository {
       prisma.freelancer.count(),
     ]);
 
-    const freelancers = records.map((r) => Freelancer.create({ ...r }));
+    const freelancers = records.map((record) => Freelancer.toEntity(record));
     return {
       freelancers,
       total,

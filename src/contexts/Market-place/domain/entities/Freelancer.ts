@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { BusinessError } from "../errors/BusinessError.js";
 
 export type FreelancerProps = {
   id: string;
@@ -39,8 +40,24 @@ export class Freelancer {
   public verifyFreelancer() {
     this.props.verified = true;
   }
+
+  public canApplyForGig(): boolean {
+    if (this.props.verified === false)
+      throw BusinessError.forbidden("must be a verified user to accept gigs");
+    if (this.props.totalJobs > 5)
+      throw BusinessError.forbidden(
+        "Too many gigs at the moment , complete unfinished gigd to accept new gigs"
+      );
+    return true;
+  }
+
   getState() {
     return { ...this.props };
+  }
+  public static toEntity(data: FreelancerProps): Freelancer {
+    return new Freelancer({
+      ...data,
+    });
   }
 
   // ----- GETTERS -----

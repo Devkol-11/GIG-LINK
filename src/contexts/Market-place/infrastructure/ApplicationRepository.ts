@@ -6,18 +6,18 @@ export class ApplicationRepository implements IApplicationRepository {
   async save(application: Application): Promise<Application> {
     const data = application.getState();
 
-    await prisma.application.upsert({
+    const record = await prisma.application.upsert({
       where: { id: data.id },
       update: data,
       create: data,
     });
 
-    return Application.create({ ...data });
+    return Application.toEntity(record);
   }
 
   async findById(id: string): Promise<Application | null> {
     const record = await prisma.application.findUnique({ where: { id } });
-    return record ? Application.create({ ...record }) : null;
+    return record ? Application.toEntity(record) : null;
   }
 
   async findByGigId(
@@ -37,7 +37,7 @@ export class ApplicationRepository implements IApplicationRepository {
       prisma.application.count({ where: { gigId } }),
     ]);
 
-    const applications = records.map((r) => Application.create({ ...r }));
+    const applications = records.map((record) => Application.toEntity(record));
     return { applications, total };
   }
 
@@ -58,7 +58,7 @@ export class ApplicationRepository implements IApplicationRepository {
       prisma.application.count({ where: { freelancerId } }),
     ]);
 
-    const applications = records.map((r) => Application.create({ ...r }));
+    const applications = records.map((record) => Application.toEntity(record));
     return { applications, total };
   }
 
@@ -81,7 +81,7 @@ export class ApplicationRepository implements IApplicationRepository {
       }),
     ]);
 
-    const applications = records.map((r) => Application.create({ ...r }));
+    const applications = records.map((record) => Application.toEntity(record));
     return { applications, total };
   }
 
@@ -92,7 +92,7 @@ export class ApplicationRepository implements IApplicationRepository {
     const record = await prisma.application.findFirst({
       where: { gigId, freelancerId },
     });
-    return record ? Application.create({ ...record }) : null;
+    return record ? Application.toEntity(record) : null;
   }
 
   async findAll(options?: {
@@ -111,19 +111,19 @@ export class ApplicationRepository implements IApplicationRepository {
       prisma.application.count(),
     ]);
 
-    const applications = records.map((r) => Application.create({ ...r }));
+    const applications = records.map((record) => Application.toEntity(record));
     return { applications, total };
   }
 
   async update(application: Application): Promise<Application> {
     const data = application.getState();
 
-    const updatedRecord = await prisma.application.update({
+    const record = await prisma.application.update({
       where: { id: data.id },
       data,
     });
 
-    return Application.create({ ...updatedRecord });
+    return Application.toEntity(record);
   }
 
   async delete(id: string): Promise<void> {

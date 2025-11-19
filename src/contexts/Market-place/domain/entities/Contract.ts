@@ -1,16 +1,10 @@
 import { randomUUID } from "crypto";
-
-export enum ContractStatus {
-  ACTIVE = "ACTIVE",
-  COMPLETED = "COMPLETED",
-  CANCELLED = "CANCELLED",
-}
-
-export enum ContractPaymentStatus {
-  PENDING = "PENDING",
-  PAID = "PAID",
-  FAILED = "FAILED",
-}
+import {
+  ContractStatus,
+  ContractPaymentStatus,
+  ContractStatusType,
+  ContractPaymentStatusType,
+} from "../enums/DomainEnums.js";
 
 export type ContractProps = {
   id: string;
@@ -20,8 +14,8 @@ export type ContractProps = {
   freelancerId: string;
   startDate: Date;
   endDate: Date | null;
-  status: ContractStatus;
-  paymentStatus: ContractPaymentStatus;
+  status: ContractStatusType;
+  paymentStatus: ContractPaymentStatusType;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -61,6 +55,11 @@ export class Contract {
 
   getState() {
     return { ...this.props };
+  }
+  public static toEntity(data: ContractProps): Contract {
+    return new Contract({
+      ...data,
+    });
   }
   // ----- GETTERS -----
   get id() {

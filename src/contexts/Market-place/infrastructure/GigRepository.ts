@@ -6,18 +6,18 @@ export class GigRepository implements IGigRepository {
   async save(gig: Gig): Promise<Gig> {
     const data = gig.getState();
 
-    await prisma.gig.upsert({
+    const record = await prisma.gig.upsert({
       where: { id: data.id },
       update: data,
       create: data,
     });
 
-    return Gig.create({ ...data });
+    return Gig.toEntity(record);
   }
 
   async findById(id: string): Promise<Gig | null> {
     const record = await prisma.gig.findUnique({ where: { id } });
-    return record ? Gig.create({ ...record }) : null;
+    return record ? Gig.toEntity(record) : null;
   }
 
   async findByCreatorId(
@@ -36,7 +36,7 @@ export class GigRepository implements IGigRepository {
       }),
       prisma.gig.count({ where: { creatorId } }),
     ]);
-    const gigs = records.map((r) => Gig.create({ ...r }));
+    const gigs = records.map((record) => Gig.toEntity(record));
     return {
       gigs,
       total,
@@ -60,7 +60,7 @@ export class GigRepository implements IGigRepository {
     const recordsResult = records.status === "fulfilled" ? records.value : [];
     const totalValue = total.status === "fulfilled" ? total.value : 0;
 
-    const gigs = recordsResult.map((r) => Gig.create({ ...r }));
+    const gigs = recordsResult.map((record) => Gig.toEntity(record));
     return {
       gigs,
       totalValue,
@@ -83,7 +83,7 @@ export class GigRepository implements IGigRepository {
       data: updates,
     });
 
-    return Gig.create({ ...record });
+    return Gig.toEntity(record);
   }
 
   async delete(id: string): Promise<void> {

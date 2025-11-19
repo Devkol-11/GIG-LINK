@@ -1,17 +1,15 @@
-export interface IPaymentProcessor {
+export interface IPaymentProvider {
   // Initialize a payment with the provider
   initializePayment(
     request: PaymentInitializationRequest
   ): Promise<PaymentInitializationResponse>;
 
-  // Verify a payment status with the provider
   verifyPayment(reference: string): Promise<PaymentVerificationResponse>;
-
-  // Create a virtual account for a user (optional)
-  createVirtualAccount(userId: string): Promise<VirtualAccountResponse>;
-
-  // Transfer money to a bank account
-  transferToBankAccount(request: TransferRequest): Promise<TransferResponse>;
+  verifySignature(
+    rawBody: string,
+    signature: string,
+    secretKey: string
+  ): Promise<boolean>;
 }
 
 // DTOs for the payment processor

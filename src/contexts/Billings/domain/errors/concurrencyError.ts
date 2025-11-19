@@ -1,4 +1,5 @@
 export class ConcurrencyError extends Error {
+  public readonly isConcurrencyError: boolean;
   constructor(
     public readonly message: string,
     public readonly statusCode: number = 409,
@@ -6,6 +7,8 @@ export class ConcurrencyError extends Error {
   ) {
     super(message);
     this.name = "ConcurrencyError";
+    this.isConcurrencyError = true;
+
     Object.setPrototypeOf(this, ConcurrencyError.prototype);
   }
 

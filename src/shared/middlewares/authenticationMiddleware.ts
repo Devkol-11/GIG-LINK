@@ -1,7 +1,6 @@
 // middlewares/auth.middleware.ts
 import { Request, Response, NextFunction } from "express";
 import { jwtLibary } from "@src/contexts/Auth/infrastructure/Jwt-impl.js";
-import { logger } from "@core/logging/winston.js";
 
 export const Authenticate = (
   req: Request,
@@ -22,6 +21,7 @@ export const Authenticate = (
   }
 
   console.log(`decoded payoad : ${JSON.stringify(decoded, null, 2)}`);
+
 
   Object.defineProperty(req, "user", {
     value: decoded,

@@ -172,6 +172,7 @@ model Application {
   coverLetter  String
   status       ApplicationStatus @default(PENDING)
   createdAt    DateTime          @default(now())
+  updatedAt    DateTime
 
   gig        Gig        @relation(fields: [gigId], references: [id], onDelete: Cascade)
   freelancer Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
@@ -234,7 +235,7 @@ model Wallet {
   status        WalletStatus @default(ACTIVE)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-  version        Int         @default(0)
+  version       Int          @default(0)
 
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
@@ -251,28 +252,30 @@ enum WalletStatus {
 }
 
 model Payment {
-  id                String           @id
+  id                String         @id
   walletId          String
-  transactionId     String?
   provider          PaymentProvider
-  providerReference String?          @unique
+  providerReference String         @unique
   amountCents       Int
   currency          String
   direction         PaymentDirection
   status            PaymentStatus
-  channel           PaymentChannel?
-  meta              Json?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  channel           PaymentChannel
+  cancelReason      String
+  meta              Json? 
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
 
-  wallet      Wallet       @relation(fields: [walletId], references: [id])
-  transaction Transaction? @relation(fields: [transactionId], references: [id])
+  wallet Wallet @relation(fields: [walletId], references: [id])
+  transactions     Transaction?
+  // no transactionId here
 
   @@index([walletId])
   @@index([status])
   @@index([createdAt])
   @@map("payments")
 }
+
 
 enum PaymentProvider {
   PAYSTACK
@@ -300,26 +303,29 @@ enum PaymentChannel {
 }
 
 model Transaction {
-  id          String            @id
-  walletId    String
-  type        TransactionType
-  amountCents Int
-  status      TransactionStatus
-  reference   String?           @unique
-  source      TransactionSource
-  description String?
-  meta        Json?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  id                String   @id
+  walletId          String
+  paymentId         String   @unique
+  transactionType   TransactionType
+  amountCents       Int
+  status            TransactionStatus
+  systemReference   String   @unique
+  providerReference String   @unique
+  source            TransactionSource
+  description       String?
+  metadata          Json
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  wallet   Wallet    @relation(fields: [walletId], references: [id])
-  payments Payment[]
+  wallet   Wallet  @relation(fields: [walletId], references: [id])
+  payment  Payment? @relation(fields: [paymentId], references: [id])
 
   @@index([walletId])
-  @@index([status])
+  @@index([paymentId])
   @@index([createdAt])
   @@map("transactions")
 }
+
 
 enum TransactionType {
   CREDIT

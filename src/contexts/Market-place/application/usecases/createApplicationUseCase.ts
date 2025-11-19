@@ -1,18 +1,20 @@
 import { GigRepository } from "../../infrastructure/GigRepository.js";
-
-import { gigRepository } from "../../infrastructure/GigRepository.js";
-
+import { FreelancerRepository } from "../../infrastructure/FreelancerRepository.js";
+import { ApplicationRepository } from "../../infrastructure/ApplicationRepository.js";
 import { Application } from "../../domain/entities/Application.js";
 import { createApplicationDTO } from "../dtos/createApplicationDTO.js";
 import { BusinessError } from "@src/shared/errors/BusinessError.js";
 
 //IMPORT IMPLEMENTATIONS
 import { applicationRepository } from "../../infrastructure/ApplicationRepository.js";
-import { ApplicationRepository } from "../../infrastructure/ApplicationRepository.js";
+import { gigRepository } from "../../infrastructure/GigRepository.js";
+import { freelancerRepository } from "../../infrastructure/FreelancerRepository.js";
+
 export class CreateApplicationUseCase {
   constructor(
     private readonly gigRepository: GigRepository,
-    private readonly applicationRepository: ApplicationRepository
+    private readonly applicationRepository: ApplicationRepository,
+    private readonly freelancerRepository: FreelancerRepository
   ) {}
 
   async Execute(data: createApplicationDTO) {
@@ -34,6 +36,10 @@ export class CreateApplicationUseCase {
     if (gig.status === "ACTIVE")
       throw BusinessError.forbidden("unable to apply to this gig");
 
+    //verify if freelancer is permitted to apply for this Gig
+    const freeLancer = await this.freelancerRepository.findById(freelancerId);
+    freeLancer?.canApplyForGig();
+
     // Create new Application entity
     const newApplication = Application.create({
       gigId,
@@ -51,5 +57,6 @@ export class CreateApplicationUseCase {
 
 export const createApplicationUseCase = new CreateApplicationUseCase(
   gigRepository,
-  applicationRepository
+  applicationRepository,
+  freelancerRepository
 );

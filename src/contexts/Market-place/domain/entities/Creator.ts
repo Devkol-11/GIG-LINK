@@ -47,6 +47,12 @@ export class Creator {
   getState() {
     return { ...this.props };
   }
+
+  public static toEntity(data: CreatorProps): Creator {
+    return new Creator({
+      ...data,
+    });
+  }
   // ----- GETTERS -----
   get id() {
     return this.props.id;

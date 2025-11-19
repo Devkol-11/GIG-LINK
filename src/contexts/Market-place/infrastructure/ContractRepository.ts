@@ -12,17 +12,17 @@ export class ContractRepository implements IContractRepository {
       create: data,
     });
 
-    return Contract.create({ ...record });
+    return Contract.toEntity(record);
   }
 
   async findById(id: string): Promise<Contract | null> {
     const record = await prisma.contract.findUnique({ where: { id } });
-    return record ? Contract.create({ ...record }) : null;
+    return record ? Contract.toEntity(record) : null;
   }
 
   async findByGigId(gigId: string): Promise<Contract | null> {
     const record = await prisma.contract.findUnique({ where: { gigId } });
-    return record ? Contract.create({ ...record }) : null;
+    return record ? Contract.toEntity(record) : null;
   }
 
   async findByCreatorId(
@@ -41,7 +41,7 @@ export class ContractRepository implements IContractRepository {
       orderBy: { createdAt: "desc" },
     });
 
-    return records.map((record) => Contract.create({ ...record }));
+    return records.map((record) => Contract.toEntity(record));
   }
 
   async findByFreeLancerId(
@@ -58,14 +58,14 @@ export class ContractRepository implements IContractRepository {
       orderBy: { createdAt: "desc" },
     });
 
-    return records.map((record) => Contract.create(record));
+    return records.map((record) => Contract.toEntity(record));
   }
 
   async findByApplicationId(applicationId: string): Promise<Contract | null> {
     const record = await prisma.contract.findUnique({
       where: { applicationId },
     });
-    return record ? Contract.create({ ...record }) : null;
+    return record ? Contract.toEntity(record) : null;
   }
 
   async findAll(options?: {
@@ -85,7 +85,7 @@ export class ContractRepository implements IContractRepository {
       prisma.contract.count(),
     ]);
 
-    const contracts = records.map((record) => Contract.create({ ...record }));
+    const contracts = records.map((record) => Contract.toEntity(record));
     return { contracts, total };
   }
 

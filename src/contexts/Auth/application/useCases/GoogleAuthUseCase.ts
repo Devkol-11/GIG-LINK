@@ -1,4 +1,4 @@
-import { AuthRepository } from "../../infrastructure/AuthRepository.js";
+import { IAuthRepository } from "../../ports/AuthRepository.js";
 import { BusinessError } from "../../domain/errors/BusinessError.js";
 import { ROLE } from "@prisma/client";
 
@@ -9,7 +9,7 @@ import { authservice, AuthService } from "../../domain/services/AuthService.js";
 
 export class GoogleAuthUseCase {
   constructor(
-    private authRepository: AuthRepository,
+    private authRepository: IAuthRepository,
     private authService: AuthService
   ) {}
 

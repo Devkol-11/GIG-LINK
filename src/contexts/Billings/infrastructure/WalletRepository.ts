@@ -3,10 +3,17 @@ import { IWalletRepository } from "../ports/IWalletRepository.js";
 import { Wallet } from "../domain/entities/Wallet.js";
 import { Prisma } from "@prisma/client";
 import { ConcurrencyError } from "../domain/errors/concurrencyError.js";
+import { prisma } from "@core/database/prismaClient.js";
 
 export class WalletRepository implements IWalletRepository {
-  async findById(id: string): Promise<Wallet | null> {
-    const walletData = await prisma.wallet.findUnique({
+  //-----1: findById
+  async findById(
+    id: string,
+    trx?: Prisma.TransactionClient
+  ): Promise<Wallet | null> {
+    const client = trx || prisma;
+
+    const walletData = await client.wallet.findUnique({
       where: { id },
     });
 
@@ -15,8 +22,14 @@ export class WalletRepository implements IWalletRepository {
     return Wallet.toEntity(walletData);
   }
 
-  async findByUserId(userId: string): Promise<Wallet | null> {
-    const walletData = await prisma.wallet.findUnique({
+  //-----2: findByUserId
+  async findByUserId(
+    userId: string,
+    trx?: Prisma.TransactionClient
+  ): Promise<Wallet | null> {
+    const client = trx || prisma;
+
+    const walletData = await client.wallet.findUnique({
       where: { userId },
     });
 
@@ -25,11 +38,13 @@ export class WalletRepository implements IWalletRepository {
     return Wallet.toEntity(walletData);
   }
 
-  async save(wallet: Wallet): Promise<Wallet> {
+  //-----3: save
+  async save(wallet: Wallet, trx?: Prisma.TransactionClient): Promise<Wallet> {
+    const client = trx || prisma;
     const state = wallet.getState();
 
     try {
-      const updatedWallet = await prisma.wallet.update({
+      const updatedWallet = await client.wallet.update({
         where: {
           id: state.id,
           version: state.version - 1, // Expect the previous version
@@ -37,7 +52,7 @@ export class WalletRepository implements IWalletRepository {
         data: {
           balanceCents: state.balanceCents,
           reservedCents: state.reservedCents,
-          version: state.version, // New version
+          version: state.version,
           updatedAt: state.updatedAt,
         },
       });
@@ -54,19 +69,24 @@ export class WalletRepository implements IWalletRepository {
     }
   }
 
-  async updateWithVersion(wallet: Wallet): Promise<Wallet> {
+  //-----4: updateWithVersion
+  async updateWithVersion(
+    wallet: Wallet,
+    trx?: Prisma.TransactionClient
+  ): Promise<Wallet> {
+    const client = trx || prisma;
     const state = wallet.getState();
 
     try {
-      const updatedWallet = await prisma.wallet.update({
+      const updatedWallet = await client.wallet.update({
         where: {
           id: state.id,
-          version: state.version - 1, // Expect the previous version
+          version: state.version - 1,
         },
         data: {
           balanceCents: state.balanceCents,
           reservedCents: state.reservedCents,
-          version: state.version, // New version
+          version: state.version,
           updatedAt: new Date(),
         },
       });
@@ -83,12 +103,19 @@ export class WalletRepository implements IWalletRepository {
     }
   }
 
-  async updateBalance(walletId: string, amount: number): Promise<Wallet> {
-    const updatedWallet = await prisma.wallet.update({
+  //-----5: updateBalance
+  async updateBalance(
+    walletId: string,
+    amount: number,
+    trx?: Prisma.TransactionClient
+  ): Promise<Wallet> {
+    const client = trx || prisma;
+
+    const updatedWallet = await client.wallet.update({
       where: { id: walletId },
       data: {
         balanceCents: { increment: amount },
-        version: { increment: 1 }, // Increment version
+        version: { increment: 1 },
         updatedAt: new Date(),
       },
     });
@@ -96,3 +123,5 @@ export class WalletRepository implements IWalletRepository {
     return Wallet.toEntity(updatedWallet);
   }
 }
+
+export const walletRepository = new WalletRepository();

@@ -1,12 +1,6 @@
 import { randomUUID } from "crypto";
 import { BusinessError } from "../errors/BusinessError.js";
-
-export enum GigStatus {
-  DRAFT = "DRAFT",
-  ACTIVE = "ACTIVE",
-  CANCELLED = "CANCELLED",
-  COMPLETED = "COMPLETED",
-}
+import { GigStatus , GigStatusType } from "../enums/DomainEnums.js";
 
 export type GigProps = {
   id: string;
@@ -16,7 +10,7 @@ export type GigProps = {
   tags: string[];
   price: number;
   deadline: Date | null;
-  status: GigStatus;
+  status: GigStatusType;
   createdAt: Date;
   updatedAt: Date;
   creatorId: string;
@@ -71,6 +65,12 @@ export class Gig {
 
   public getState() {
     return { ...this.props };
+  }
+
+  public static toEntity(data: GigProps): Gig {
+    return new Gig({
+      ...data,
+    });
   }
 
   // ----- GETTERS -----

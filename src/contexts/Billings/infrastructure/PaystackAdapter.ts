@@ -1,46 +1,48 @@
 import { BusinessError } from "@src/shared/errors/BusinessError.js";
+import crypto from "crypto";
 
 import {
-  IPaymentProcessor,
+  IPaymentProvider,
   PaymentInitializationRequest,
   PaymentInitializationResponse,
   PaymentVerificationResponse,
-} from "../ports/IPaymentProcessor.js";
+} from "../ports/IPaymentProvider.js";
 
-export class PayStackAdapter implements IPaymentProcessor {
+// infrastructure/adapters/PayStackAdapter.ts
+export class PayStackAdapter implements IPaymentProvider {
   private readonly payStackApiKey: string;
-  private readonly baseUrl: string;
+  private readonly baseUrl = "https://api.paystack.co";
+
   constructor(readonly apiKey: string) {
     this.payStackApiKey = apiKey;
-    this.baseUrl = "hhtps://api/paystack.co";
   }
 
+  //------1
   async initializePayment(
     request: PaymentInitializationRequest
   ): Promise<PaymentInitializationResponse> {
     const { amount, email, reference, callbackUrl, metadata } = request;
-    // send a request to paystack to intialize the payment
 
-    const response = await fetch(`${this.baseUrl}/payment/initalize`, {
+    const response = await fetch(`${this.baseUrl}/transaction/initialize`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.payStackApiKey}`,
-        "Content-type": "application/json",
-        body: JSON.stringify({
-          amount,
-          email,
-          reference,
-          callbackUrl,
-          metadata,
-        }),
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        amount,
+        email,
+        reference,
+        callback_url: callbackUrl,
+        metadata,
+      }),
     });
 
-    // get a intialization response
     const data = await response.json();
     if (!data.status) {
-      throw new BusinessError("failed to intialize payment");
+      throw new BusinessError(`Failed to initialize payment: ${data.message}`);
     }
+
     return {
       authorizationUrl: data.data.authorization_url,
       reference: data.data.reference,
@@ -48,9 +50,8 @@ export class PayStackAdapter implements IPaymentProcessor {
     };
   }
 
+  ///-----2
   async verifyPayment(reference: string): Promise<PaymentVerificationResponse> {
-    // send a request to Paystacks verify transaction endpoint
-
     const response = await fetch(
       `${this.baseUrl}/transaction/verify/${reference}`,
       {
@@ -61,13 +62,11 @@ export class PayStackAdapter implements IPaymentProcessor {
       }
     );
 
-    //get a verification response
     const data = await response.json();
     if (!data.status) {
       throw new BusinessError(`Paystack verification failed: ${data.message}`);
     }
 
-    // return response to Domain
     return {
       status: data.data.status,
       amount: data.data.amount,
@@ -78,4 +77,15 @@ export class PayStackAdapter implements IPaymentProcessor {
       metadata: data.data.metadata,
     };
   }
+
+  async verifySignature(rawBody: string, signature: string, secretKey: string) {
+    const hash = crypto
+      .createHmac("sha512", secretKey)
+      .update(rawBody)
+      .digest("hex");
+
+    return hash === signature;
+  }
 }
+
+export const paystackApapter = new PayStackAdapter()
