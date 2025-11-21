@@ -21,12 +21,12 @@ It aims to provide a structured, domain-driven foundation for scalable and secur
 
 | Context            | Description                                                                  | Status         |
 | ------------------ | ---------------------------------------------------------------------------- | -------------- |
-| **Authentication** | User registration and login for both freelancers and creators                | ✅ In progress |
-| **Contracts**      | Create, manage, and complete contracts between users                         | ✅ In progress |
-| **Applications**   | Freelancers apply to gigs with status transitions (accept, reject, withdraw) | ✅ In progress |
-| **Escrow System**  | Holds payments securely until contract completion                            | 🔄 Planned     |
-| **Wallet System**  | Handles balance, deposits, withdrawals, and transactions                     | 🔄 Planned     |
-| **Payments**       | Integration with external payment provider (e.g., Paystack/Stripe)           | 🔄 Planned     |
+| **Authentication** | User registration and login for both freelancers and creators                | ✅ In Progress |
+| **Contracts**      | Create, manage, and complete contracts between users                         | ✅ Done |
+| **Applications**   | Freelancers apply to gigs with status transitions (accept, reject, withdraw) | ✅ Done |
+| **Escrow System**  | Holds payments securely until contract completion                            | ✅ In progress   |
+| **Wallet System**  | Handles balance, deposits, withdrawals, and transactions                     | ✅ In progress     |
+| **Payments**       | Integration with external payment provider (e.g., Paystack/Stripe)           | ✅ In progress     |
 | **Disputes**       | Handle disagreements and refunds through admin or automated logic            | 🕓 Planned     |
 
 ---
@@ -48,7 +48,7 @@ This structure ensures maintainability, testability, and scalability as the proj
 
 ```
 src/
-├── modules/
+├── contexts/
 │   ├── contracts/
 │   │   ├── domain/
 │   │   ├── application/
@@ -73,25 +73,14 @@ Each module will have isolated test suites covering its use cases and entities.
 
 ---
 
-## 🚀 Roadmap
-
-- [ ] Finalize **Contract** module CRUD and transitions
-- [ ] Implement **Wallet** and **Escrow** contexts
-- [ ] Integrate **Payment Service Provider** (Paystack/Stripe)
-- [ ] Add **Dispute Resolution** and **Refund** flow
-- [ ] Complete **End-to-End** tests
-- [ ] Deploy to a cloud environment (Supabase/Postgres backend)
-
----
-
 ## 🧑‍💻 Tech Stack
 
 - **Runtime:** Node.js + TypeScript (ES Modules)
 - **ORM:** Prisma
-- **Database:** PostgreSQL (via Supabase)
+- **Database:** PostgreSQL
 - **Architecture:** Domain-Driven Design
 - **Testing:** Jest
-- **Payment Provider:** Paystack (planned)
+- **Payment Provider:** Paystack
 
 ---
 
@@ -102,9 +91,3 @@ The codebase is still evolving — expect frequent refactors and architectural c
 
 ---
 
-## 🧭 Author
-
-**Collins-okocha Bethel**
-Backend Engineer | DDD & OOP Enthusiast
-
-> _“Building structured logic from real-world complexity.”_
