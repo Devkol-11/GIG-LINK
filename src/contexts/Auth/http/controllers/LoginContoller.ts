@@ -1,29 +1,32 @@
-import { Request, Response, NextFunction } from "express";
-import { LoginUseCase } from "../../application/useCases/LoginUseCase.js";
-import { sendResponse } from "@src/shared/helpers/sendResponse.js";
-import { httpStatus } from "@src/shared/constants/httpStatusCode.js";
-import { catchAsync } from "@src/shared/helpers/catchAsync.js";
+import { Request, Response, NextFunction } from 'express';
+import { LoginUseCase } from '../../application/useCases/LoginUseCase.js';
+import { sendResponse } from '@src/shared/helpers/sendResponse.js';
+import { httpStatus } from '@src/shared/constants/httpStatusCode.js';
+import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 
 //IMPOER TIMPLEMENTATIONS
-import { loginUseCase } from "../../application/useCases/LoginUseCase.js";
-import { logger } from "@core/logging/winston.js";
+import { loginUseCase } from '../../application/useCases/LoginUseCase.js';
+import { logger } from '@src/core/logging/winston.js';
 
 export class LoginController {
-  constructor(private loginUseCase: LoginUseCase) {}
+        constructor(private loginUseCase: LoginUseCase) {}
 
-  Execute = catchAsync(
-    async (req: Request, res: Response, _next: NextFunction) => {
-      const { email, password } = req.body;
-      const response = await this.loginUseCase.Execute({ email, password });
+        Execute = catchAsync(
+                async (req: Request, res: Response, _next: NextFunction) => {
+                        const { email, password } = req.body;
+                        const response = await this.loginUseCase.Execute({
+                                email,
+                                password
+                        });
 
-      sendResponse(
-        res,
-        httpStatus.Success,
-        response,
-        response.tokens.refreshToken
-      );
-    }
-  );
+                        sendResponse(
+                                res,
+                                httpStatus.Success,
+                                response,
+                                response.tokens.refreshToken
+                        );
+                }
+        );
 }
 
 export const loginController = new LoginController(loginUseCase);

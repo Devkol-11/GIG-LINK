@@ -1,14 +1,14 @@
-import { IAvatarGenerator } from "../ports/IAvatarGenerator.js";
+import { IAvatarGenerator } from '../ports/IAvatarGenerator.js';
 
 //IMPORT IMPLEMENTATION
-import { avatarGenerator } from "../infrastructure/avatarGenerator.js";
+import { avatarGenerator } from '../infrastructure/avatarGenerator.js';
 export class UserService {
-  constructor(private avatarGenerator: IAvatarGenerator) {}
+        constructor(private avatarGenerator: IAvatarGenerator) {}
 
-  createAvatar() {
-    const avatar = this.avatarGenerator.generateAvatar();
-    return avatar;
-  }
+        createAvatar() {
+                const avatar = this.avatarGenerator.generateAvatar();
+                return avatar;
+        }
 }
 
 export const userService = new UserService(avatarGenerator);

@@ -1,3 +1,3 @@
 export interface IAvatarGenerator {
-  generateAvatar(seed?: string): string;
+        generateAvatar(seed?: string): string;
 }

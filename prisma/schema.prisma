@@ -83,7 +83,7 @@ model UserSettings {
 }
 
 model Otp {
-  id        String   @id
+  id        String   @id @default(uuid())
   userId    String
   token     String   @unique
   used      Boolean  @default(false)

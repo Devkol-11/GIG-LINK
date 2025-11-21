@@ -1,58 +1,58 @@
-import { Prisma } from "@prisma/client";
-import { Transaction } from "../domain/entities/Transactions.js";
-import { TransactionStatusType } from "../domain/enums/DomainEnums.js";
+import { Prisma } from '@prisma/client';
+import { Transaction } from '../domain/entities/Transactions.js';
+import { TransactionStatusType } from '../domain/enums/DomainEnums.js';
 
 export interface ITransactionRepository {
-  // findAllByWallet(walletId: string): Promise<Transaction[]>;
+        // findAllByWallet(walletId: string): Promise<Transaction[]>;
 
-  findById(
-    id: string,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction | null>;
+        findById(
+                id: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction | null>;
 
-  findByWalletId(
-    walletId: string,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction[]>;
+        findByWalletId(
+                walletId: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction[]>;
 
-  findByPaymentId(
-    paymentId: string,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction[]>;
+        findByPaymentId(
+                paymentId: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction[]>;
 
-  findByReference(
-    reference: string,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction | null>;
+        findByReference(
+                reference: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction | null>;
 
-  save(
-    transaction: Transaction,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction>;
+        save(
+                transaction: Transaction,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction>;
 
-  updateStatus(
-    transactionId: string,
-    status: TransactionStatusType
-  ): Promise<void>;
+        updateStatus(
+                transactionId: string,
+                status: TransactionStatusType
+        ): Promise<void>;
 
-  findSuccessInDateRange(
-    startDate: Date,
-    endDate: Date,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction[]>;
+        findSuccessInDateRange(
+                startDate: Date,
+                endDate: Date,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction[]>;
 
-  findByTypeAndDateRange(
-    type: string,
-    startDate: Date,
-    endDate: Date,
-    trx?: Prisma.TransactionClient
-  ): Promise<Transaction[]>;
+        findByTypeAndDateRange(
+                type: string,
+                startDate: Date,
+                endDate: Date,
+                trx?: Prisma.TransactionClient
+        ): Promise<Transaction[]>;
 
-  findByFilters(filters: {
-    walletId: string;
-    type?: string;
-    status?: string;
-    startDate?: Date;
-    endDate?: Date;
-  }): Promise<Transaction[]>;
+        findByFilters(filters: {
+                walletId: string;
+                type?: string;
+                status?: string;
+                startDate?: Date;
+                endDate?: Date;
+        }): Promise<Transaction[]>;
 }

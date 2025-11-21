@@ -1,127 +1,132 @@
 // infrastructure/repository/WalletRepository.ts
-import { IWalletRepository } from "../ports/IWalletRepository.js";
-import { Wallet } from "../domain/entities/Wallet.js";
-import { Prisma } from "@prisma/client";
-import { ConcurrencyError } from "../domain/errors/concurrencyError.js";
-import { prisma } from "@core/database/prismaClient.js";
+import { IWalletRepository } from '../ports/IWalletRepository.js';
+import { Wallet } from '../domain/entities/Wallet.js';
+import { Prisma } from '@prisma/client';
+import { ConcurrencyError } from '../domain/errors/concurrencyError.js';
+import { prisma } from '@src/core/database/prismaClient.js';
 
 export class WalletRepository implements IWalletRepository {
-  //-----1: findById
-  async findById(
-    id: string,
-    trx?: Prisma.TransactionClient
-  ): Promise<Wallet | null> {
-    const client = trx || prisma;
+        //-----1: findById
+        async findById(
+                id: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Wallet | null> {
+                const client = trx || prisma;
 
-    const walletData = await client.wallet.findUnique({
-      where: { id },
-    });
+                const walletData = await client.wallet.findUnique({
+                        where: { id }
+                });
 
-    if (!walletData) return null;
+                if (!walletData) return null;
 
-    return Wallet.toEntity(walletData);
-  }
+                return Wallet.toEntity(walletData);
+        }
 
-  //-----2: findByUserId
-  async findByUserId(
-    userId: string,
-    trx?: Prisma.TransactionClient
-  ): Promise<Wallet | null> {
-    const client = trx || prisma;
+        //-----2: findByUserId
+        async findByUserId(
+                userId: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Wallet | null> {
+                const client = trx || prisma;
 
-    const walletData = await client.wallet.findUnique({
-      where: { userId },
-    });
+                const walletData = await client.wallet.findUnique({
+                        where: { userId }
+                });
 
-    if (!walletData) return null;
+                if (!walletData) return null;
 
-    return Wallet.toEntity(walletData);
-  }
+                return Wallet.toEntity(walletData);
+        }
 
-  //-----3: save
-  async save(wallet: Wallet, trx?: Prisma.TransactionClient): Promise<Wallet> {
-    const client = trx || prisma;
-    const state = wallet.getState();
+        //-----3: save
+        async save(
+                wallet: Wallet,
+                trx?: Prisma.TransactionClient
+        ): Promise<Wallet> {
+                const client = trx || prisma;
+                const state = wallet.getState();
 
-    try {
-      const updatedWallet = await client.wallet.update({
-        where: {
-          id: state.id,
-          version: state.version - 1, // Expect the previous version
-        },
-        data: {
-          balanceCents: state.balanceCents,
-          reservedCents: state.reservedCents,
-          version: state.version,
-          updatedAt: state.updatedAt,
-        },
-      });
+                try {
+                        const updatedWallet = await client.wallet.update({
+                                where: {
+                                        id: state.id,
+                                        version: state.version - 1 // Expect the previous version
+                                },
+                                data: {
+                                        balanceCents: state.balanceCents,
+                                        reservedCents: state.reservedCents,
+                                        version: state.version,
+                                        updatedAt: state.updatedAt
+                                }
+                        });
 
-      return Wallet.toEntity(updatedWallet);
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2025"
-      ) {
-        throw ConcurrencyError.walletModified();
-      }
-      throw error;
-    }
-  }
+                        return Wallet.toEntity(updatedWallet);
+                } catch (error) {
+                        if (
+                                error instanceof
+                                        Prisma.PrismaClientKnownRequestError &&
+                                error.code === 'P2025'
+                        ) {
+                                throw ConcurrencyError.walletModified();
+                        }
+                        throw error;
+                }
+        }
 
-  //-----4: updateWithVersion
-  async updateWithVersion(
-    wallet: Wallet,
-    trx?: Prisma.TransactionClient
-  ): Promise<Wallet> {
-    const client = trx || prisma;
-    const state = wallet.getState();
+        //-----4: updateWithVersion
+        async updateWithVersion(
+                wallet: Wallet,
+                trx?: Prisma.TransactionClient
+        ): Promise<Wallet> {
+                const client = trx || prisma;
+                const state = wallet.getState();
 
-    try {
-      const updatedWallet = await client.wallet.update({
-        where: {
-          id: state.id,
-          version: state.version - 1,
-        },
-        data: {
-          balanceCents: state.balanceCents,
-          reservedCents: state.reservedCents,
-          version: state.version,
-          updatedAt: new Date(),
-        },
-      });
+                try {
+                        const updatedWallet = await client.wallet.update({
+                                where: {
+                                        id: state.id,
+                                        version: state.version - 1
+                                },
+                                data: {
+                                        balanceCents: state.balanceCents,
+                                        reservedCents: state.reservedCents,
+                                        version: state.version,
+                                        updatedAt: new Date()
+                                }
+                        });
 
-      return Wallet.toEntity(updatedWallet);
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2025"
-      ) {
-        throw ConcurrencyError.walletModified();
-      }
-      throw error;
-    }
-  }
+                        return Wallet.toEntity(updatedWallet);
+                } catch (error) {
+                        if (
+                                error instanceof
+                                        Prisma.PrismaClientKnownRequestError &&
+                                error.code === 'P2025'
+                        ) {
+                                throw ConcurrencyError.walletModified();
+                        }
+                        throw error;
+                }
+        }
 
-  //-----5: updateBalance
-  async updateBalance(
-    walletId: string,
-    amount: number,
-    trx?: Prisma.TransactionClient
-  ): Promise<Wallet> {
-    const client = trx || prisma;
+        //-----5: updateBalance
+        async updateBalance(
+                walletId: string,
+                amount: number,
+                trx?: Prisma.TransactionClient
+        ): Promise<Wallet> {
+                const client = trx || prisma;
 
-    const updatedWallet = await client.wallet.update({
-      where: { id: walletId },
-      data: {
-        balanceCents: { increment: amount },
-        version: { increment: 1 },
-        updatedAt: new Date(),
-      },
-    });
+                const updatedWallet = await client.wallet.update({
+                        where: { id: walletId },
+                        data: {
+                                balanceCents: { increment: amount },
+                                version: { increment: 1 },
+                                updatedAt: new Date()
+                        }
+                });
 
-    return Wallet.toEntity(updatedWallet);
-  }
+                return Wallet.toEntity(updatedWallet);
+        }
 }
 
 export const walletRepository = new WalletRepository();

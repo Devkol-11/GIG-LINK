@@ -1,16 +1,17 @@
-import { paymentRepository } from "../../infrastructure/PaymentRepository.js";
-import { IPaymentRepository } from "../../ports/IPaymentRepository.js";
+import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
+import { IPaymentRepository } from '../../ports/IPaymentRepository.js';
 
 export class GetWalletPaymentsUseCase {
-  constructor(private paymentRepository: IPaymentRepository) {}
+        constructor(private paymentRepository: IPaymentRepository) {}
 
-  async Execute(walletId: string) {
-    const payments = await this.paymentRepository.findByWalletId(walletId);
+        async Execute(walletId: string) {
+                const payments =
+                        await this.paymentRepository.findByWalletId(walletId);
 
-    return payments.map((payment) => payment.getState());
-  }
+                return payments.map((payment) => payment.getState());
+        }
 }
 
 export const getWalletPaymentsUseCase = new GetWalletPaymentsUseCase(
-  paymentRepository
+        paymentRepository
 );

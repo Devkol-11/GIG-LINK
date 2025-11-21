@@ -1,3 +1,3 @@
-import { publishTest } from "./testRMQ.js";
+import { publishTest } from './testRMQ.js';
 
 publishTest();

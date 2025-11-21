@@ -4,16 +4,21 @@ _A work-in-progress freelance marketplace backend_
 
 ## 🚧 Project Status
 
-> **Note:** This project is currently under active development.
-> Major features, contexts, and architectural components are still being implemented and refined. Expect breaking changes until the initial MVP release.
+> **Note:** This project is currently under active development. Major features,
+> contexts, and architectural components are still being implemented and
+> refined. Expect breaking changes until the initial MVP release.
 
 ---
 
 ## 🧠 Overview
 
-**Gig-Link** is a backend service for a modern freelance marketplace that connects **creators** and **freelancers** through verified contracts, secure escrow payments, and transparent collaboration workflows.
+**Gig-Link** is a backend service for a modern freelance marketplace that
+connects **creators** and **freelancers** through verified contracts, secure
+escrow payments, and transparent collaboration workflows.
 
-It aims to provide a structured, domain-driven foundation for scalable and secure freelance operations — including wallet systems, contract management, and payment integrity.
+It aims to provide a structured, domain-driven foundation for scalable and
+secure freelance operations — including wallet systems, contract management, and
+payment integrity.
 
 ---
 
@@ -33,14 +38,16 @@ It aims to provide a structured, domain-driven foundation for scalable and secur
 
 ## 🧩 Architecture Overview
 
-Gig-Link follows a **Domain-Driven Design (DDD)** inspired modular architecture with clear separation of concerns:
+Gig-Link follows a **Domain-Driven Design (DDD)** inspired modular architecture
+with clear separation of concerns:
 
 - **Domain Layer** → Business entities and core logic
 - **Application Layer** → Use cases and orchestration between repositories
 - **Infrastructure Layer** → Database repositories and external integrations
 - **Interface Layer** → REST controllers and request validation
 
-This structure ensures maintainability, testability, and scalability as the project grows.
+This structure ensures maintainability, testability, and scalability as the
+project grows.
 
 ---
 
@@ -68,8 +75,8 @@ src/
 
 ## 🧪 Testing
 
-Unit and integration testing are being set up using **Jest**.
-Each module will have isolated test suites covering its use cases and entities.
+Unit and integration testing are being set up using **Jest**. Each module will
+have isolated test suites covering its use cases and entities.
 
 ---
 
@@ -97,14 +104,14 @@ Each module will have isolated test suites covering its use cases and entities.
 
 ## 📌 Disclaimer
 
-This repository represents an **educational and experimental implementation** of a professional-grade marketplace backend.
-The codebase is still evolving — expect frequent refactors and architectural changes as development continues.
+This repository represents an **educational and experimental implementation** of
+a professional-grade marketplace backend. The codebase is still evolving —
+expect frequent refactors and architectural changes as development continues.
 
 ---
 
 ## 🧭 Author
 
-**Collins-okocha Bethel**
-Backend Engineer | DDD & OOP Enthusiast
+**Collins-okocha Bethel** Backend Engineer | DDD & OOP Enthusiast
 
 > _“Building structured logic from real-world complexity.”_

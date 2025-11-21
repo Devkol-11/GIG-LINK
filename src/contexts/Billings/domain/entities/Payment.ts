@@ -1,187 +1,197 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 import {
-  PaymentStatus,
-  PaymentStatusType,
-  PaymentChannelType,
-  PaymentDirection,
-  PaymentDirectionType,
-  PaymentProviderType,
-} from "../enums/DomainEnums.js";
+        PaymentStatus,
+        PaymentStatusType,
+        PaymentChannelType,
+        PaymentDirection,
+        PaymentDirectionType,
+        PaymentProviderType
+} from '../enums/DomainEnums.js';
 
-import { InvalidPaymentStateError } from "../errors/BusinessErrors.js";
+import { InvalidPaymentStateError } from '../errors/BusinessErrors.js';
 
 export interface PaymentProps {
-  readonly id: string;
-  readonly walletId: string;
-  readonly provider: PaymentProviderType;
-  readonly amountCents: number;
-  readonly currency: string;
-  readonly direction: PaymentDirectionType;
-  readonly channel: PaymentChannelType;
-  status: PaymentStatusType;
-  providerReference: string;
-  cancelReason: string | null;
-  readonly createdAt: Date;
-  updatedAt: Date;
-  metadata?: Record<string, any>;
+        readonly id: string;
+        readonly walletId: string;
+        readonly provider: PaymentProviderType;
+        readonly amountCents: number;
+        readonly currency: string;
+        readonly direction: PaymentDirectionType;
+        readonly channel: PaymentChannelType;
+        status: PaymentStatusType;
+        providerReference: string;
+        cancelReason: string | null;
+        readonly createdAt: Date;
+        updatedAt: Date;
+        metadata?: Record<string, any>;
 }
 
 export class Payment {
-  private constructor(private props: PaymentProps) {}
+        private constructor(private props: PaymentProps) {}
 
-  /** Factory method to create a new Payment Entity */
-  public static create(
-    props: Omit<PaymentProps, "id" | "createdAt" | "updatedAt" | "status">
-  ): Payment {
-    return new Payment({
-      id: randomUUID(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      status: PaymentStatus.INITIATED,
-      ...props,
-    });
-  }
+        /** Factory method to create a new Payment Entity */
+        public static create(
+                props: Omit<
+                        PaymentProps,
+                        'id' | 'createdAt' | 'updatedAt' | 'status'
+                >
+        ): Payment {
+                return new Payment({
+                        id: randomUUID(),
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        status: PaymentStatus.INITIATED,
+                        ...props
+                });
+        }
 
-  /** Factory method to reconstitute a Payment from persistence */
-  public static toEntity(data: PaymentProps): Payment {
-    return new Payment({
-      ...data,
-    });
-  }
+        /** Factory method to reconstitute a Payment from persistence */
+        public static toEntity(data: PaymentProps): Payment {
+                return new Payment({
+                        ...data
+                });
+        }
 
-  // ----- DOMAIN BEHAVIOURS -----
+        // ----- DOMAIN BEHAVIOURS -----
 
-  markAsCancelled(): void {
-    this.props.status = PaymentStatus.CANCELLED;
-    this.props.updatedAt = new Date();
-  }
+        markAsCancelled(): void {
+                this.props.status = PaymentStatus.CANCELLED;
+                this.props.updatedAt = new Date();
+        }
 
-  updateMetadata(metadata: Record<string, any>): void {
-    this.props.metadata = { ...this.props.metadata, ...metadata };
-    this.props.updatedAt = new Date();
-  }
+        updateMetadata(metadata: Record<string, any>): void {
+                this.props.metadata = { ...this.props.metadata, ...metadata };
+                this.props.updatedAt = new Date();
+        }
 
-  addProviderReference(providerReference: string): void {
-    this.props.providerReference = providerReference;
-  }
+        addProviderReference(providerReference: string): void {
+                this.props.providerReference = providerReference;
+        }
 
-  canMarkAsPending(): boolean {
-    return this.props.status === PaymentStatus.INITIATED;
-  }
+        canMarkAsPending(): boolean {
+                return this.props.status === PaymentStatus.INITIATED;
+        }
 
-  canMarkAsSuccess(): boolean {
-    return (
-      this.props.status === PaymentStatus.PENDING ||
-      this.props.status === PaymentStatus.INITIATED
-    );
-  }
+        canMarkAsSuccess(): boolean {
+                return (
+                        this.props.status === PaymentStatus.PENDING ||
+                        this.props.status === PaymentStatus.INITIATED
+                );
+        }
 
-  canMarkAsFailed(): boolean {
-    return this.props.status !== PaymentStatus.SUCCESS;
-  }
+        canMarkAsFailed(): boolean {
+                return this.props.status !== PaymentStatus.SUCCESS;
+        }
 
-  markAsPending(providerReference: string): void {
-    if (!this.canMarkAsPending()) return;
-    this.props.status = PaymentStatus.PENDING;
-    this.props.providerReference = providerReference;
-    this.props.updatedAt = new Date();
-  }
+        markAsPending(providerReference: string): void {
+                if (this.canMarkAsPending() === false)
+                        throw new InvalidPaymentStateError();
 
-  markAsSuccess(providerReference: string): void {
-    if (!this.canMarkAsSuccess()) return;
-    this.props.status = PaymentStatus.SUCCESS;
-    this.props.providerReference = providerReference;
-    this.props.updatedAt = new Date();
-  }
+                this.props.status = PaymentStatus.PENDING;
+                this.props.providerReference = providerReference;
+                this.props.updatedAt = new Date();
+        }
 
-  markAsFailed(): void {
-    if (!this.canMarkAsFailed()) return;
-    this.props.status = PaymentStatus.FAILED;
-    this.props.updatedAt = new Date();
-  }
+        markAsSuccess(providerReference: string): void {
+                if (this.canMarkAsSuccess() === false)
+                        throw new InvalidPaymentStateError();
+                this.props.status = PaymentStatus.SUCCESS;
+                this.props.providerReference = providerReference;
+                this.props.updatedAt = new Date();
+        }
 
-  cancel(reason?: string) {
-    if (!this.canBeCancelled()) {
-      throw new InvalidPaymentStateError();
-    }
-    this.props.status = PaymentStatus.CANCELLED;
-    this.props.cancelReason = reason ?? null;
-  }
+        markAsFailed(): void {
+                if (this.canMarkAsFailed() === false)
+                        throw new InvalidPaymentStateError();
+                this.props.status = PaymentStatus.FAILED;
+                this.props.updatedAt = new Date();
+        }
 
-  canBeCancelled() {
-    return this.props.status === "INITIATED" || this.props.status === "PENDING";
-  }
+        cancel(reason?: string) {
+                if (this.canBeCancelled() === false) {
+                        throw new InvalidPaymentStateError();
+                }
+                this.props.status = PaymentStatus.CANCELLED;
+                this.props.cancelReason = reason ?? null;
+        }
 
-  isIncoming(): boolean {
-    return this.props.direction === PaymentDirection.INCOMING;
-  }
+        canBeCancelled(): boolean {
+                return (
+                        this.props.status === 'INITIATED' ||
+                        this.props.status === 'PENDING'
+                );
+        }
 
-  isOutgoing(): boolean {
-    return this.props.direction === PaymentDirection.OUTGOING;
-  }
+        isIncoming(): boolean {
+                return this.props.direction === PaymentDirection.INCOMING;
+        }
 
-  isSuccessful(): boolean {
-    return this.props.status === PaymentStatus.SUCCESS;
-  }
+        isOutgoing(): boolean {
+                return this.props.direction === PaymentDirection.OUTGOING;
+        }
 
-  isPending(): boolean {
-    return this.props.status === PaymentStatus.PENDING;
-  }
+        isSuccessful(): boolean {
+                return this.props.status === PaymentStatus.SUCCESS;
+        }
 
-  isFailed(): boolean {
-    return this.props.status === PaymentStatus.FAILED;
-  }
+        isPending(): boolean {
+                return this.props.status === PaymentStatus.PENDING;
+        }
 
-  isFromProvider(provider: PaymentProviderType): boolean {
-    return this.props.provider === provider;
-  }
-  isFinalState() {
-    return (
-      this.props.status === "SUCCESS" ||
-      this.props.status === "FAILED" ||
-      this.props.status === "CANCELLED"
-    );
-  }
+        isFailed(): boolean {
+                return this.props.status === PaymentStatus.FAILED;
+        }
 
-  getState(): PaymentProps {
-    return { ...this.props };
-  }
+        isFromProvider(provider: PaymentProviderType): boolean {
+                return this.props.provider === provider;
+        }
+        isFinalState() {
+                return (
+                        this.props.status === 'SUCCESS' ||
+                        this.props.status === 'FAILED' ||
+                        this.props.status === 'CANCELLED'
+                );
+        }
 
-  // ----- GETTERS -----
+        getState(): PaymentProps {
+                return { ...this.props };
+        }
 
-  get id(): string {
-    return this.props.id;
-  }
+        // ----- GETTERS -----
 
-  get status(): PaymentStatusType {
-    return this.props.status;
-  }
+        get id(): string {
+                return this.props.id;
+        }
 
-  get provider(): PaymentProviderType {
-    return this.props.provider;
-  }
+        get status(): PaymentStatusType {
+                return this.props.status;
+        }
 
-  get providerReference(): string {
-    return this.props.providerReference;
-  }
+        get provider(): PaymentProviderType {
+                return this.props.provider;
+        }
 
-  get direction(): PaymentDirectionType {
-    return this.props.direction;
-  }
+        get providerReference(): string {
+                return this.props.providerReference;
+        }
 
-  get channel(): PaymentChannelType {
-    return this.props.channel;
-  }
+        get direction(): PaymentDirectionType {
+                return this.props.direction;
+        }
 
-  get amountCents(): number {
-    return this.props.amountCents;
-  }
+        get channel(): PaymentChannelType {
+                return this.props.channel;
+        }
 
-  get walletId(): string {
-    return this.props.walletId;
-  }
+        get amountCents(): number {
+                return this.props.amountCents;
+        }
 
-  get amount() {
-    return this.props.amountCents;
-  }
+        get walletId(): string {
+                return this.props.walletId;
+        }
+
+        get amount() {
+                return this.props.amountCents;
+        }
 }

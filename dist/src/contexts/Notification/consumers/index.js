@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // // src/contexts/notification/infrastructure/consumers/index.ts
 // import { EmailService } from "../email/EmailTransporter";
 // import { SendWelcomeEmailUseCase } from "../../useCases/SendWelcomeEmailUseCase";

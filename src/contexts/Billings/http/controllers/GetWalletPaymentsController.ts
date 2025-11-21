@@ -1,24 +1,27 @@
-import { catchAsync } from "@src/shared/helpers/catchAsync.js";
+import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import {
-  GetWalletPaymentsUseCase,
-  getWalletPaymentsUseCase,
-} from "../../application/useCases/GetWalletPaymentsUseCase.js";
-import { Request, Response } from "express";
-import { sendResponse } from "@src/shared/helpers/sendResponse.js";
-import { httpStatus } from "@src/shared/constants/httpStatusCode.js";
+        GetWalletPaymentsUseCase,
+        getWalletPaymentsUseCase
+} from '../../application/useCases/GetWalletPaymentsUseCase.js';
+import { Request, Response } from 'express';
+import { sendResponse } from '@src/shared/helpers/sendResponse.js';
+import { httpStatus } from '@src/shared/constants/httpStatusCode.js';
 
 export class GetWalletPaymentsController {
-  constructor(private getWalletPaymentUseCase: GetWalletPaymentsUseCase) {}
+        constructor(
+                private getWalletPaymentUseCase: GetWalletPaymentsUseCase
+        ) {}
 
-  Execute = catchAsync(async (req: Request, res: Response) => {
-    const walletId = req.params.walletId;
+        Execute = catchAsync(async (req: Request, res: Response) => {
+                const walletId = req.params.walletId;
 
-    const data = await this.getWalletPaymentUseCase.Execute(walletId);
+                const data =
+                        await this.getWalletPaymentUseCase.Execute(walletId);
 
-    return sendResponse(res, httpStatus.Success, { data });
-  });
+                return sendResponse(res, httpStatus.Success, { data });
+        });
 }
 
 export const getWalletPaymentsController = new GetWalletPaymentsController(
-  getWalletPaymentsUseCase
+        getWalletPaymentsUseCase
 );

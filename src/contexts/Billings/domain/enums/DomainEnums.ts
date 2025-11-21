@@ -1,4 +1,4 @@
-import { $Enums } from "@prisma/client";
+import { $Enums } from '@prisma/client';
 
 //Wallet-Status
 export type WalletStatusType = $Enums.WalletStatus;
@@ -34,9 +34,9 @@ export const TransactionSource = $Enums.TransactionSource;
 
 //Transaction-metadata
 export type TransactionMetadata =
-  | string
-  | number
-  | boolean
-  | Record<string, any>
-  | any[]
-  | null;
+        | string
+        | number
+        | boolean
+        | Record<string, any>
+        | any[]
+        | null;

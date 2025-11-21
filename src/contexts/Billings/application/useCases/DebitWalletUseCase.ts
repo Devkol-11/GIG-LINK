@@ -1,19 +1,21 @@
-import { IWalletRepository } from "../../ports/IWalletRepository.js";
-import { walletRepository } from "../../infrastructure/WalletRepository.js";
-import { BusinessError } from "@src/shared/errors/BusinessError.js";
+import { IWalletRepository } from '../../ports/IWalletRepository.js';
+import { walletRepository } from '../../infrastructure/WalletRepository.js';
+import { BusinessError } from '@src/shared/errors/BusinessError.js';
 
 export class DebitWalletUseCase {
-  constructor(private walletRepository: IWalletRepository) {}
+        constructor(private walletRepository: IWalletRepository) {}
 
-  async Execute(walletId: string, amount: number) {
-    const wallet = await this.walletRepository.findById(walletId);
-    if (!wallet) throw new BusinessError("Wallet not found");
+        async Execute(walletId: string, amount: number) {
+                const wallet = await this.walletRepository.findById(walletId);
 
-    wallet.debit(amount); // domain rule handles negative checks
-    await this.walletRepository.save(wallet);
+                if (!wallet) throw new BusinessError('Wallet not found');
 
-    return wallet.getState();
-  }
+                wallet.debit(amount); // domain rule handles negative checks
+
+                await this.walletRepository.save(wallet);
+
+                return wallet.getState();
+        }
 }
 
 export const debitWalletUseCase = new DebitWalletUseCase(walletRepository);
