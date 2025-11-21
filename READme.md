@@ -24,22 +24,22 @@ payment integrity.
 
 ## ⚙️ Core Features (Planned & In Progress)
 
-| Context            | Description                                                                  | Status         |
-| ------------------ | ---------------------------------------------------------------------------- | -------------- |
-| **Authentication** | User registration and login for both freelancers and creators                | ✅ In progress |
-| **Contracts**      | Create, manage, and complete contracts between users                         | ✅ In progress |
-| **Applications**   | Freelancers apply to gigs with status transitions (accept, reject, withdraw) | ✅ In progress |
-| **Escrow System**  | Holds payments securely until contract completion                            | 🔄 Planned     |
-| **Wallet System**  | Handles balance, deposits, withdrawals, and transactions                     | 🔄 Planned     |
-| **Payments**       | Integration with external payment provider (e.g., Paystack/Stripe)           | 🔄 Planned     |
-| **Disputes**       | Handle disagreements and refunds through admin or automated logic            | 🕓 Planned     |
+| Context            | Description                                                                  | Status          |
+| ------------------ | ---------------------------------------------------------------------------- | --------------- |
+| **Authentication** | User registration and login for both freelancers and creators                | ✅ Final stages |
+| **Contracts**      | Create, manage, and complete contracts between users                         | ✅ Final stages |
+| **Applications**   | Freelancers apply to gigs with status transitions (accept, reject, withdraw) | ✅ Final stages |
+| **Escrow System**  | Holds payments securely until contract completion                            | ✅ In progress  |
+| **Wallet System**  | Handles balance, deposits, withdrawals, and transactions                     | ✅ In progress  |
+| **Payments**       | Integration with external payment provider (e.g., Paystack/Stripe)           | ✅ In progress  |
+| **Disputes**       | Handle disagreements and refunds through admin or automated logic            | 🕓 Planned      |
 
 ---
 
 ## 🧩 Architecture Overview
 
-Gig-Link follows a **Domain-Driven Design (DDD)** inspired modular architecture
-with clear separation of concerns:
+Gig-Link follows a **Domain-Driven Design (DDD)** inspired modular hexagonal
+architecture with clear separation of concerns:
 
 - **Domain Layer** → Business entities and core logic
 - **Application Layer** → Use cases and orchestration between repositories
@@ -55,7 +55,7 @@ project grows.
 
 ```
 src/
-├── modules/
+├── contexts/
 │   ├── contracts/
 │   │   ├── domain/
 │   │   ├── application/
@@ -95,9 +95,12 @@ have isolated test suites covering its use cases and entities.
 
 - **Runtime:** Node.js + TypeScript (ES Modules)
 - **ORM:** Prisma
-- **Database:** PostgreSQL (via Supabase)
-- **Architecture:** Domain-Driven Design
+- **Database:** PostgreSQL
+- **Message-broker:** Rabbit-mq
+- **Caching:** Redis
+- **Architecture:** Domain-Driven Design + Hexagonal architecture
 - **Testing:** Jest
+- **Bench-marking:** Auto-cannon
 - **Payment Provider:** Paystack (planned)
 
 ---
@@ -107,11 +110,3 @@ have isolated test suites covering its use cases and entities.
 This repository represents an **educational and experimental implementation** of
 a professional-grade marketplace backend. The codebase is still evolving —
 expect frequent refactors and architectural changes as development continues.
-
----
-
-## 🧭 Author
-
-**Collins-okocha Bethel** Backend Engineer | DDD & OOP Enthusiast
-
-> _“Building structured logic from real-world complexity.”_
