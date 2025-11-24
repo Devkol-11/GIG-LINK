@@ -1,4 +1,4 @@
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import { Freelancer } from '../domain/entities/Freelancer.js';
 import { IFreelancerRepository } from '../ports/IFreelancerRepository.js';
 
@@ -6,7 +6,7 @@ export class FreelancerRepository implements IFreelancerRepository {
         async save(freelancer: Freelancer): Promise<Freelancer> {
                 const data = freelancer.getState();
 
-                const record = await prisma.freelancer.upsert({
+                const record = await dbClient.freelancer.upsert({
                         where: { id: data.id },
                         update: data,
                         create: data
@@ -16,14 +16,14 @@ export class FreelancerRepository implements IFreelancerRepository {
         }
 
         async findById(id: string): Promise<Freelancer | null> {
-                const record = await prisma.freelancer.findUnique({
+                const record = await dbClient.freelancer.findUnique({
                         where: { id }
                 });
                 return record ? Freelancer.toEntity(record) : null;
         }
 
         async findByUserId(userId: string): Promise<Freelancer | null> {
-                const record = await prisma.freelancer.findUnique({
+                const record = await dbClient.freelancer.findUnique({
                         where: { userId }
                 });
                 return record ? Freelancer.toEntity(record) : null;
@@ -36,12 +36,12 @@ export class FreelancerRepository implements IFreelancerRepository {
 
                 // Fetch data and total count in parallel
                 const [records, total] = await Promise.all([
-                        prisma.freelancer.findMany({
+                        dbClient.freelancer.findMany({
                                 skip,
                                 take,
                                 orderBy: { createdAt: 'desc' }
                         }),
-                        prisma.freelancer.count()
+                        dbClient.freelancer.count()
                 ]);
 
                 const freelancers = records.map((record) =>
@@ -54,7 +54,7 @@ export class FreelancerRepository implements IFreelancerRepository {
         }
 
         async delete(id: string): Promise<void> {
-                await prisma.freelancer.delete({ where: { id } });
+                await dbClient.freelancer.delete({ where: { id } });
         }
 }
 

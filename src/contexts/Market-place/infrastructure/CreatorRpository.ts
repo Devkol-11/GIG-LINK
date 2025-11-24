@@ -1,4 +1,4 @@
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import { Creator } from '../domain/entities/Creator.js';
 import { ICreatorRepository } from '../ports/ICreatorRepository.js';
 
@@ -6,7 +6,7 @@ export class CreatorRepository implements ICreatorRepository {
         async save(creator: Creator): Promise<Creator> {
                 const data = creator.getState();
 
-                const record = await prisma.creator.upsert({
+                const record = await dbClient.creator.upsert({
                         where: { id: data.id },
                         update: data,
                         create: data
@@ -16,14 +16,14 @@ export class CreatorRepository implements ICreatorRepository {
         }
 
         async findById(id: string): Promise<Creator | null> {
-                const record = await prisma.creator.findUnique({
+                const record = await dbClient.creator.findUnique({
                         where: { id }
                 });
                 return record ? Creator.toEntity(record) : null;
         }
 
         async findByUserId(userId: string): Promise<Creator | null> {
-                const record = await prisma.creator.findUnique({
+                const record = await dbClient.creator.findUnique({
                         where: { userId }
                 });
                 return record ? Creator.toEntity(record) : null;
@@ -37,12 +37,13 @@ export class CreatorRepository implements ICreatorRepository {
                 const take = options?.take ?? 10;
 
                 const [records, total] = await Promise.all([
-                        prisma.creator.findMany({
+                        dbClient.creator.findMany({
                                 skip,
                                 take,
                                 orderBy: { createdAt: 'desc' }
                         }),
-                        prisma.creator.count()
+
+                        dbClient.creator.count()
                 ]);
 
                 const creators = records.map((record) =>
@@ -52,7 +53,7 @@ export class CreatorRepository implements ICreatorRepository {
         }
 
         async delete(id: string): Promise<void> {
-                await prisma.creator.delete({ where: { id } });
+                await dbClient.creator.delete({ where: { id } });
         }
 }
 

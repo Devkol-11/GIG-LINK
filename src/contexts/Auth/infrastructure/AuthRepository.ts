@@ -1,16 +1,18 @@
 import { IAuthRepository } from '../ports/AuthRepository.js';
-import { prisma } from '@src/core/database/prismaClient.js';
-import { logger } from '@src/core/logging/winston.js';
+import type { Prisma } from '@prisma/client';
 import type { User } from '@prisma/client';
 import { RefreshToken } from '@prisma/client';
+import { dbClient } from '@src/core/database/prismaClient.js';
+import { logger } from '@src/core/logging/winston.js';
 
 export class AuthRepository implements IAuthRepository {
-        constructor() {}
-
         async save(
-                userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>
+                userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>,
+                trx?: Prisma.TransactionClient
         ): Promise<User> {
-                const savedUser = await prisma.user.create({
+                const client = dbClient || trx;
+
+                const savedUser = await client.user.create({
                         data: userData
                 });
                 return savedUser;
@@ -19,9 +21,12 @@ export class AuthRepository implements IAuthRepository {
         async saveRefreshToken(
                 userId: string,
                 token: string,
-                expiresAt: Date
+                expiresAt: Date,
+                trx?: Prisma.TransactionClient
         ): Promise<RefreshToken> {
-                return prisma.refreshToken.create({
+                const client = dbClient || trx;
+
+                return client.refreshToken.create({
                         data: {
                                 userId,
                                 token,
@@ -30,39 +35,54 @@ export class AuthRepository implements IAuthRepository {
                 });
         }
 
-        async update(email: string, updateData: Partial<User>): Promise<User> {
-                const updatedUser = await prisma.user.update({
+        async update(
+                email: string,
+                updateData: Partial<User>,
+                trx?: Prisma.TransactionClient
+        ): Promise<User> {
+                const client = dbClient || trx;
+
+                const updatedUser = await client.user.update({
                         where: { email: email.toLowerCase() },
                         data: updateData
                 });
+
                 return updatedUser;
         }
 
         async findByEmail(email: string): Promise<User | null> {
-                const record = await prisma.user.findUnique({
+                const record = await dbClient.user.findUnique({
                         where: { email: email.toLowerCase() }
                 });
+
                 return record;
         }
 
         async findById(id: string): Promise<User | null> {
-                const record = await prisma.user.findUnique({ where: { id } });
+                const record = await dbClient.user.findUnique({
+                        where: { id }
+                });
+
                 return record;
         }
 
         async existsByEmail(email: string): Promise<boolean> {
-                const record = await prisma.user.findUnique({
+                const record = await dbClient.user.findUnique({
                         where: { email: email.toLowerCase() },
                         select: { id: true }
                 });
+
                 return !!record;
         }
 
         async updatePassword(
                 userId: string,
-                newPasswordHash: string
+                newPasswordHash: string,
+                trx?: Prisma.TransactionClient
         ): Promise<void> {
-                await prisma.user.update({
+                const client = dbClient || trx;
+
+                await client.user.update({
                         where: { id: userId },
                         data: { passwordHash: newPasswordHash }
                 });

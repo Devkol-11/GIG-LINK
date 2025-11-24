@@ -1,16 +1,18 @@
 import { Otp } from '@prisma/client';
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import { IOtpRepository } from '../ports/OtpRepository.js';
+import type { Prisma } from '@prisma/client';
 
 export class OtpRepository implements IOtpRepository {
-        constructor() {}
-
         async create(
                 userId: string,
                 token: string,
-                expiresAt: Date
+                expiresAt: Date,
+                tx?: Prisma.TransactionClient
         ): Promise<Otp> {
-                const otpRecord = await prisma.otp.create({
+                const client = dbClient || tx;
+
+                const otpRecord = await client.otp.create({
                         data: {
                                 userId,
                                 token,
@@ -24,21 +26,30 @@ export class OtpRepository implements IOtpRepository {
         }
 
         async findByToken(token: string): Promise<Otp | null> {
-                const record = await prisma.otp.findUnique({
+                const record = await dbClient.otp.findUnique({
                         where: { token }
                 });
                 return record;
         }
 
-        async markAsUsed(token: string): Promise<void> {
-                await prisma.otp.update({
+        async markAsUsed(
+                token: string,
+                tx: Prisma.TransactionClient
+        ): Promise<void> {
+                const client = dbClient || tx;
+
+                await client.otp.update({
                         where: { token },
                         data: { used: true }
                 });
         }
 
-        async deleteAllForUser(userId: string): Promise<void> {
-                await prisma.otp.deleteMany({
+        async deleteAllForUser(
+                userId: string,
+                tx?: Prisma.TransactionClient
+        ): Promise<void> {
+                const client = dbClient || tx;
+                await client.otp.deleteMany({
                         where: { userId }
                 });
         }

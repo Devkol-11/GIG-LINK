@@ -2,7 +2,10 @@ import { LoginUserCommand, LoginUserResult } from '../dtos/Login.js';
 import { IAuthRepository } from '../../ports/AuthRepository.js';
 import { AuthService, authservice } from '../../domain/services/AuthService.js';
 import { logger } from '@src/core/logging/winston.js';
-import { BusinessError } from '../../domain/errors/BusinessError.js';
+import {
+        UserConflict,
+        InvalidCredentials
+} from '../../domain/errors/DomainErrors.js';
 // import { IEventBus } from "../../domain/interfaces/EventbBus";
 import { authRepository } from '../../infrastructure/AuthRepository.js';
 // import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
@@ -18,21 +21,18 @@ export class LoginUseCase {
 
                 const user = await this.authRepository.findByEmail(email);
 
-                if (user === null) {
-                        throw BusinessError.notFound('invalid credentials');
-                }
+                if (user === null) throw new UserConflict();
 
                 if (user.passwordHash === null)
-                        throw BusinessError.badRequest('update password');
+                        throw new InvalidCredentials('update your password');
 
                 const passwordMatch = await this.authService.comparePassword(
                         password,
                         user.passwordHash
                 );
 
-                if (passwordMatch === false) {
-                        throw BusinessError.badRequest('Invalid credentials');
-                }
+                if (passwordMatch === false)
+                        throw new InvalidCredentials('wrong password');
 
                 const accessToken = this.authService.generateAccessToken(
                         user.id,

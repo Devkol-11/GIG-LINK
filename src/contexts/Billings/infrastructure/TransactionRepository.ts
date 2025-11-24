@@ -2,7 +2,7 @@
 import { ITransactionRepository } from '../ports/ITransactionRepository.js';
 import { Transaction } from '../domain/entities/Transactions.js';
 import { Prisma } from '@prisma/client';
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import {
         TransactionStatus,
         TransactionStatusType
@@ -17,7 +17,7 @@ export class TransactionRepository implements ITransactionRepository {
                 id: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction | null> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const transactionData = await client.transaction.findUnique({
                         where: { id }
@@ -36,7 +36,7 @@ export class TransactionRepository implements ITransactionRepository {
                 walletId: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const transactionsData = await client.transaction.findMany({
                         where: { walletId },
@@ -56,7 +56,7 @@ export class TransactionRepository implements ITransactionRepository {
                 paymentId: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const transactionsData = await client.transaction.findMany({
                         where: { paymentId },
@@ -76,7 +76,7 @@ export class TransactionRepository implements ITransactionRepository {
                 providerReference: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction | null> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const transactionData = await client.transaction.findUnique({
                         where: { providerReference }
@@ -95,7 +95,7 @@ export class TransactionRepository implements ITransactionRepository {
                 transaction: Transaction,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
                 const state = transaction.getState();
 
                 try {
@@ -149,7 +149,7 @@ export class TransactionRepository implements ITransactionRepository {
                 status: TransactionStatusType,
                 trx?: Prisma.TransactionClient
         ): Promise<void> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 try {
                         await client.transaction.update({
@@ -179,7 +179,7 @@ export class TransactionRepository implements ITransactionRepository {
                 endDate: Date,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const transactionsData = await client.transaction.findMany({
                         where: {
@@ -207,7 +207,7 @@ export class TransactionRepository implements ITransactionRepository {
                 endDate: Date,
                 trx?: Prisma.TransactionClient
         ): Promise<Transaction[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const transactionsData = await client.transaction.findMany({
                         where: {
@@ -240,7 +240,7 @@ export class TransactionRepository implements ITransactionRepository {
         ): Promise<Transaction[]> {
                 const client = trx || prisma;
 
-                const query: any = {
+                const query = {
                         walletId: filters.walletId,
                         ...(filters.type && { transactionType: filters.type }),
                         ...(filters.status && { status: filters.status }),

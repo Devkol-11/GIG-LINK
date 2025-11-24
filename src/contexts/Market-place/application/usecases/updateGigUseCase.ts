@@ -1,6 +1,8 @@
-import { GigRepository } from '../../infrastructure/GigRepository.js';
-import { gigRepository } from '../../infrastructure/GigRepository.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
+import { GigNotFound, NotAllowed } from '../../domain/errors/DomainErrors.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
 
 export class UpdateGigUseCase {
         constructor(private readonly gigRepository: GigRepository) {}
@@ -18,18 +20,16 @@ export class UpdateGigUseCase {
                 userId: string
         ) {
                 const gig = await this.gigRepository.findById(gigId);
-                if (!gig) throw BusinessError.notFound('Gig not found');
 
-                // Only a valid creator can update the gig
-                if (gig.creatorId !== userId)
-                        throw BusinessError.unauthorized(
-                                'Not allowed to update this gig'
-                        );
+                if (!gig) throw new GigNotFound();
+
+                if (gig.creatorId !== userId) throw new NotAllowed();
 
                 const updatedGig = await this.gigRepository.update(
                         gigId,
                         updates
                 );
+
                 return updatedGig.getState();
         }
 }

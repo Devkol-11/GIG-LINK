@@ -17,7 +17,7 @@ export class ForgotPasswordController {
                         const response =
                                 await this.forgotPasswordUseCase.Execute(email);
 
-                        sendResponse(res, httpStatus.Success, response);
+                        return sendResponse(res, httpStatus.Success, response);
                 }
         );
 }

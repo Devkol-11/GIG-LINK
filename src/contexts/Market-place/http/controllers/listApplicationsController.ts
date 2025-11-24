@@ -22,7 +22,7 @@ export class ListApplicationsController {
                                         role
                                 );
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Applications fetched successfully',
                                 count: applications.length,
                                 applications,

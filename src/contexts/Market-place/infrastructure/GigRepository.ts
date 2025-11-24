@@ -1,12 +1,13 @@
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import { Gig } from '../domain/entities/Gig.js';
 import { IGigRepository } from '../ports/IGigRepository.js';
+import { PrismaClient } from '@prisma/client';
 
 export class GigRepository implements IGigRepository {
         async save(gig: Gig): Promise<Gig> {
                 const data = gig.getState();
 
-                const record = await prisma.gig.upsert({
+                const record = await dbClient.gig.upsert({
                         where: { id: data.id },
                         update: data,
                         create: data
@@ -16,7 +17,7 @@ export class GigRepository implements IGigRepository {
         }
 
         async findById(id: string): Promise<Gig | null> {
-                const record = await prisma.gig.findUnique({ where: { id } });
+                const record = await dbClient.gig.findUnique({ where: { id } });
                 return record ? Gig.toEntity(record) : null;
         }
 
@@ -28,13 +29,13 @@ export class GigRepository implements IGigRepository {
 
                 // Query paginated data + total count (in parallel)
                 const [records, total] = await Promise.all([
-                        prisma.gig.findMany({
+                        dbClient.gig.findMany({
                                 where: { creatorId },
                                 skip,
                                 take,
                                 orderBy: { createdAt: 'desc' } // newest first
                         }),
-                        prisma.gig.count({ where: { creatorId } })
+                        dbClient.gig.count({ where: { creatorId } })
                 ]);
                 const gigs = records.map((record) => Gig.toEntity(record));
                 return {
@@ -49,12 +50,12 @@ export class GigRepository implements IGigRepository {
                 const { skip = 0, take = 10 } = options;
 
                 const [records, total] = await Promise.allSettled([
-                        prisma.gig.findMany({
+                        dbClient.gig.findMany({
                                 skip: skip,
                                 take: take,
                                 orderBy: { createdAt: 'desc' }
                         }),
-                        prisma.gig.count()
+                        dbClient.gig.count()
                 ]);
 
                 const recordsResult =
@@ -91,7 +92,7 @@ export class GigRepository implements IGigRepository {
         }
 
         async delete(id: string): Promise<void> {
-                await prisma.gig.delete({ where: { id } });
+                await dbClient.gig.delete({ where: { id } });
         }
 }
 

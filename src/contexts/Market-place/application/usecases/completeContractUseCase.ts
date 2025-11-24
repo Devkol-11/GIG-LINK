@@ -1,20 +1,21 @@
 import { ContractRepository } from '../../infrastructure/ContractRepository.js';
 import { Contract } from '../../domain/entities/Contract.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
+import {
+        ContractNotFound,
+        NotAllowed
+} from '../../domain/errors/DomainErrors.js';
 
 export class CompleteContractUseCase {
         constructor(private contractrepository: ContractRepository) {}
 
         async Execute(creatorId: string, contractId: string) {
-                // fetch the contract from the repository
                 let contract: Contract | null;
                 contract = await this.contractrepository.findById(contractId);
 
-                // confirm creator ownwership of contract resource
-                if (creatorId !== contract?.creatorId)
-                        throw BusinessError.forbidden('not allowed');
+                if (contract === null) throw new ContractNotFound();
 
-                //mark the contract as complete
+                if (creatorId !== contract.creatorId) throw new NotAllowed();
+
                 contract.markAsCompleted();
 
                 //emit contract complete event

@@ -3,7 +3,7 @@ import { IWalletRepository } from '../ports/IWalletRepository.js';
 import { Wallet } from '../domain/entities/Wallet.js';
 import { Prisma } from '@prisma/client';
 import { ConcurrencyError } from '../domain/errors/concurrencyError.js';
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 
 export class WalletRepository implements IWalletRepository {
         //-----1: findById
@@ -11,7 +11,7 @@ export class WalletRepository implements IWalletRepository {
                 id: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Wallet | null> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const walletData = await client.wallet.findUnique({
                         where: { id }
@@ -27,7 +27,7 @@ export class WalletRepository implements IWalletRepository {
                 userId: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Wallet | null> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const walletData = await client.wallet.findUnique({
                         where: { userId }
@@ -43,7 +43,8 @@ export class WalletRepository implements IWalletRepository {
                 wallet: Wallet,
                 trx?: Prisma.TransactionClient
         ): Promise<Wallet> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
+
                 const state = wallet.getState();
 
                 try {
@@ -78,7 +79,8 @@ export class WalletRepository implements IWalletRepository {
                 wallet: Wallet,
                 trx?: Prisma.TransactionClient
         ): Promise<Wallet> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
+
                 const state = wallet.getState();
 
                 try {
@@ -114,7 +116,7 @@ export class WalletRepository implements IWalletRepository {
                 amount: number,
                 trx?: Prisma.TransactionClient
         ): Promise<Wallet> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const updatedWallet = await client.wallet.update({
                         where: { id: walletId },

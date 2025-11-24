@@ -4,11 +4,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
   id              String  @id @default(uuid())
+   googleId        String? @unique
   email           String  @unique
   passwordHash    String?
   firstName       String
@@ -103,6 +103,7 @@ model Creator {
   organizationName String?
   rating           Float    @default(0)
   totalGigsPosted  Int      @default(0)
+  // gigRequests
   verified         Boolean  @default(false)
   gigs             Gig[]
   createdAt        DateTime @default(now())

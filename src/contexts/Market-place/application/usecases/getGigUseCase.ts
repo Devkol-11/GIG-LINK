@@ -1,17 +1,16 @@
-// src/modules/marketplace/application/usecases/getGigUseCase.ts
-import { GigRepository } from '../../infrastructure/GigRepository.js';
-import { gigRepository } from '../../infrastructure/GigRepository.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
+import { GigNotFound } from '../../domain/errors/DomainErrors.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
 
 export class GetGigUseCase {
         constructor(private gigRepository: GigRepository) {}
 
-        async Execute(id: string) {
-                const gig = await this.gigRepository.findById(id);
+        async Execute(gigId: string) {
+                const gig = await this.gigRepository.findById(gigId);
 
-                if (!gig) {
-                        throw BusinessError.notFound('Gig not found');
-                }
+                if (!gig) throw new GigNotFound();
 
                 return gig.getState();
         }

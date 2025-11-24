@@ -12,7 +12,8 @@
                 "rootDir": "./",
                 "strict": true,
                 "esModuleInterop": true,
-                "skipLibCheck": true
+                "skipLibCheck": true,
+                "allowSyntheticDefaultImports": true
         },
-        "include": ["src", "src/core"]
+        "include": ["src", "src/core", "src/index.d.ts", "src/app.ts"]
 }

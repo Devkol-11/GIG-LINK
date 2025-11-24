@@ -1,9 +1,14 @@
-import { ApplicationRepository } from '../../infrastructure/ApplicationRepository.js';
-import { GigRepository } from '../../infrastructure/GigRepository.js';
-import { applicationRepository } from '../../infrastructure/ApplicationRepository.js';
-import { gigRepository } from '../../infrastructure/GigRepository.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
+import {
+        ApplicationRepository,
+        applicationRepository
+} from '../../infrastructure/ApplicationRepository.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
+
 import { Application } from '../../domain/entities/Application.js';
+import { GigNotFound } from '../../domain/errors/DomainErrors.js';
 
 export class ListApplicationsUseCase {
         constructor(
@@ -18,8 +23,9 @@ export class ListApplicationsUseCase {
                 limit = 10
         ) {
                 const skip = (page - 1) * limit;
-                let applications: Application[] = [];
                 let total = 0;
+
+                let applications: Application[] = [];
 
                 switch (role) {
                         case 'FREELANCER':
@@ -41,7 +47,7 @@ export class ListApplicationsUseCase {
                                                 userId
                                         );
                                 if (!gigs.length)
-                                        throw BusinessError.notFound(
+                                        throw new GigNotFound(
                                                 'No gigs found for this creator'
                                         );
 

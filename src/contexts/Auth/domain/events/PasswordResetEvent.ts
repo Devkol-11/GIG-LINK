@@ -1,6 +1,6 @@
 export class PasswordResetEvent {
-        public readonly event_type = 'Password_Reset_Requested_Event';
-        public readonly routing_key = 'auth.password_reset.requested';
+        public readonly event_type = 'password:reset';
+        public readonly routing_key = 'auth.passwordReset';
         public readonly timeStamp = new Date();
 
         constructor(

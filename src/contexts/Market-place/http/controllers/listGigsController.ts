@@ -13,7 +13,7 @@ export class ListGigsController {
                 async (_req: Request, res: Response, _next: NextFunction) => {
                         const gigs = await this.listGigsUseCase.Execute();
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Gigs fetched successfully',
                                 gigs
                         });

@@ -73,6 +73,7 @@ export class FundWalletUseCase {
 
                 // business rule: maximum per-fund amount (example)
                 const MAX_FUND_NAIRA = 200_000; // ₦200,000
+
                 if (amount > MAX_FUND_NAIRA)
                         throw BusinessError.forbidden(
                                 'exceeds maximum funding amount'
@@ -135,13 +136,16 @@ export class FundWalletUseCase {
                 } catch (error) {
                         // mark payment failed and update repo; keep tx as PENDING (recon)
                         payment.markAsFailed();
+
                         await this.paymentRepository
                                 .save(payment)
                                 .catch(() => null);
+
                         // Optionally: update transaction status to FAILED (not strictly necessary here)
                         await this.transactionRepository
                                 .updateStatus(tx.id, 'FAILED')
                                 .catch(() => null);
+
                         throw error; // bubble up so controller can return
                 }
 
@@ -151,11 +155,14 @@ export class FundWalletUseCase {
                         payment.addProviderReference(
                                 providerResponse.reference
                         );
+
                         payment.markAsPending(providerResponse.reference);
+
                         await this.paymentRepository.save(payment);
 
                         // update transaction to include provider reference
-                        tx.addProiderReference(providerResponse.reference);
+                        tx.addProviderReference(providerResponse.reference);
+
                         await this.transactionRepository
                                 .save(tx)
                                 .catch(() => null);

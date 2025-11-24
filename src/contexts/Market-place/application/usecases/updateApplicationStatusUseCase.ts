@@ -1,11 +1,18 @@
-// src/modules/marketplace/application/usecases/updateApplicationUseCase.ts
-import { ApplicationRepository } from '../../infrastructure/ApplicationRepository.js';
-import { ApplicationStatus } from '../../domain/entities/Application.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
+import {
+        ApplicationRepository,
+        applicationRepository
+} from '../../infrastructure/ApplicationRepository.js';
+import {
+        ApplicationStatus,
+        ApplicationStatusType
+} from '../../domain/enums/DomainEnums.js';
 import { ApplicationAcceptedEvent } from '../../domain/events/applicationAcceptedEvent.js';
-
-// IMPORT IMPLEMENTATION
-import { applicationRepository } from '../../infrastructure/ApplicationRepository.js';
+import {
+        ApplicationConflict,
+        ApplicationNotFound,
+        ContractConflict,
+        NotAllowed
+} from '../../domain/errors/DomainErrors.js';
 
 export class UpdateApplicationUseCase {
         constructor(
@@ -17,42 +24,30 @@ export class UpdateApplicationUseCase {
                 updates: Partial<{ status: string; coverLetter: string }>,
                 role: 'CREATOR' | 'FREELANCER'
         ) {
-                // Fetch the application resource from the repository
                 const application =
                         await this.applicationRepository.findById(
                                 applicationId
                         );
-                if (!application)
-                        throw BusinessError.notFound('Application not found');
+                if (!application) throw new ApplicationNotFound();
 
-                // Role-based restrictions
-                if (updates.status && role !== 'CREATOR') {
-                        throw BusinessError.unauthorized(
-                                'Only creators can update the status'
-                        );
-                }
+                if (updates.status && role !== 'CREATOR')
+                        throw new NotAllowed();
 
-                if (updates.coverLetter && role !== 'FREELANCER') {
-                        throw BusinessError.unauthorized(
-                                'Only freelancers can update the cover letter'
-                        );
-                }
+                if (updates.coverLetter && role !== 'FREELANCER')
+                        throw new NotAllowed();
 
-                // Validate updates status fields
                 const applicationStatus = Object.values(ApplicationStatus);
 
                 if (
                         !applicationStatus.includes(
-                                updates.status as ApplicationStatus
+                                updates.status as ApplicationStatusType
                         )
-                ) {
-                        throw new BusinessError('Inavalid status');
-                }
+                )
+                        throw new ApplicationConflict('invalid status');
 
-                //Apply status update
                 if (updates.status)
                         application.updateStatus(
-                                updates.status as ApplicationStatus
+                                updates.status as ApplicationStatusType
                         );
 
                 if (updates.status === ApplicationStatus.ACCEPTED) {
@@ -65,7 +60,6 @@ export class UpdateApplicationUseCase {
                         //await this.eventBus.publish(applicationAcceptedEvent.eventName , applicationAcceptedEvent)
                 }
 
-                //Apply coverLetter update
                 if (updates.coverLetter)
                         application.updateCoverLetter(updates.coverLetter);
 
@@ -76,3 +70,8 @@ export class UpdateApplicationUseCase {
 export const updateApplicationUseCase = new UpdateApplicationUseCase(
         applicationRepository
 );
+
+/////TODO SEPARATE THIS USECASE INTO TWO -- CREATE 2 NEW USECASES
+
+// 1. CREATOR ACCEPT APPLICATION REQUEST (STATUS ONLY)
+// 2. FREELANCER UPDATE APPLICATION STATUS (COVER LETTER ONLY)

@@ -1,3 +1,4 @@
+import { GigNotFound } from '../../domain/errors/DomainErrors.js';
 import { GigRepository } from '../../infrastructure/GigRepository.js';
 
 // IMPORT IMPLEMENTATIONS
@@ -8,6 +9,9 @@ export class ListGigsUseCase {
 
         async Execute() {
                 const { gigs } = await this.gigRepository.findAll();
+
+                if (!gigs) throw new GigNotFound();
+
                 return gigs.map((gig) => gig.getState());
         }
 }

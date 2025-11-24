@@ -2,7 +2,7 @@ import { IAuthRepository } from '../../ports/AuthRepository.js';
 import {
         BusinessError,
         InternalServerError
-} from '../../domain/errors/BusinessError.js';
+} from '../../domain/errors/DomainErrors.js';
 import { ROLE } from '@prisma/client';
 import { authRepository } from '../../infrastructure/AuthRepository.js';
 import { getGoogleAuthPayload } from '../../infrastructure/GoogleAuthClient-impl.js';

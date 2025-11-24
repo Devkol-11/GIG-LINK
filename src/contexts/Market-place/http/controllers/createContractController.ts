@@ -15,16 +15,14 @@ export class CreateContractController {
                 async (req: Request, res: Response, _next: NextFunction) => {
                         const applicationId = req.params.applicationId;
                         const creatorId = req.user?.userId;
-                        const role = req.user?.role;
 
                         const contract =
                                 await this.createContractUseCase.Execute(
                                         applicationId,
-                                        creatorId,
-                                        role
+                                        creatorId
                                 );
 
-                        sendResponse(res, 201, {
+                        return sendResponse(res, 201, {
                                 message: 'Contract created successfully',
                                 contract
                         });

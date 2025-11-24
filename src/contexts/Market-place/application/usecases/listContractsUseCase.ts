@@ -1,8 +1,9 @@
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
-import { ContractRepository } from '../../infrastructure/ContractRepository.js';
-
-//IMPORT IMPLEMENTATIONS
-import { contractRepository } from '../../infrastructure/ContractRepository.js';
+import {
+        ContractRepository,
+        contractRepository
+} from '../../infrastructure/ContractRepository.js';
+import { ContractNotFound } from '../../domain/errors/DomainErrors.js';
 
 export class ListContractsUseCase {
         constructor(private contractRepository: ContractRepository) {}
@@ -25,8 +26,8 @@ export class ListContractsUseCase {
                                 break;
                 }
                 if (!contracts?.length) {
-                        throw BusinessError.notFound(
-                                'You do not have any active contracts at the moment'
+                        throw new ContractNotFound(
+                                'You do not have any contracts at the moment'
                         );
                 }
 

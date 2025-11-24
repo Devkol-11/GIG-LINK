@@ -19,7 +19,7 @@ export class LoginController {
                                 password
                         });
 
-                        sendResponse(
+                        return sendResponse(
                                 res,
                                 httpStatus.Success,
                                 response,

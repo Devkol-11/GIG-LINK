@@ -1,28 +1,20 @@
-// src/modules/marketplace/application/usecases/deleteGigUseCase.ts
-import { GigRepository } from '../../infrastructure/GigRepository.js';
-import { gigRepository } from '../../infrastructure/GigRepository.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
+import { GigNotFound, NotAllowed } from '../../domain/errors/DomainErrors.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
 
 export class DeleteGigUseCase {
         constructor(private readonly gigRepository: GigRepository) {}
 
-        async Execute(
-                id: string,
-                role: 'CREATOR' | 'FREELANCER'
-        ): Promise<void> {
-                //confirm role of the user
-                if (role !== 'CREATOR')
-                        throw BusinessError.forbidden('not allowed');
+        async Execute(gigId: string, creatorId: string): Promise<void> {
+                const gig = await this.gigRepository.findById(gigId);
 
-                // Check if the gig exists
-                const gig = await this.gigRepository.findById(id);
+                if (!gig) throw new GigNotFound();
 
-                if (!gig) {
-                        throw BusinessError.notFound('Gig not found');
-                }
+                if (gig.creatorId !== creatorId) throw new NotAllowed();
 
-                // Proceed to delete
-                await this.gigRepository.delete(id);
+                await this.gigRepository.delete(gigId);
         }
 }
 

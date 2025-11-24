@@ -1,4 +1,4 @@
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import { Contract } from '../domain/entities/Contract.js';
 import { IContractRepository } from '../ports/IContractRepository.js';
 
@@ -6,7 +6,7 @@ export class ContractRepository implements IContractRepository {
         async save(contract: Contract): Promise<Contract> {
                 const data = contract.getState();
 
-                const record = await prisma.contract.upsert({
+                const record = await dbClient.contract.upsert({
                         where: { id: data.id },
                         update: data,
                         create: data
@@ -16,14 +16,14 @@ export class ContractRepository implements IContractRepository {
         }
 
         async findById(id: string): Promise<Contract | null> {
-                const record = await prisma.contract.findUnique({
+                const record = await dbClient.contract.findUnique({
                         where: { id }
                 });
                 return record ? Contract.toEntity(record) : null;
         }
 
         async findByGigId(gigId: string): Promise<Contract | null> {
-                const record = await prisma.contract.findUnique({
+                const record = await dbClient.contract.findUnique({
                         where: { gigId }
                 });
                 return record ? Contract.toEntity(record) : null;
@@ -38,7 +38,7 @@ export class ContractRepository implements IContractRepository {
         ): Promise<Contract[] | null> {
                 const skip = options?.skip ?? 0;
                 const take = options?.take ?? 10;
-                const records = await prisma.contract.findMany({
+                const records = await dbClient.contract.findMany({
                         where: { creatorId },
                         skip,
                         take,
@@ -55,7 +55,7 @@ export class ContractRepository implements IContractRepository {
                 const skip = options?.skip ?? 0;
                 const take = options?.take ?? 10;
 
-                const records = await prisma.contract.findMany({
+                const records = await dbClient.contract.findMany({
                         where: { freelancerId },
                         skip,
                         take,
@@ -68,7 +68,7 @@ export class ContractRepository implements IContractRepository {
         async findByApplicationId(
                 applicationId: string
         ): Promise<Contract | null> {
-                const record = await prisma.contract.findUnique({
+                const record = await dbClient.contract.findUnique({
                         where: { applicationId }
                 });
                 return record ? Contract.toEntity(record) : null;
@@ -83,12 +83,12 @@ export class ContractRepository implements IContractRepository {
 
                 // Fetch both contracts and total count in parallel
                 const [records, total] = await Promise.all([
-                        prisma.contract.findMany({
+                        dbClient.contract.findMany({
                                 skip,
                                 take,
                                 orderBy: { createdAt: 'desc' }
                         }),
-                        prisma.contract.count()
+                        dbClient.contract.count()
                 ]);
 
                 const contracts = records.map((record) =>
@@ -98,7 +98,7 @@ export class ContractRepository implements IContractRepository {
         }
 
         async delete(id: string): Promise<void> {
-                await prisma.contract.delete({ where: { id } });
+                await dbClient.contract.delete({ where: { id } });
         }
 }
 

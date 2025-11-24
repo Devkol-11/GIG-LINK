@@ -1,4 +1,6 @@
 export class BusinessError extends Error {
+        public readonly isBusinessError: boolean;
+
         constructor(
                 public readonly message: string,
                 public readonly statusCode: number = 400,
@@ -6,6 +8,7 @@ export class BusinessError extends Error {
         ) {
                 super(message);
                 this.name = 'BusinessError';
+                this.isBusinessError = true;
                 Object.setPrototypeOf(this, BusinessError.prototype);
         }
 

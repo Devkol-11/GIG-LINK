@@ -1,24 +1,30 @@
 import 'module-alias/register';
+import 'dotenv/config';
 import http, { Server } from 'http';
-import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
 import { ExpressApplication } from './app.js';
 import { config } from './core/env-config/env.js';
 import { connectDB } from './core/database/prismaClient.js';
 import { logger } from './core/logging/winston.js';
 
-dotenv.config();
-
 const PORT = config.PORT || 3000;
+
+const prisma = new PrismaClient();
 
 const server: Server = http.createServer(ExpressApplication);
 
 const startServer = async (server: Server) => {
         try {
-                await connectDB();
+                console.log('connetcing to the databse');
+
+                await prisma.$connect();
+
+                console.log('database connected successfully');
+                // await connectDB();
 
                 // await rabbitMQService.connect();
 
-                logger.info('RabbitMQ connected Successfully');
+                // logger.info('RabbitMQ connected Successfully');
 
                 server.listen(PORT, () => {
                         logger.info(`server runnning on port ${PORT}`);
@@ -31,11 +37,13 @@ const startServer = async (server: Server) => {
 const shutdown = (server: Server) => {
         server.close(() => {
                 logger.info('Server closed , Exiting process...');
+
                 process.exit(0);
         });
 };
 
 process.on('SIGINT', () => shutdown(server));
+
 process.on('SIGTERM', () => shutdown(server));
 
 startServer(server);

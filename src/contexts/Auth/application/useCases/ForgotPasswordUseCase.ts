@@ -2,7 +2,7 @@ import { IAuthRepository } from '../../ports/AuthRepository.js';
 import { IOtpRepository } from '../../ports/OtpRepository.js';
 import { AuthService } from '../../domain/services/AuthService.js';
 import { IEventBus } from '../../ports/EventBus.js';
-import { BusinessError } from '../../domain/errors/BusinessError.js';
+import { UserNotFound } from '../../domain/errors/DomainErrors.js';
 import { PasswordResetEvent } from '../../domain/events/PasswordResetEvent.js';
 import { authRepository } from '../../infrastructure/AuthRepository.js';
 import { otpRepository } from '../../infrastructure/OtpRepository.js';
@@ -17,18 +17,15 @@ export class ForgotPasswordUseCase {
         ) {}
 
         async Execute(email: string) {
-                // confirm user exists
+                
                 const userData = await this.authRepository.findByEmail(email);
-                if (userData === null) {
-                        throw BusinessError.notFound(
-                                `User with email : ${email} was not found`
-                        );
-                }
 
-                // generate OTP with expiration date
+                if (!userData) throw new UserNotFound();
+
+                
                 const { otp, expiresAt } = this.authService.generateOTP(10);
 
-                // persist the otp to the database
+                
                 await this.otpRepository.create(userData.id, otp, expiresAt);
 
                 const passwordResetEvent = new PasswordResetEvent(

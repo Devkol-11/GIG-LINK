@@ -10,7 +10,7 @@ export class CheckPaymentStatusUseCase {
                 private paystackProvider: IPaymentProvider
         ) {}
 
-        async execute(paymentId: string) {
+        async Execute(paymentId: string) {
                 //  Load payment
                 const payment = await this.paymentRepo.findById(paymentId);
                 if (payment === null)

@@ -222,3 +222,6 @@ Argument `where` of type UserProfileWhereUniqueInput needs at least one of `id` 
 [2025-10-25T19:17:23.796Z] [31merror[39m: not allowed
 [2025-10-25T19:18:44.223Z] [31merror[39m: not allowed
 [2025-10-25T19:30:12.492Z] [31merror[39m: jwt expired
+[2025-11-23T06:28:51.532Z] [31merror[39m: Cannot read properties of undefined (reading 'user')
+[2025-11-23T06:32:01.121Z] [31merror[39m: Cannot read properties of undefined (reading 'user')
+[2025-11-23T06:49:38.962Z] [31merror[39m: Cannot read properties of undefined (reading 'user')

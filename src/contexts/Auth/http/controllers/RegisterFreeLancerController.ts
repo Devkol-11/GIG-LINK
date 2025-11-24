@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { RegisterUseCase } from '../../application/useCases/RegisterFreeLancerUseCase.js';
+import {
+        RegisterFreeLancerUseCase,
+        registerFreeLancerUseCase
+} from '../../application/useCases/RegisterFreeLancerUseCase.js';
 import { sendResponse } from '../../../../shared/helpers/sendResponse.js';
 import { httpStatus } from '../../../../shared/constants/httpStatusCode.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 
-//IMPORT IMPLEMENTATION
-import { registerUseCase } from '../../application/useCases/RegisterFreeLancerUseCase.js';
-
-export class RegisterController {
-        constructor(private registerUseCase: RegisterUseCase) {}
+export class RegisterFreeLancerController {
+        constructor(
+                private registerFreelancerUseCase: RegisterFreeLancerUseCase
+        ) {}
 
         Execute = catchAsync(
                 async (req: Request, res: Response, _next: NextFunction) => {
@@ -20,13 +22,14 @@ export class RegisterController {
                                 lastName
                         } = req.body;
 
-                        const data = await this.registerUseCase.Execute({
-                                email,
-                                password,
-                                phoneNumber,
-                                firstName,
-                                lastName
-                        });
+                        const data =
+                                await this.registerFreelancerUseCase.Execute({
+                                        email,
+                                        password,
+                                        phoneNumber,
+                                        firstName,
+                                        lastName
+                                });
 
                         const response = {
                                 message: data.message,
@@ -36,7 +39,7 @@ export class RegisterController {
 
                         const refreshToken = data.tokens.refreshToken;
 
-                        sendResponse(
+                        return sendResponse(
                                 res,
                                 httpStatus.Created,
                                 response,
@@ -46,4 +49,6 @@ export class RegisterController {
         );
 }
 
-export const registerController = new RegisterController(registerUseCase);
+export const registerFreeLancerController = new RegisterFreeLancerController(
+        registerFreeLancerUseCase
+);

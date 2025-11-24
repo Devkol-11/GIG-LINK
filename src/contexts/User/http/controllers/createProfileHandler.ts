@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { httpStatus } from '@src/shared/constants/httpStatusCode.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
-import { CreateProfileUseCase } from '../../application/useCases/createProfileUsecase.js';
-
-//IMPORT IMPLEMENTATION
-import { createProfileUseCase } from '../../application/useCases/createProfileUsecase.js';
+import {
+        CreateProfileUseCase,
+        createProfileUseCase
+} from '../../application/useCases/createProfileUsecase.js';
 
 export class CreateProfileHandler {
         constructor(private createProfileUseCase: CreateProfileUseCase) {}

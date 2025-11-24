@@ -1,6 +1,5 @@
 import amqp from 'amqplib';
 import { logger } from '@src/core/logging/winston.js';
-import { IEventBus } from '../ports/IEventBus.js';
 
 export class RabbitMQService {
         private static instance: RabbitMQService;
@@ -70,7 +69,7 @@ export class RabbitMQService {
                 exchange: string,
                 routingKey: string,
                 queueName: string,
-                onMessage: (msg: any) => Promise<void>
+                handler: (msg: any) => Promise<void>
         ): Promise<void> {
                 const ch = await this.getChannel();
 
@@ -89,7 +88,8 @@ export class RabbitMQService {
                                 const payload = JSON.parse(
                                         msg.content.toString()
                                 );
-                                await onMessage(payload);
+
+                                await handler(payload);
 
                                 ch.ack(msg);
                         } catch (err) {

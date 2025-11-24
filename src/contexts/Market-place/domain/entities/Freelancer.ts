@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { BusinessError } from '../errors/BusinessError.js';
+import { BusinessError } from '../errors/DomainErrors.js';
 
 export type FreelancerProps = {
         id: string;

@@ -21,7 +21,7 @@ export class UpdateGigController {
                                 userId
                         );
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Gig updated successfully',
                                 gig: updatedGig
                         });

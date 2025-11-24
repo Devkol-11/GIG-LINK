@@ -19,7 +19,7 @@ export class GetContractController {
                                 role,
                                 contractId
                         );
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Successful',
                                 response
                         });

@@ -4,7 +4,7 @@ import {
         PaymentStatus,
         PaymentStatusType
 } from '../domain/enums/DomainEnums.js';
-import { prisma } from '@src/core/database/prismaClient.js';
+import { dbClient } from '@src/core/database/prismaClient.js';
 import { Prisma } from '@prisma/client';
 import { ConcurrencyError } from '../domain/errors/concurrencyError.js';
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
@@ -18,7 +18,7 @@ export class PaymentRepository implements IPaymentRepository {
                 id: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Payment | null> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const paymentData = await client.payment.findUnique({
                         where: { id }
@@ -34,7 +34,7 @@ export class PaymentRepository implements IPaymentRepository {
                 id: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Payment | null> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const paymentData = await client.payment.findUnique({
                         where: { providerReference: id }
@@ -50,7 +50,7 @@ export class PaymentRepository implements IPaymentRepository {
                 walletId: string,
                 trx?: Prisma.TransactionClient
         ): Promise<Payment[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const paymentsData = await client.payment.findMany({
                         where: { walletId },
@@ -65,7 +65,7 @@ export class PaymentRepository implements IPaymentRepository {
                 payment: Payment,
                 trx?: Prisma.TransactionClient
         ): Promise<Payment> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
 
                 const state = payment.getState();
 
@@ -121,7 +121,7 @@ export class PaymentRepository implements IPaymentRepository {
                 status: PaymentStatusType,
                 trx?: Prisma.TransactionClient
         ): Promise<void> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
                 try {
                         await client.payment.update({
                                 where: { id: paymentId },
@@ -149,7 +149,7 @@ export class PaymentRepository implements IPaymentRepository {
                 date: Date,
                 trx?: Prisma.TransactionClient
         ): Promise<Payment[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
                 const paymentsData = await client.payment.findMany({
                         where: {
                                 status: PaymentStatus.PENDING,
@@ -167,7 +167,7 @@ export class PaymentRepository implements IPaymentRepository {
                 endDate: Date,
                 trx?: Prisma.TransactionClient
         ): Promise<Payment[]> {
-                const client = trx || prisma;
+                const client = trx || dbClient;
                 const paymentsData = await client.payment.findMany({
                         where: {
                                 status: PaymentStatus.SUCCESS,

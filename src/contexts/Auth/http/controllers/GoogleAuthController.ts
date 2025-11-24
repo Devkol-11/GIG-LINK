@@ -15,7 +15,7 @@ export class GoogleAuthController {
                         const response =
                                 await this.googleAuthUseCase.Execute(token);
 
-                        sendResponse(
+                        return sendResponse(
                                 res,
                                 httpStatus.Success,
                                 response,

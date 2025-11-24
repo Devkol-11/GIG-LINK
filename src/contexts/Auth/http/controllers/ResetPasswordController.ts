@@ -18,7 +18,7 @@ export class ResetPasswordController {
                                         otp,
                                         password
                                 );
-                        sendResponse(res, httpStatus.Success, response);
+                        return sendResponse(res, httpStatus.Success, response);
                 }
         );
 }

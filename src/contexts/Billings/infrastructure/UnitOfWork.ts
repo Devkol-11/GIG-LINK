@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import type { PrismaClient } from '@prisma/client';
+import { dbClient } from '@src/core/database/prismaClient.js';
 
 export class UnitOfWork {
         constructor(private readonly prisma: PrismaClient) {}
@@ -10,4 +11,4 @@ export class UnitOfWork {
         }
 }
 
-export const unitOfWork = new UnitOfWork(prisma);
+export const unitOfWork = new UnitOfWork(dbClient);

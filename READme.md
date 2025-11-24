@@ -56,6 +56,7 @@ project grows.
 ```
 src/
 ├── contexts/
+├── contexts/
 │   ├── contracts/
 │   │   ├── domain/
 │   │   ├── application/
@@ -110,3 +111,11 @@ have isolated test suites covering its use cases and entities.
 This repository represents an **educational and experimental implementation** of
 a professional-grade marketplace backend. The codebase is still evolving —
 expect frequent refactors and architectural changes as development continues.
+
+---
+
+## 🧭 Author
+
+**Collins-okocha Bethel** Backend Engineer | DDD & OOP Enthusiast
+
+> _“Building structured logic from real-world complexity.”_

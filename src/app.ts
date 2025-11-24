@@ -5,16 +5,14 @@ import { authRoutes } from '@src/contexts/Auth/http/routes/AuthRoutes.js';
 import { userRoutes } from '@src/contexts/User/http/routes/UserRoutes.js';
 import { marketPlaceRoutes } from '@src/contexts/Market-place/http/routes/marketPlaceRoutes.js';
 import { billingRoutes } from '@src/contexts/Billings/http/routes/billingRoutes.js';
-import { logger } from '../src/core/logging/winston.js';
+import { logger } from './core/logging/winston.js';
 import { globalErrorHandler } from '@src/shared/middlewares/globalErrorHandler.js';
-
-logger.info('request entered Express');
 
 const createExpressApplication = (
         authRoutes: Express.Router,
         userRoutes: Express.Router,
-        marketPlaceRoutes: Express.Router,
-        billingRoutes: Express.Router
+        marketPlaceRoutes: Express.Router
+        // billingRoutes: Express.Router
 ): Express.Application => {
         const ExpressApplication = Express();
 
@@ -25,7 +23,7 @@ const createExpressApplication = (
         ExpressApplication.use('/api/auth', authRoutes);
         ExpressApplication.use('/api/users', userRoutes);
         ExpressApplication.use('/ap1/market-place', marketPlaceRoutes);
-        ExpressApplication.use('/api/billing', billingRoutes);
+        // ExpressApplication.use('/api/billing', billingRoutes);
 
         ExpressApplication.use(globalErrorHandler);
 
@@ -35,6 +33,6 @@ const createExpressApplication = (
 export const ExpressApplication = createExpressApplication(
         authRoutes,
         userRoutes,
-        marketPlaceRoutes,
-        billingRoutes
+        marketPlaceRoutes
+        // billingRoutes
 );

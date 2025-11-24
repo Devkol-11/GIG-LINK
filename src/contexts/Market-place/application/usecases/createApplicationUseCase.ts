@@ -1,14 +1,22 @@
-import { GigRepository } from '../../infrastructure/GigRepository.js';
-import { FreelancerRepository } from '../../infrastructure/FreelancerRepository.js';
-import { ApplicationRepository } from '../../infrastructure/ApplicationRepository.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
+import {
+        FreelancerRepository,
+        freelancerRepository
+} from '../../infrastructure/FreelancerRepository.js';
+import {
+        ApplicationRepository,
+        applicationRepository
+} from '../../infrastructure/ApplicationRepository.js';
 import { Application } from '../../domain/entities/Application.js';
 import { createApplicationDTO } from '../dtos/createApplicationDTO.js';
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
-
-//IMPORT IMPLEMENTATIONS
-import { applicationRepository } from '../../infrastructure/ApplicationRepository.js';
-import { gigRepository } from '../../infrastructure/GigRepository.js';
-import { freelancerRepository } from '../../infrastructure/FreelancerRepository.js';
+import {
+        GigConflict,
+        GigNotActive,
+        GigNotFound
+} from '../../domain/errors/DomainErrors.js';
 
 export class CreateApplicationUseCase {
         constructor(
@@ -20,41 +28,29 @@ export class CreateApplicationUseCase {
         async Execute(data: createApplicationDTO) {
                 const { gigId, freelancerId, coverLetter } = data;
 
-                // Verify gig exists before application - cannot apply to gig that doesnt exist
                 const gig = await this.gigRepository.findById(gigId);
 
-                if (!gig) throw BusinessError.notFound('Gig not found');
+                if (!gig) throw new GigNotFound();
 
-                // Prevent duplicate applications i.e ensure the freelancer has not already applied to this gig
                 const existing =
                         await this.applicationRepository.findByGigAndFreelancer(
                                 gigId,
                                 freelancerId
                         );
-                if (existing)
-                        throw BusinessError.conflict(
-                                'You already applied for this gig'
-                        );
+                if (existing) throw new GigConflict();
 
-                //confirm gig is not currently active
-                if (gig.status === 'ACTIVE')
-                        throw BusinessError.forbidden(
-                                'unable to apply to this gig'
-                        );
+                if (gig.status === 'ACTIVE') throw new GigNotActive();
 
-                //verify if freelancer is permitted to apply for this Gig
                 const freeLancer =
                         await this.freelancerRepository.findById(freelancerId);
                 freeLancer?.canApplyForGig();
 
-                // Create new Application entity
                 const newApplication = Application.create({
                         gigId,
                         freelancerId,
                         coverLetter
                 });
 
-                // Persist to the database
                 const savedApplication =
                         await this.applicationRepository.save(newApplication);
                 return savedApplication.getState();

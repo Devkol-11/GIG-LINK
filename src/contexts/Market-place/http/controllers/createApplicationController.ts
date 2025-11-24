@@ -24,7 +24,7 @@ export class CreateApplicationController {
                                 coverLetter
                         });
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Application creation Successful',
                                 response
                         });

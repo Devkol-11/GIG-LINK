@@ -1,15 +1,16 @@
 import { Router } from 'express';
-import { Authenticate } from '@src/shared/middlewares/authentication.js';
-import { Authorize } from '@src/shared/middlewares/authorizationMiddleware.js';
+import { Authenticate } from '@src/shared/middlewares/auth.js';
+import { Authorize } from '@src/shared/middlewares/auth.js';
 
 /* ------------ CONTROLLERS ------------ */
-import { fundWalletController } from '../controllers/FundWalletController.js';
+
 import { paystackWebhookController } from '../controllers/PaystackWebhookController.js';
 import { getPaymentController } from '../controllers/GetPaymentController.js';
 import { findPaymentByReferenceController } from '../controllers/FindPaymentByReferenceController.js';
 import { checkPaymentStatusController } from '../controllers/CheckPaymentStatusController.js';
 import { cancelPaymentController } from '../controllers/CancelPaymentController.js';
 
+import { fundWalletController } from '../controllers/FundWalletController.js';
 import { createWalletController } from '../controllers/CreateWalletController.js';
 import { getWalletController } from '../controllers/GetWalletController.js';
 import { getWalletByUserController } from '../controllers/GetWalletByUserController.js';

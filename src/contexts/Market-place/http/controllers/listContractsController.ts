@@ -22,7 +22,7 @@ export class ListContractController {
                                         role
                                 );
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 response
                         });
                 }

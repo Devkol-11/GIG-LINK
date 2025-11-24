@@ -2,6 +2,7 @@ export class HttpError extends Error {
         public readonly statusCode: number;
         public readonly isOperational: boolean;
         public readonly message: string;
+        public readonly isHttpError: boolean = true;
 
         constructor(message: string, statusCode = 500, isOperational = true) {
                 super(message);

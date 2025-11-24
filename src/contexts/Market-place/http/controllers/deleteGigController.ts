@@ -13,11 +13,11 @@ export class DeleteGigController {
         Execute = catchAsync(
                 async (req: Request, res: Response, _next: NextFunction) => {
                         const { id } = req.params;
-                        const role = req.user.role;
+                        const creatorId = req.user.userId;
 
-                        await this.deleteGigUseCase.Execute(id, role);
+                        await this.deleteGigUseCase.Execute(id, creatorId);
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Gig deleted successfully'
                         });
                 }

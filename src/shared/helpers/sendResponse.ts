@@ -5,7 +5,7 @@ export const sendResponse = (
         statusCode: number,
         data: any,
         refreshToken?: string
-) => {
+): void => {
         res.status(statusCode)
                 .cookie('refreshToken', refreshToken, {
                         httpOnly: true,

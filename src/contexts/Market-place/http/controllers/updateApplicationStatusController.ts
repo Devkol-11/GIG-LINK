@@ -24,7 +24,7 @@ export class UpdateApplicationStatusController {
                                         role
                                 );
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Update Successful',
                                 data: response
                         });

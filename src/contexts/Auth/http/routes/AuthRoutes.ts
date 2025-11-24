@@ -1,8 +1,12 @@
 import { Router } from 'express';
 import {
-        RegisterController,
-        registerController
-} from '../controllers/RegisterController.js';
+        RegisterFreeLancerController,
+        registerFreeLancerController
+} from '../controllers/RegisterFreeLancerController.js';
+import {
+        RegisterCreatorController,
+        registerCreatorController
+} from '../controllers/RegisterCreatorController.js';
 import {
         LoginController,
         loginController
@@ -23,7 +27,8 @@ import { validateRequest } from '@src/contexts/Auth/http/middle-wares/validateRe
 import { registerSchema, loginSchema } from '../middle-wares/authValidators.js';
 
 const createAuthRoutes = (
-        registerHandler: RegisterController,
+        registerFreelancerHandler: RegisterFreeLancerController,
+        registerCreatorHandler: RegisterCreatorController,
         loginHandler: LoginController,
         googleAuthHandler: GoogleAuthController,
         forgotPasswordHandler: ForgotPasswordController,
@@ -38,9 +43,15 @@ const createAuthRoutes = (
         });
 
         authRouter.post(
-                '/register',
+                '/register/free-lancer',
                 validateRequest(registerSchema),
-                registerHandler.Execute
+                registerFreeLancerController.Execute
+        );
+
+        authRouter.post(
+                '/register/creator',
+                validateRequest(registerSchema),
+                registerCreatorController.Execute
         );
 
         authRouter.post(
@@ -54,11 +65,13 @@ const createAuthRoutes = (
         authRouter.post('/forgot-password', forgotPasswordHandler.Execute);
 
         authRouter.post('/reset-password', resetPasswordHandler.Execute);
+
         return authRouter;
 };
 
 export const authRoutes = createAuthRoutes(
-        registerController,
+        registerFreeLancerController,
+        registerCreatorController,
         loginController,
         googleAuthController,
         forgotPasswordController,

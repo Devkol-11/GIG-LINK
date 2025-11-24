@@ -15,7 +15,7 @@ export class GetGigController {
 
                         const gig = await this.getGigUseCase.Execute(id);
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Gig fetched successfully',
                                 gig
                         });

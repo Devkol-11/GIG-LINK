@@ -1,14 +1,22 @@
-import { ContractRepository } from '../../infrastructure/ContractRepository.js';
-import { ApplicationRepository } from '../../infrastructure/ApplicationRepository.js';
-import { GigRepository } from '../../infrastructure/GigRepository.js';
+import {
+        ContractRepository,
+        contractRepository
+} from '../../infrastructure/ContractRepository.js';
+import {
+        ApplicationRepository,
+        applicationRepository
+} from '../../infrastructure/ApplicationRepository.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
 import { Contract } from '../../domain/entities/Contract.js';
-
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
-
-//IMPORT IMPLEMENTATIONS
-import { contractRepository } from '../../infrastructure/ContractRepository.js';
-import { applicationRepository } from '../../infrastructure/ApplicationRepository.js';
-import { gigRepository } from '../../infrastructure/GigRepository.js';
+import {
+        ApplicationConflict,
+        ApplicationNotFound,
+        GigNotFound,
+        NotAllowed
+} from '../../domain/errors/DomainErrors.js';
 
 export class CreateContractUseCase {
         constructor(
@@ -17,41 +25,26 @@ export class CreateContractUseCase {
                 private readonly gigRepository: GigRepository
         ) {}
 
-        async Execute(applicationId: string, creatorId: string, role: string) {
-                // validate role
-                if (role !== 'CREATOR')
-                        throw BusinessError.unauthorized(
-                                'Only creators can create contracts'
-                        );
-
-                // validate application to the contract
+        async Execute(applicationId: string, creatorId: string) {
                 const application =
                         await this.applicationRepository.findById(
                                 applicationId
                         );
-                if (application === null)
-                        throw BusinessError.notFound('Application not found');
+                if (application === null) throw new ApplicationNotFound();
 
-                //additional validation for the gig on the application
                 const gig = await this.gigRepository.findById(
                         application.gigId
                 );
 
-                if (!gig) throw BusinessError.notFound('Gig not found');
+                if (!gig) throw new GigNotFound();
 
-                // Ensure the creator owns the gig
-                if (gig.creatorId !== creatorId)
-                        throw BusinessError.unauthorized(
-                                'You do not own this gig'
-                        );
+                if (gig.creatorId !== creatorId) throw new NotAllowed();
 
-                // Only allow contract creation for accepted applications
                 if (application.status !== 'ACCEPTED')
-                        throw BusinessError.badRequest(
-                                'Application must be accepted first'
+                        throw new ApplicationConflict(
+                                'Application request must be accepted '
                         );
 
-                // create the contract
                 const contract = Contract.create({
                         gigId: gig.id,
                         applicationId: application.id,
@@ -61,7 +54,6 @@ export class CreateContractUseCase {
                         endDate: null
                 });
 
-                //persist to the database
                 const savedContract =
                         await this.contractRepository.save(contract);
                 return savedContract.getState();

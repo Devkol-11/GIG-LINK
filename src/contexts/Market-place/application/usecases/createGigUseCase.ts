@@ -1,9 +1,9 @@
-import { GigRepository } from '../../infrastructure/GigRepository.js';
+import {
+        GigRepository,
+        gigRepository
+} from '../../infrastructure/GigRepository.js';
 import { Gig } from '../../domain/entities/Gig.js';
 import { createGigDTO } from '../dtos/createGigDTO.js';
-
-//IMPORT IMPLEMENTATIONS
-import { gigRepository } from '../../infrastructure/GigRepository.js';
 
 export class CreateGigUseCase {
         constructor(private gigRepository: GigRepository) {}
@@ -18,7 +18,6 @@ export class CreateGigUseCase {
                         deadline
                 } = data;
 
-                // Create a new Gig Entity
                 const newGig = Gig.create({
                         title,
                         description,
@@ -29,7 +28,6 @@ export class CreateGigUseCase {
                         creatorId
                 });
 
-                // Persist to the Database
                 const savedGig = await this.gigRepository.save(newGig);
 
                 return savedGig.getState();

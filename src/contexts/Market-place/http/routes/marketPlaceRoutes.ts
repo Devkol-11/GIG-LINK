@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { Authenticate } from '@src/shared/middlewares/authentication.js';
-import { Authorize } from '@src/shared/middlewares/authorizationMiddleware.js';
+import { Authenticate } from '@src/shared/middlewares/auth.js';
+import { Authorize } from '@src/shared/middlewares/auth.js';
 import { CreateGigController } from '../controllers/createGigController.js';
 import { ListGigsController } from '../controllers/listGigsController.js';
 import { GetGigController } from '../controllers/getGigController.js';
@@ -123,8 +123,6 @@ export const MarketplaceRoutes = ({
                 Authorize('CREATOR', 'FREELANCER'),
                 getContractController.Execute
         );
-
-        router.post('/become-a-creator', Authenticate, Authorize('FREELANCER'));
 
         return router;
 };

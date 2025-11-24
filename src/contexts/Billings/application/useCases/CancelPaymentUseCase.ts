@@ -8,8 +8,9 @@ import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
 export class CancelPaymentUseCase {
         constructor(private paymentRepo: IPaymentRepository) {}
 
-        async execute(paymentId: string, reason?: string) {
+        async Execute(paymentId: string, reason?: string) {
                 const payment = await this.paymentRepo.findById(paymentId);
+
                 if (!payment) throw new PaymentNotFoundError();
 
                 if (payment.canBeCancelled() === false) {
