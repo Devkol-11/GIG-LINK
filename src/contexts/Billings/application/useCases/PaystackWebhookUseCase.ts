@@ -7,11 +7,11 @@ import {
         InvalidSignatureError,
         PaymentNotFoundError
 } from '../../domain/errors/BusinessErrors.js';
-import { unitOfWork, UnitOfWork } from '../../infrastructure/UnitOfWork.js';
-import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
-import { walletRepository } from '../../infrastructure/WalletRepository.js';
-import { transactionRepository } from '../../infrastructure/TransactionRepository.js';
-import { paystackApapter } from '../../infrastructure/PaystackAdapter.js';
+import { unitOfWork, UnitOfWork } from '../../adapters/UnitOfWork.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
+import { walletRepository } from '../../adapters/WalletRepository.js';
+import { transactionRepository } from '../../adapters/TransactionRepository.js';
+import { paystackApapter } from '../../adapters/PaystackAdapter.js';
 
 export class PaystackWebhookHandlerUseCase {
         constructor(
@@ -24,48 +24,39 @@ export class PaystackWebhookHandlerUseCase {
         ) {}
 
         async execute(rawBody: string, signature: string) {
-                // Verify signature
                 const isValid = this.paymentProvider.verifySignature(
                         rawBody,
                         signature,
                         this.paystackSecret
                 );
+
                 if (!isValid) throw new InvalidSignatureError();
 
-                // Parse event
                 const event = JSON.parse(rawBody);
 
-                // Only process charge.success
                 if (event.event !== 'charge.success') return;
 
                 const reference = event.data.reference;
 
-                // Load payment by reference
                 const payment =
                         await this.paymentRepo.findByReference(reference);
                 if (!payment) throw new PaymentNotFoundError();
 
-                // Idempotency: skip if already successful
                 if (payment.isSuccessful()) return;
 
-                // Transactional update
                 await this.unitOfWork.transaction(async (trx) => {
-                        // Mark payment as successful
                         payment.markAsSuccess(reference);
                         await this.paymentRepo.save(payment, trx);
 
-                        // Load wallet by payment.walletId
                         const wallet = await this.walletRepo.findById(
                                 payment.walletId,
                                 trx
                         );
-                        if (!wallet) throw new PaymentNotFoundError(); // should never happen
+                        if (!wallet) throw new PaymentNotFoundError();
 
-                        // Fund the wallet
                         wallet.fund(payment.amountCents);
                         await this.walletRepo.save(wallet, trx);
 
-                        // Create transaction
                         const tx = Transaction.create({
                                 walletId: wallet.id,
                                 amountCents: payment.amountCents,
@@ -77,6 +68,7 @@ export class PaystackWebhookHandlerUseCase {
                                 description: null,
                                 source: 'EXTERNAL_PAYMENT'
                         });
+
                         await this.transactionRepo.save(tx, trx);
                 });
         }

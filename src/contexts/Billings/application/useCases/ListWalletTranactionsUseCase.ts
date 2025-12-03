@@ -1,4 +1,4 @@
-import { transactionRepository } from '../../infrastructure/TransactionRepository.js';
+import { transactionRepository } from '../../adapters/TransactionRepository.js';
 import { ITransactionRepository } from '../../ports/ITransactionRepository.js';
 
 export class ListWalletTransactionsUseCase {

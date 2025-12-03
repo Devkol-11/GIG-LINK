@@ -1,13 +1,13 @@
 import { RegisterUserCommand, RegisterUserResult } from '../dtos/Register.js';
 import { IAuthRepository } from '../../ports/AuthRepository.js';
 import { AuthService, authservice } from '../../domain/services/AuthService.js';
-import { authRepository } from '../../infrastructure/AuthRepository.js';
+import { authRepository } from '../../adapters/AuthRepository.js';
 import { UserConflict } from '../../domain/errors/DomainErrors.js';
-import { UnitOfWork, unitOfWork } from '../../infrastructure/UnitOfWork.js';
+import { UnitOfWork, unitOfWork } from '../../adapters/UnitOfWork.js';
 import { IEventBus } from '../../ports/EventBus.js';
 import { UserRegisteredEvent } from '../../domain/events/UserRegisteredEvent.js';
-import { ROLE } from '@prisma/client';
-import { domainEventBus } from '../../infrastructure/DomainEventBus-impl.js';
+import { ROLE } from '../../../../../prisma/generated/prisma/enums.js';
+import { domainEventBus } from '../../adapters/DomainEventBus-impl.js';
 
 export class RegisterCreatorUseCase {
         constructor(
@@ -31,6 +31,7 @@ export class RegisterCreatorUseCase {
                 const userData = {
                         email,
                         passwordHash,
+                        googleId: null,
                         firstName,
                         lastName,
                         role: ROLE.CREATOR,
@@ -82,7 +83,7 @@ export class RegisterCreatorUseCase {
 
                 await this.eventBus.publish(
                         payload.eventName,
-                        payload.getPayload()
+                        payload.getEventPayload()
                 );
 
                 return {

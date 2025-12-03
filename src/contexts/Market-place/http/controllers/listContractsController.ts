@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
 import {
         ListContractsUseCase,
         listContractsUseCase

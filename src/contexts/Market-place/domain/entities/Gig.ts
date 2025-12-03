@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { BusinessError } from '../errors/DomainErrors.js';
+import { GigConflict } from '../errors/DomainErrors.js';
 import { GigStatus, GigStatusType } from '../enums/DomainEnums.js';
 
 export type GigProps = {
@@ -28,7 +28,7 @@ export class Gig {
                 >
         ): Gig {
                 if (!props.title || !props.description) {
-                        throw new BusinessError(
+                        throw new GigConflict(
                                 'Gig must have a title and description.'
                         );
                 }
@@ -46,7 +46,7 @@ export class Gig {
 
         public activate() {
                 if (this.props.status !== GigStatus.DRAFT) {
-                        throw new BusinessError(
+                        throw new GigConflict(
                                 'Only drafts can be activated.'
                         );
                 }
@@ -56,7 +56,7 @@ export class Gig {
 
         public complete() {
                 if (this.props.status !== GigStatus.ACTIVE) {
-                        throw new BusinessError(
+                        throw new GigConflict(
                                 'Only active gigs can be completed.'
                         );
                 }
@@ -66,7 +66,7 @@ export class Gig {
 
         public cancel() {
                 if (this.props.status === GigStatus.COMPLETED) {
-                        throw new BusinessError(
+                        throw new GigConflict(
                                 'Completed gigs cannot be cancelled.'
                         );
                 }

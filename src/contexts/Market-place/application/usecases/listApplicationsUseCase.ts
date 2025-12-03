@@ -1,11 +1,8 @@
 import {
         ApplicationRepository,
         applicationRepository
-} from '../../infrastructure/ApplicationRepository.js';
-import {
-        GigRepository,
-        gigRepository
-} from '../../infrastructure/GigRepository.js';
+} from '../../adapters/ApplicationRepository.js';
+import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 
 import { Application } from '../../domain/entities/Application.js';
 import { GigNotFound } from '../../domain/errors/DomainErrors.js';

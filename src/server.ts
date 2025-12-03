@@ -1,49 +1,30 @@
 import 'module-alias/register';
-import 'dotenv/config';
 import http, { Server } from 'http';
-import { PrismaClient } from '@prisma/client';
 import { ExpressApplication } from './app.js';
-import { config } from './core/env-config/env.js';
-import { connectDB } from './core/database/prismaClient.js';
-import { logger } from './core/logging/winston.js';
+import { config } from './infrastructure/env-config/env.js';
+import { connectDB_Prisma } from '@core/database/prisma/prisma.client.js';
+import { logger } from './infrastructure/logging/winston.js';
+import { authEventHandlers } from './contexts/Auth/application/eventHandlers/auth.events.handlers.js';
 
 const PORT = config.PORT || 3000;
-
-const prisma = new PrismaClient();
-
 const server: Server = http.createServer(ExpressApplication);
 
-const startServer = async (server: Server) => {
+const startServer = async () => {
         try {
-                console.log('connetcing to the databse');
-
-                await prisma.$connect();
-
-                console.log('database connected successfully');
-                // await connectDB();
-
-                // await rabbitMQService.connect();
-
-                // logger.info('RabbitMQ connected Successfully');
+                await connectDB_Prisma();
 
                 server.listen(PORT, () => {
-                        logger.info(`server runnning on port ${PORT}`);
+                        logger.info(`Server running on port ${PORT}`);
                 });
+
+                authEventHandlers();
         } catch (error) {
-                logger.warn('error starting the server', error);
+                logger.error('Error starting the server', error);
+                process.exit(1);
         }
 };
 
-const shutdown = (server: Server) => {
-        server.close(() => {
-                logger.info('Server closed , Exiting process...');
+process.on('SIGINT', () => server.close(() => process.exit(0)));
+process.on('SIGTERM', () => server.close(() => process.exit(0)));
 
-                process.exit(0);
-        });
-};
-
-process.on('SIGINT', () => shutdown(server));
-
-process.on('SIGTERM', () => shutdown(server));
-
-startServer(server);
+startServer();

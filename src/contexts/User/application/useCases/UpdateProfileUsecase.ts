@@ -1,9 +1,6 @@
-import { logger } from '@src/core/logging/winston.js';
 import { IProfileRepository } from '../../ports/IProfileRepository.js';
 import { BusinessError } from '../../domain/errors/BusinessError.js';
-
-//IMPORT IMPLEMENTATIONS
-import { profileRepository } from '../../infrastructure/profileRepository.js';
+import { profileRepository } from '../../adapters/profileRepository.js';
 
 export class UpdateProfileUseCase {
         constructor(private profileRepository: IProfileRepository) {}
@@ -20,25 +17,17 @@ export class UpdateProfileUseCase {
                 if (!ProfileData) {
                         throw BusinessError.notFound('profile not found');
                 }
-                console.log(
-                        `requesterID : ${userId} , Profile.userId : ${ProfileData.userId} `
-                );
 
                 if (userId !== ProfileData.userId) {
                         throw BusinessError.unauthorized('not allowed');
                 }
 
-                const updatedData =
-                        await this.profileRepository.updateUserProfile(
-                                profileId,
-                                {
-                                        ...updateProfileData
-                                }
-                        );
+                await this.profileRepository.updateUserProfile(profileId, {
+                        ...updateProfileData
+                });
 
                 return {
-                        message: 'Profile Update Successful',
-                        data: { ...updatedData }
+                        message: 'Profile Update Successful'
                 };
         }
 }

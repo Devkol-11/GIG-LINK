@@ -1,79 +1,50 @@
 import { Router } from 'express';
-import {
-        RegisterFreeLancerController,
-        registerFreeLancerController
-} from '../controllers/RegisterFreeLancerController.js';
-import {
-        RegisterCreatorController,
-        registerCreatorController
-} from '../controllers/RegisterCreatorController.js';
-import {
-        LoginController,
-        loginController
-} from '../controllers/LoginContoller.js';
-import {
-        googleAuthController,
-        GoogleAuthController
-} from '../controllers/GoogleAuthController.js';
-import {
-        ForgotPasswordController,
-        forgotPasswordController
-} from '../controllers/ForgotPasswordController.js';
-import {
-        ResetPasswordController,
-        resetPasswordController
-} from '../controllers/ResetPasswordController.js';
+
+import { registerFreeLancerController } from '../controllers/RegisterFreeLancerController.js';
+import { registerCreatorController } from '../controllers/RegisterCreatorController.js';
+import { loginController } from '../controllers/LoginContoller.js';
+import { googleAuthController } from '../controllers/GoogleAuthController.js';
+import { forgotPasswordController } from '../controllers/ForgotPasswordController.js';
+import { resetPasswordController } from '../controllers/ResetPasswordController.js';
+
 import { validateRequest } from '@src/contexts/Auth/http/middle-wares/validateRequest.js';
-import { registerSchema, loginSchema } from '../middle-wares/authValidators.js';
+import { interceptRequiredFields } from '../middle-wares/require.fields.js';
+import { registerSchema, loginSchema } from '../middle-wares/authSchemas.js';
 
-const createAuthRoutes = (
-        registerFreelancerHandler: RegisterFreeLancerController,
-        registerCreatorHandler: RegisterCreatorController,
-        loginHandler: LoginController,
-        googleAuthHandler: GoogleAuthController,
-        forgotPasswordHandler: ForgotPasswordController,
-        resetPasswordHandler: ResetPasswordController
-): Router => {
-        const authRouter = Router();
+export const authRoutes = Router();
 
-        authRouter.get('/check', (_req, res, _next) => {
-                res.status(200).json({
-                        message: 'Auth router working'
-                });
+// health check
+authRoutes.get('/check', (_req, res) => {
+        res.status(200).json({
+                message: 'Auth router working'
         });
+});
 
-        authRouter.post(
-                '/register/free-lancer',
-                validateRequest(registerSchema),
-                registerFreeLancerController.Execute
-        );
-
-        authRouter.post(
-                '/register/creator',
-                validateRequest(registerSchema),
-                registerCreatorController.Execute
-        );
-
-        authRouter.post(
-                '/login',
-                validateRequest(loginSchema),
-                loginHandler.Execute
-        );
-
-        authRouter.post('/google', googleAuthHandler.Execute);
-
-        authRouter.post('/forgot-password', forgotPasswordHandler.Execute);
-
-        authRouter.post('/reset-password', resetPasswordHandler.Execute);
-
-        return authRouter;
-};
-
-export const authRoutes = createAuthRoutes(
-        registerFreeLancerController,
-        registerCreatorController,
-        loginController,
-        googleAuthController,
-        forgotPasswordController,
-        resetPasswordController
+// registration routes
+authRoutes.post(
+        '/register/free-lancer',
+        interceptRequiredFields,
+        validateRequest(registerSchema),
+        registerFreeLancerController.Execute
 );
+
+authRoutes.post(
+        '/register/creator',
+        interceptRequiredFields,
+        validateRequest(registerSchema),
+        registerCreatorController.Execute
+);
+
+// login
+authRoutes.post(
+        '/login',
+        validateRequest(loginSchema),
+        loginController.Execute
+);
+
+// Google OAuth
+authRoutes.post('/google', googleAuthController.Execute);
+
+// password flows
+authRoutes.post('/forgot-password', forgotPasswordController.Execute);
+authRoutes.post('/reset-password', resetPasswordController.Execute);

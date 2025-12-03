@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'prisma/generated/prisma/client.js';
 import { Transaction } from '../domain/entities/Transactions.js';
 import { TransactionStatusType } from '../domain/enums/DomainEnums.js';
 

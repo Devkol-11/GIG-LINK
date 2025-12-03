@@ -12,21 +12,11 @@ import {
 } from '../../domain/enums/DomainEnums.js';
 import { PaymentDirection } from '../../domain/enums/DomainEnums.js';
 import { TransactionType } from '../../domain/enums/DomainEnums.js';
-import { walletRepository } from '../../infrastructure/WalletRepository.js';
-import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
-import { transactionRepository } from '../../infrastructure/TransactionRepository.js';
-import { paystackApapter } from '../../infrastructure/PaystackAdapter.js';
+import { walletRepository } from '../../adapters/WalletRepository.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
+import { transactionRepository } from '../../adapters/TransactionRepository.js';
+import { paystackApapter } from '../../adapters/PaystackAdapter.js';
 
-/**
- * FundWalletUseCase
- *
- * - Creates a Payment (INITIATED)
- * - Creates a Transaction record (PENDING) referencing the payment (for idempotency/audit)
- * - Calls provider.initializePayment(...)
- * - Persist provider reference + mark Payment PENDING
- *
- * Important: does NOT credit wallet. Wallet credit happens in webhook verification flow.
- */
 export class FundWalletUseCase {
         constructor(
                 private readonly walletRepository: IWalletRepository,
@@ -45,41 +35,34 @@ export class FundWalletUseCase {
                         channel?: PaymentChannelType;
                 }
         ) {
-                // --- Basic validation
                 if (!amount || typeof amount !== 'number' || amount <= 0)
                         throw BusinessError.forbidden('Invalid amount');
 
                 const currency = opts?.currency ?? 'NGN';
                 const channel = opts?.channel ?? PaymentChannel.CARD;
 
-                // --- fetch wallet
                 const wallet = await this.walletRepository.findById(walletId);
 
                 if (!wallet) throw BusinessError.notFound('wallet not found');
 
-                // wallet must belong to user
                 if (userId !== wallet.userId)
                         throw BusinessError.unauthorized(
                                 'unauthorized: invalid wallet'
                         );
 
-                // wallet must be ACTIVE
                 if (wallet.status !== 'ACTIVE')
                         throw BusinessError.forbidden('wallet not active');
 
-                // simple business rule: currency must match wallet currency
                 if (wallet.currency && wallet.currency !== currency)
                         throw BusinessError.forbidden('currency mismatch');
 
-                // business rule: maximum per-fund amount (example)
-                const MAX_FUND_NAIRA = 200_000; // ₦200,000
+                const MAX_FUND_NAIRA = 200_000;
 
                 if (amount > MAX_FUND_NAIRA)
                         throw BusinessError.forbidden(
                                 'exceeds maximum funding amount'
                         );
 
-                // --- create Payment domain entity (INITIATED)
                 const payment = Payment.create({
                         walletId,
                         provider: PaymentProvider.PAYSTACK,
@@ -91,10 +74,8 @@ export class FundWalletUseCase {
                         providerReference: ''
                 });
 
-                // Persist Payment (upsert style in repository)
                 await this.paymentRepository.save(payment);
 
-                // --- Create a Transaction (PENDING) for audit & idempotency
                 const tx = Transaction.create({
                         walletId,
                         paymentId: payment.id,
@@ -112,12 +93,9 @@ export class FundWalletUseCase {
                 try {
                         await this.transactionRepository.save(tx);
                 } catch (err) {
-                        // If transaction record fails (unique constraint etc), leave payment but surface error
-                        // Do NOT credit wallet here; transaction recording is important for idempotency.
                         throw err;
                 }
 
-                // --- Call payment provider (Paystack) to initialize and get checkout URL
                 let providerResponse;
                 try {
                         providerResponse =
@@ -134,24 +112,20 @@ export class FundWalletUseCase {
                                         }
                                 });
                 } catch (error) {
-                        // mark payment failed and update repo; keep tx as PENDING (recon)
                         payment.markAsFailed();
 
                         await this.paymentRepository
                                 .save(payment)
                                 .catch(() => null);
 
-                        // Optionally: update transaction status to FAILED (not strictly necessary here)
                         await this.transactionRepository
                                 .updateStatus(tx.id, 'FAILED')
                                 .catch(() => null);
 
-                        throw error; // bubble up so controller can return
+                        throw error;
                 }
 
-                // Provider returned a reference & checkout URL — persist providerReference and mark PENDING
                 if (providerResponse?.reference) {
-                        // update payment entity
                         payment.addProviderReference(
                                 providerResponse.reference
                         );
@@ -160,7 +134,6 @@ export class FundWalletUseCase {
 
                         await this.paymentRepository.save(payment);
 
-                        // update transaction to include provider reference
                         tx.addProviderReference(providerResponse.reference);
 
                         await this.transactionRepository
@@ -168,7 +141,6 @@ export class FundWalletUseCase {
                                 .catch(() => null);
                 }
 
-                // --- Return provider response to caller (frontend)
                 return {
                         paymentId: payment.id,
                         amount,

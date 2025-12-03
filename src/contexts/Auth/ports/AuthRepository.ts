@@ -1,6 +1,6 @@
-import { User } from '@prisma/client';
-import { RefreshToken } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import { User } from 'prisma/generated/prisma/client.js';
+import { RefreshToken } from 'prisma/generated/prisma/client.js';
+import { Prisma } from 'prisma/generated/prisma/client.js';
 
 export interface IAuthRepository {
         save(
@@ -24,6 +24,14 @@ export interface IAuthRepository {
         findByEmail(email: string): Promise<User | null>;
 
         findById(id: string): Promise<User | null>;
+
+        findByGoogleId(googleId: string): Promise<User | null>;
+
+        updateGoogleId(
+                userId: string,
+                googleId: string,
+                trx: Prisma.TransactionClient
+        ): Promise<User>;
 
         existsByEmail(email: string): Promise<boolean>;
 

@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { UpdateGigUseCase } from '../../application/usecases/updateGigUseCase.js';
+import {
+        UpdateGigUseCase,
+        updateGigUseCase
+} from '../../application/usecases/updateGigUseCase.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
-import { updateGigUseCase } from '../../application/usecases/updateGigUseCase.js';
 
 export class UpdateGigController {
         constructor(private readonly updateGigUseCase: UpdateGigUseCase) {}

@@ -225,3 +225,48 @@ Argument `where` of type UserProfileWhereUniqueInput needs at least one of `id` 
 [2025-11-23T06:28:51.532Z] [31merror[39m: Cannot read properties of undefined (reading 'user')
 [2025-11-23T06:32:01.121Z] [31merror[39m: Cannot read properties of undefined (reading 'user')
 [2025-11-23T06:49:38.962Z] [31merror[39m: Cannot read properties of undefined (reading 'user')
+[2025-11-29T20:25:41.168Z] [31merror[39m: error connecting to the database Can't reach database server at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`
+
+Please make sure your database server is running at `ep-purple-mountain-abap29ss-pooler.eu-west-2.aws.neon.tech:5432`.
+[2025-11-29T20:37:27.392Z] [31merror[39m: Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 7997 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.
+[2025-11-29T20:38:05.274Z] [31merror[39m:  User already exists
+[2025-11-29T21:13:08.576Z] [31merror[39m: Cannot set headers after they are sent to the client
+[2025-11-29T21:22:26.807Z] [31merror[39m:  User already exists
+[2025-11-29T21:24:51.309Z] [31merror[39m: User not found
+[2025-11-29T21:25:27.312Z] [31merror[39m: wrong password
+[2025-11-29T21:26:37.784Z] [31merror[39m:  User already exists
+[2025-12-01T14:02:49.983Z] [31merror[39m: 
+Invalid `prismaDbClient.user.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\backend\src\contexts\Auth\adapters\AuthRepository.ts:54:58
+
+  51 }
+  52 
+  53 async findByEmail(email: string): Promise<User | null> {
+→ 54         const record = await prismaDbClient.user.findUnique(
+The table `public.users` does not exist in the current database.
+[2025-12-01T14:03:25.613Z] [31merror[39m: 
+Invalid `prismaDbClient.user.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\backend\src\contexts\Auth\adapters\AuthRepository.ts:54:58
+
+  51 }
+  52 
+  53 async findByEmail(email: string): Promise<User | null> {
+→ 54         const record = await prismaDbClient.user.findUnique(
+The table `public.users` does not exist in the current database.
+[2025-12-01T14:14:19.712Z] [31merror[39m:  User already exists
+[2025-12-01T14:14:41.735Z] [31merror[39m:  User already exists
+[2025-12-01T14:15:30.900Z] [31merror[39m:  User already exists
+[2025-12-01T14:16:22.483Z] [31merror[39m:  User already exists
+[2025-12-01T14:17:35.426Z] [31merror[39m:  User already exists
+[2025-12-01T14:30:22.114Z] [31merror[39m: OTP not found , generate a new one
+[2025-12-01T14:32:27.827Z] [31merror[39m: OTP not found , generate a new one
+[2025-12-01T14:32:51.142Z] [31merror[39m: OTP not found , generate a new one
+[2025-12-01T14:44:39.313Z] [31merror[39m: 
+Invalid `prismaDbClient.user.findUnique()` invocation in
+C:\Users\HP\Desktop\GIG-LINK-API\backend\src\contexts\Auth\adapters\AuthRepository.ts:54:58
+
+  51 }
+  52 
+  53 async findByEmail(email: string): Promise<User | null> {
+→ 54         const record = await prismaDbClient.user.findUnique(
+connect ECONNABORTED 13.41.250.251:5432

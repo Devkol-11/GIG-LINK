@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { GetGigUseCase } from '../../application/usecases/getGigUseCase.js';
+import {
+        GetGigUseCase,
+        getGigUseCase
+} from '../../application/usecases/getGigUseCase.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
-import { getGigUseCase } from '../../application/usecases/getGigUseCase.js';
 
 export class GetGigController {
         constructor(private readonly getGigUseCase: GetGigUseCase) {}

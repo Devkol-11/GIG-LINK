@@ -6,9 +6,9 @@ import {
 } from '../../domain/errors/DomainErrors.js';
 import { AuthService } from '../../domain/services/AuthService.js';
 import { authservice } from '../../domain/services/AuthService.js';
-import { authRepository } from '../../infrastructure/AuthRepository.js';
-import { otpRepository } from '../../infrastructure/OtpRepository.js';
-import { UnitOfWork, unitOfWork } from '../../infrastructure/UnitOfWork.js';
+import { authRepository } from '../../adapters/AuthRepository.js';
+import { otpRepository } from '../../adapters/OtpRepository.js';
+import { UnitOfWork, unitOfWork } from '../../adapters/UnitOfWork.js';
 
 export class ResetPasswordUseCase {
         constructor(
@@ -41,7 +41,6 @@ export class ResetPasswordUseCase {
                                 passwordHash,
                                 trx
                         );
-
                         await this.otpRepository.deleteAllForUser(
                                 tokenData.userId,
                                 trx

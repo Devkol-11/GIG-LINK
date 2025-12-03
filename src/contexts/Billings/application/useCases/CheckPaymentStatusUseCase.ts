@@ -1,8 +1,8 @@
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
 import { IPaymentProvider } from '../../ports/IPaymentProvider.js';
 import { IPaymentRepository } from '../../ports/IPaymentRepository.js';
-import { paystackApapter } from '../../infrastructure/PaystackAdapter.js';
-import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
+import { paystackApapter } from '../../adapters/PaystackAdapter.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
 
 export class CheckPaymentStatusUseCase {
         constructor(

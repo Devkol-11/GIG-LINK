@@ -1,15 +1,12 @@
-import {
-        GigRepository,
-        gigRepository
-} from '../../infrastructure/GigRepository.js';
+import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 import {
         FreelancerRepository,
         freelancerRepository
-} from '../../infrastructure/FreelancerRepository.js';
+} from '../../adapters/FreelancerRepository.js';
 import {
         ApplicationRepository,
         applicationRepository
-} from '../../infrastructure/ApplicationRepository.js';
+} from '../../adapters/ApplicationRepository.js';
 import { Application } from '../../domain/entities/Application.js';
 import { createApplicationDTO } from '../dtos/createApplicationDTO.js';
 import {

@@ -1,6 +1,6 @@
 import { Payment } from '../domain/entities/Payment.js';
 import { PaymentStatusType } from '../domain/enums/DomainEnums.js';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'prisma/generated/prisma/client.js';
 
 export interface IPaymentRepository {
         findById(

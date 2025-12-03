@@ -1,11 +1,10 @@
-// src/modules/marketplace/controllers/deleteGigController.ts
 import { Request, Response, NextFunction } from 'express';
-import { DeleteGigUseCase } from '../../application/usecases/deleteGigUseCase.js';
+import {
+        DeleteGigUseCase,
+        deleteGigUseCase
+} from '../../application/usecases/deleteGigUseCase.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
-import { deleteGigUseCase } from '../../application/usecases/deleteGigUseCase.js';
 
 export class DeleteGigController {
         constructor(private readonly deleteGigUseCase: DeleteGigUseCase) {}

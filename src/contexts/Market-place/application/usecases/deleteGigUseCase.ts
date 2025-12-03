@@ -1,8 +1,5 @@
 import { GigNotFound, NotAllowed } from '../../domain/errors/DomainErrors.js';
-import {
-        GigRepository,
-        gigRepository
-} from '../../infrastructure/GigRepository.js';
+import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 
 export class DeleteGigUseCase {
         constructor(private readonly gigRepository: GigRepository) {}

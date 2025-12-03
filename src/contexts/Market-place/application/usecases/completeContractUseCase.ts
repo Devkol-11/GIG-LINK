@@ -1,4 +1,4 @@
-import { ContractRepository } from '../../infrastructure/ContractRepository.js';
+import { ContractRepository } from '../../adapters/ContractRepository.js';
 import { Contract } from '../../domain/entities/Contract.js';
 import {
         ContractNotFound,

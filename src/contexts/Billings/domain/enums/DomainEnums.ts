@@ -1,4 +1,4 @@
-import { $Enums } from '@prisma/client';
+import { $Enums } from 'prisma/generated/prisma/client.js';
 
 //Wallet-Status
 export type WalletStatusType = $Enums.WalletStatus;

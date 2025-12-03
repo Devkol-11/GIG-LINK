@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '@src/core/logging/winston.js';
+import { logger } from '@src/infrastructure/logging/winston.js';
 import { sendError } from '../helpers/sendError.js';
 import { HttpError } from '../errors/httpError.js';
 import { BusinessError } from '../errors/BusinessError.js';

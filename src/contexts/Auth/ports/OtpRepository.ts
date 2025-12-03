@@ -1,5 +1,5 @@
-import { Otp } from '@prisma/client';
-import type { Prisma } from '@prisma/client';
+import { Otp } from 'prisma/generated/prisma/client.js';
+import type { Prisma } from 'prisma/generated/prisma/client.js';
 
 export interface IOtpRepository {
         create(

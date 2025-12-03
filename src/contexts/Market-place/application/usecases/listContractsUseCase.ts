@@ -1,8 +1,7 @@
-import { BusinessError } from '@src/shared/errors/BusinessError.js';
 import {
         ContractRepository,
         contractRepository
-} from '../../infrastructure/ContractRepository.js';
+} from '../../adapters/ContractRepository.js';
 import { ContractNotFound } from '../../domain/errors/DomainErrors.js';
 
 export class ListContractsUseCase {

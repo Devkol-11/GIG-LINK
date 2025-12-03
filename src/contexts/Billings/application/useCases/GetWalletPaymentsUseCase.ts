@@ -1,4 +1,4 @@
-import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
 import { IPaymentRepository } from '../../ports/IPaymentRepository.js';
 
 export class GetWalletPaymentsUseCase {

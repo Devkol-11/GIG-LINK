@@ -1,4 +1,4 @@
-import { $Enums } from '@prisma/client';
+import { $Enums } from 'prisma/generated/prisma/client.js';
 
 // GigS-tatus
 export type GigStatusType = $Enums.GigStatus;

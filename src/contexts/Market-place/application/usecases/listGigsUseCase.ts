@@ -1,8 +1,5 @@
 import { GigNotFound } from '../../domain/errors/DomainErrors.js';
-import { GigRepository } from '../../infrastructure/GigRepository.js';
-
-// IMPORT IMPLEMENTATIONS
-import { gigRepository } from '../../infrastructure/GigRepository.js';
+import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 
 export class ListGigsUseCase {
         constructor(private gigRepository: GigRepository) {}

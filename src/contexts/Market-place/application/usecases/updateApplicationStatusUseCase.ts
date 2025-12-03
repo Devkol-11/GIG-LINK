@@ -1,7 +1,7 @@
 import {
         ApplicationRepository,
         applicationRepository
-} from '../../infrastructure/ApplicationRepository.js';
+} from '../../adapters/ApplicationRepository.js';
 import {
         ApplicationStatus,
         ApplicationStatusType
@@ -10,7 +10,6 @@ import { ApplicationAcceptedEvent } from '../../domain/events/applicationAccepte
 import {
         ApplicationConflict,
         ApplicationNotFound,
-        ContractConflict,
         NotAllowed
 } from '../../domain/errors/DomainErrors.js';
 

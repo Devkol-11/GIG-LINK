@@ -1,11 +1,10 @@
-// src/modules/marketplace/controllers/createGigController.ts
 import { Request, Response, NextFunction } from 'express';
-import { CreateGigUseCase } from '../../application/usecases/createGigUseCase.js';
+import {
+        CreateGigUseCase,
+        createGigUseCase
+} from '../../application/usecases/createGigUseCase.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
-import { createGigUseCase } from '../../application/usecases/createGigUseCase.js';
 
 export class CreateGigController {
         constructor(private readonly createGigUseCase: CreateGigUseCase) {}
@@ -32,7 +31,7 @@ export class CreateGigController {
                                 creatorId
                         });
 
-                        sendResponse(res, 200, {
+                        return sendResponse(res, 200, {
                                 message: 'Gig Created successfuly',
                                 gig
                         });

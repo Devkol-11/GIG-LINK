@@ -2,7 +2,7 @@ import { BusinessError } from '@src/shared/errors/BusinessError.js';
 import {
         ContractRepository,
         contractRepository
-} from '../../infrastructure/ContractRepository.js';
+} from '../../adapters/ContractRepository.js';
 import { Contract } from '../../domain/entities/Contract.js';
 
 export class GetContractUseCase {

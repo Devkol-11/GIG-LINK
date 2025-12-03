@@ -1,4 +1,4 @@
-import { walletRepository } from '../../infrastructure/WalletRepository.js';
+import { walletRepository } from '../../adapters/WalletRepository.js';
 import { IWalletRepository } from '../../ports/IWalletRepository.js';
 import { Wallet } from '../../domain/entities/Wallet.js';
 import { BusinessError } from '@src/shared/errors/BusinessError.js';

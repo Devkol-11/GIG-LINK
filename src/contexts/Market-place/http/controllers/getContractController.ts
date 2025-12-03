@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-import { GetContractUseCase } from '../../application/usecases/getContractUseCase.js';
+import {
+        GetContractUseCase,
+        getContractUseCase
+} from '../../application/usecases/getContractUseCase.js';
 
-//IMPORT IMPLEMENTATION
-import { getContractUseCase } from '../../application/usecases/getContractUseCase.js';
 export class GetContractController {
         constructor(private getContractUseCase: GetContractUseCase) {}
 

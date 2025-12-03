@@ -1,6 +1,6 @@
 import { ITransactionRepository } from '../../ports/ITransactionRepository.js';
 import { Transaction } from '../../domain/entities/Transactions.js';
-import { transactionRepository } from '../../infrastructure/TransactionRepository.js';
+import { transactionRepository } from '../../adapters/TransactionRepository.js';
 
 export class ListTransactionsByQueryUseCase {
         constructor(private transactionRepo: ITransactionRepository) {}

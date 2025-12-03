@@ -1,7 +1,4 @@
-import {
-        GigRepository,
-        gigRepository
-} from '../../infrastructure/GigRepository.js';
+import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 import { Gig } from '../../domain/entities/Gig.js';
 import { createGigDTO } from '../dtos/createGigDTO.js';
 

@@ -1,15 +1,12 @@
 import {
         ContractRepository,
         contractRepository
-} from '../../infrastructure/ContractRepository.js';
+} from '../../adapters/ContractRepository.js';
 import {
         ApplicationRepository,
         applicationRepository
-} from '../../infrastructure/ApplicationRepository.js';
-import {
-        GigRepository,
-        gigRepository
-} from '../../infrastructure/GigRepository.js';
+} from '../../adapters/ApplicationRepository.js';
+import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 import { Contract } from '../../domain/entities/Contract.js';
 import {
         ApplicationConflict,

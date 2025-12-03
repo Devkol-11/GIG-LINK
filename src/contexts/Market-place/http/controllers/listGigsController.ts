@@ -1,10 +1,10 @@
-import { ListGigsUseCase } from '../../application/usecases/listGigsUseCase.js';
 import { Request, Response, NextFunction } from 'express';
+import {
+        ListGigsUseCase,
+        listGigsUseCase
+} from '../../application/usecases/listGigsUseCase.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
-import { listGigsUseCase } from '../../application/usecases/listGigsUseCase.js';
 
 export class ListGigsController {
         constructor(private readonly listGigsUseCase: ListGigsUseCase) {}

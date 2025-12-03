@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { UpdateApplicationUseCase } from '../../application/usecases/updateApplicationStatusUseCase.js';
+import {
+        UpdateApplicationUseCase,
+        updateApplicationUseCase
+} from '../../application/usecases/updateApplicationStatusUseCase.js';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-
-//IMPORT IMPLEMENTATIONS
-import { updateApplicationUseCase } from '../../application/usecases/updateApplicationStatusUseCase.js';
 
 export class UpdateApplicationStatusController {
         constructor(

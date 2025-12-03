@@ -1,46 +1,23 @@
 import { Router } from 'express';
 import { Authenticate } from '@src/shared/middlewares/auth.js';
-import { CreateProfileHandler } from '../controllers/createProfileHandler.js';
-import { GetProfileHandler } from '../controllers/getProfileHandler.js';
-import { UpdateAvatarHandler } from '../controllers/updateAvaterHandler.js';
-import { UpdateProfileHandler } from '../controllers/updateProfileHandler.js';
 
-//IMPORT IMPLEMENTATIONS
 import { createProfileHandler } from '../controllers/createProfileHandler.js';
 import { getProfileHandler } from '../controllers/getProfileHandler.js';
 import { updateAvatarHandler } from '../controllers/updateAvaterHandler.js';
 import { updateProfileHandler } from '../controllers/updateProfileHandler.js';
 
-function UserRoutes(
-        createProfileHandler: CreateProfileHandler,
-        getProfileHandler: GetProfileHandler,
-        updateProfileHandler: UpdateProfileHandler,
-        updateAvatarHandler: UpdateAvatarHandler
-): Router {
-        const userRouter = Router();
+export const userRoutes = Router();
 
-        userRouter.post('/profile', Authenticate, (req, res, next) =>
-                createProfileHandler.Execute(req, res, next)
-        );
+/* ---------- USER PROFILE ROUTES ---------- */
 
-        userRouter.get('/profile/:id', Authenticate, (req, res, next) =>
-                getProfileHandler.Execute(req, res, next)
-        );
+userRoutes.post('/profile', Authenticate, createProfileHandler.Execute);
 
-        userRouter.patch('/profile/:id', Authenticate, (req, res, next) =>
-                updateProfileHandler.Execute(req, res, next)
-        );
+userRoutes.get('/profile/:id', Authenticate, getProfileHandler.Execute);
 
-        userRouter.patch('/profile:id/avatar', Authenticate, (req, res, next) =>
-                updateAvatarHandler.Execute(req, res, next)
-        );
+userRoutes.patch('/profile/:id', Authenticate, updateProfileHandler.Execute);
 
-        return userRouter;
-}
-
-export const userRoutes = UserRoutes(
-        createProfileHandler,
-        getProfileHandler,
-        updateProfileHandler,
-        updateAvatarHandler
+userRoutes.patch(
+        '/profile/:id/avatar',
+        Authenticate,
+        updateAvatarHandler.Execute
 );

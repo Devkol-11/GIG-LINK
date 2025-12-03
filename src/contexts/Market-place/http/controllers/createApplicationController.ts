@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
-import { CreateApplicationUseCase } from '../../application/usecases/createApplicationUseCase.js';
-
-//IMPORT IMPLEMENTATION
-import { createApplicationUseCase } from '../../application/usecases/createApplicationUseCase.js';
+import {
+        CreateApplicationUseCase,
+        createApplicationUseCase
+} from '../../application/usecases/createApplicationUseCase.js';
 
 export class CreateApplicationController {
         constructor(

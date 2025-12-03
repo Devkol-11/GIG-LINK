@@ -1,19 +1,16 @@
 import { LoginUserCommand, LoginUserResult } from '../dtos/Login.js';
 import { IAuthRepository } from '../../ports/AuthRepository.js';
 import { AuthService, authservice } from '../../domain/services/AuthService.js';
-import { logger } from '@src/core/logging/winston.js';
 import {
-        UserConflict,
-        InvalidCredentials
+        InvalidCredentials,
+        UserNotFound
 } from '../../domain/errors/DomainErrors.js';
-// import { IEventBus } from "../../domain/interfaces/EventbBus";
-import { authRepository } from '../../infrastructure/AuthRepository.js';
-// import { rabbitMQEventPublisher } from "../../infrastructure/RabbitMQService.js";
+import { authRepository } from '../../adapters/AuthRepository.js';
 
 export class LoginUseCase {
         constructor(
                 private authService: AuthService,
-                private authRepository: IAuthRepository // private eventPublisher: IEventPublisher
+                private authRepository: IAuthRepository
         ) {}
 
         async Execute(DTO: LoginUserCommand): Promise<LoginUserResult> {
@@ -21,7 +18,7 @@ export class LoginUseCase {
 
                 const user = await this.authRepository.findByEmail(email);
 
-                if (user === null) throw new UserConflict();
+                if (!user) throw new UserNotFound();
 
                 if (user.passwordHash === null)
                         throw new InvalidCredentials('update your password');
@@ -51,23 +48,12 @@ export class LoginUseCase {
 
                 return {
                         message: 'Login successful , Welcome back !',
-                        user: {
-                                id: user.id,
-                                email: user.email,
-                                firstName: user.firstName,
-                                lastName: user.lastName,
-                                isEmailVerified: user.isEmailVerified
-                        },
                         tokens: {
-                                accessToken,
+                                accessToken: accessToken,
                                 refreshToken: refreshTokenPayload.refreshToken
                         }
                 };
         }
 }
 
-export const loginUseCase = new LoginUseCase(
-        authservice,
-        authRepository
-        // rabbitMQEventPublisher
-);
+export const loginUseCase = new LoginUseCase(authservice, authRepository);

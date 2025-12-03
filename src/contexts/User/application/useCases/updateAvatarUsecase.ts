@@ -1,8 +1,6 @@
 import { IProfileRepository } from '../../ports/IProfileRepository.js';
 import { BusinessError } from '../../domain/errors/BusinessError.js';
-
-//IMPORT IMPLEMENTATIONS
-import { profileRepository } from '../../infrastructure/profileRepository.js';
+import { profileRepository } from '../../adapters/profileRepository.js';
 
 export class UpdateAvatarUseCase {
         constructor(private profileRepository: IProfileRepository) {}

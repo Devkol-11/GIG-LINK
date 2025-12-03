@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { BusinessError } from '../errors/DomainErrors.js';
+import { GigConflict } from '../errors/DomainErrors.js';
 
 export type FreelancerProps = {
         id: string;
@@ -48,11 +48,11 @@ export class Freelancer {
 
         public canApplyForGig(): boolean {
                 if (this.props.verified === false)
-                        throw BusinessError.forbidden(
+                        throw new GigConflict(
                                 'must be a verified user to accept gigs'
                         );
                 if (this.props.totalJobs > 5)
-                        throw BusinessError.forbidden(
+                        throw new GigConflict(
                                 'Too many gigs at the moment , complete unfinished gigd to accept new gigs'
                         );
                 return true;

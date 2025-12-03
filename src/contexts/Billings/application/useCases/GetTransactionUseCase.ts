@@ -1,6 +1,6 @@
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
 import { ITransactionRepository } from '../../ports/ITransactionRepository.js';
-import { transactionRepository } from '../../infrastructure/TransactionRepository.js';
+import { transactionRepository } from '../../adapters/TransactionRepository.js';
 
 export class GetTransactionUseCase {
         constructor(private transactionRepository: ITransactionRepository) {}

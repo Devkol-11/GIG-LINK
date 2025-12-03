@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'prisma/generated/prisma/client.js';
 import { Wallet } from '../domain/entities/Wallet.js';
 
 export interface IWalletRepository {

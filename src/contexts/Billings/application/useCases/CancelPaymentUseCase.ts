@@ -3,7 +3,7 @@ import {
         PaymentNotFoundError,
         InvalidPaymentStateError
 } from '../../domain/errors/BusinessErrors.js';
-import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
 
 export class CancelPaymentUseCase {
         constructor(private paymentRepo: IPaymentRepository) {}

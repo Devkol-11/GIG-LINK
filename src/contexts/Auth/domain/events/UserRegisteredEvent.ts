@@ -8,7 +8,7 @@ export class UserRegisteredEvent {
                 public readonly role: string
         ) {}
 
-        public getPayload() {
+        public getEventPayload() {
                 return {
                         userId: this.userId,
                         email: this.email,

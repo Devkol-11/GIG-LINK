@@ -2,9 +2,7 @@ import { IProfileRepository } from '../../ports/IProfileRepository.js';
 import { BusinessError } from '../../domain/errors/BusinessError.js';
 import { UserService } from '../../services/userService.js';
 import { createProfileData } from '../dtos/createProfileDTO.js';
-
-//IMPORT IMPLEMENTATIONS
-import { profileRepository } from '../../infrastructure/profileRepository.js';
+import { profileRepository } from '../../adapters/profileRepository.js';
 import { userService } from '../../services/userService.js';
 
 export class CreateProfileUseCase {

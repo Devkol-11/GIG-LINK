@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { jwtLibary } from '@src/contexts/Auth/infrastructure/Jwt-impl.js';
+import { jwtLibary } from '@src/contexts/Auth/adapters/Jwt-impl.js';
 
 export class AuthMiddlewares {
         constructor() {}

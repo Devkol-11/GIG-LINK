@@ -1,6 +1,6 @@
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
 import { IPaymentRepository } from '../../ports/IPaymentRepository.js';
-import { paymentRepository } from '../../infrastructure/PaymentRepository.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
 
 export class FindPaymentByReferenceUseCase {
         constructor(private paymentRepository: IPaymentRepository) {}
