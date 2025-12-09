@@ -1,0 +1,26 @@
+{
+        "compilerOptions": {
+                "baseUrl": "./",
+                "paths": {
+                        "@core/*": ["src/infrastructure/*"],
+                        "@src/*": ["src/*"]
+                },
+                "target": "ES2020",
+                "module": "nodenext",
+                "moduleResolution": "nodenext",
+                "outDir": "./dist",
+                "rootDir": "./",
+                "strict": true,
+                "esModuleInterop": true,
+                "skipLibCheck": true,
+                "allowSyntheticDefaultImports": true
+        },
+        "include": [
+                "src",
+                "src/infrastructure",
+                "src/index.d.ts",
+                "src/app.ts",
+                "test-env.ts",
+                "drizzle-test.ts"
+        ]
+}
