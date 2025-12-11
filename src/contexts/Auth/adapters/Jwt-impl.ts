@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { ITokenGenerator } from '../ports/TokenGenerator.js';
+import { ITokenGenerator } from '../ports/ITokenGenerator.js';
 import { config } from '@src/infrastructure/env-config/env.js';
 
 class JwtLibary implements ITokenGenerator {
@@ -29,7 +29,4 @@ class JwtLibary implements ITokenGenerator {
         }
 }
 
-export const jwtLibary = new JwtLibary(
-        config.ACCESS_TOKEN_SECRET,
-        config.REFRESH_TOKEN_SECRET
-);
+export const jwtLibary = new JwtLibary(config.ACCESS_TOKEN_SECRET, config.REFRESH_TOKEN_SECRET);

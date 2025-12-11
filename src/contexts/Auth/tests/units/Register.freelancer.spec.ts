@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended';
 import { RegisterFreeLancerUseCase } from '../../application/useCases/RegisterFreeLancerUseCase.js';
 import { UserConflict } from '../../domain/errors/DomainErrors.js';
 import { AuthService } from '../../domain/services/AuthService.js';
-import { IAuthRepository } from '../../ports/AuthRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
 import { UnitOfWork } from '../../adapters/UnitOfWork.js';
 import { IEventBus } from '@core/message-brokers/ports/IEventBus.js';
 import { ROLE } from '../../../../../prisma/generated/prisma/enums.js';

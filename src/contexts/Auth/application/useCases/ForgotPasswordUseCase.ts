@@ -1,7 +1,7 @@
-import { IAuthRepository } from '../../ports/AuthRepository.js';
-import { IOtpRepository } from '../../ports/OtpRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
+import { IOtpRepository } from '../../ports/IOtpRepository.js';
 import { AuthService } from '../../domain/services/AuthService.js';
-import { IEventBus } from '../../ports/EventBus.js';
+import { IEventBus } from '../../ports/IEventBus.js';
 import { UserNotFound } from '../../domain/errors/DomainErrors.js';
 import { PasswordResetEvent } from '../../domain/events/PasswordResetEvent.js';
 import { authRepository } from '../../adapters/AuthRepository.js';

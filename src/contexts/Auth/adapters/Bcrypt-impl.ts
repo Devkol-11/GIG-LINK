@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import { IpasswordHasher } from '../ports/PasswordHasher.js';
+import { IpasswordHasher } from '../ports/IPasswordHasher.js';
 class BcryptLibary implements IpasswordHasher {
         constructor(private readonly saltRounds = 12) {}
 
@@ -8,10 +8,7 @@ class BcryptLibary implements IpasswordHasher {
                 return await bcrypt.hash(plainPassoword, this.saltRounds);
         }
 
-        async compare(
-                plainPassoword: string,
-                hashedPassword: string
-        ): Promise<boolean> {
+        async compare(plainPassoword: string, hashedPassword: string): Promise<boolean> {
                 return await bcrypt.compare(plainPassoword, hashedPassword);
         }
 }

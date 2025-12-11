@@ -1,10 +1,10 @@
 import { RegisterUserCommand, RegisterUserResult } from '../dtos/Register.js';
-import { IAuthRepository } from '../../ports/AuthRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
 import { AuthService, authservice } from '../../domain/services/AuthService.js';
 import { authRepository } from '../../adapters/AuthRepository.js';
 import { UserConflict } from '../../domain/errors/DomainErrors.js';
 import { UnitOfWork, unitOfWork } from '../../adapters/UnitOfWork.js';
-import { IEventBus } from '../../ports/EventBus.js';
+import { IEventBus } from '../../ports/IEventBus.js';
 import { UserRegisteredEvent } from '../../domain/events/UserRegisteredEvent.js';
 import { ROLE } from '../../../../../prisma/generated/prisma/enums.js';
 import { domainEventBus } from '../../adapters/DomainEventBus-impl.js';

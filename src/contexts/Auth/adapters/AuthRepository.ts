@@ -1,4 +1,4 @@
-import { IAuthRepository } from '../ports/AuthRepository.js';
+import { IAuthRepository } from '../ports/IAuthRepository.js';
 import type { Prisma } from 'prisma/generated/prisma/client.js';
 import type { User } from 'prisma/generated/prisma/client.js';
 import { RefreshToken } from 'prisma/generated/prisma/client.js';

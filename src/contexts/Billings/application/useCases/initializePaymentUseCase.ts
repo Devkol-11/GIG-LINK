@@ -4,13 +4,8 @@ import { IUnitOfWork } from '../../ports/IUnitOfWork.js';
 import { Payment } from '../../domain/aggregate-roots/Payment.js';
 import { Money } from '../../domain/value-objects/Money.js';
 import { IWalletRepository } from '../../ports/IWalletRepository.js';
-import {
-        PaymentChannel,
-        PaymentProvider,
-        PaymentDirection
-} from '../../domain/enums/DomainEnums.js';
+import { PaymentChannel, PaymentProvider, PaymentDirection } from '../../domain/enums/DomainEnums.js';
 import { WalletNotFoundError } from '../../domain/errors/domainErrors.js';
-
 import { walletRepository } from '../../adapters/WalletRepository.js';
 import { paymentRepository } from '../../adapters/PaymentRepository.js';
 import { paystackAdapter } from '../../adapters/PaystackAdapter.js';

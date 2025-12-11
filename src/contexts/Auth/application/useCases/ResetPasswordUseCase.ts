@@ -1,5 +1,5 @@
-import { IAuthRepository } from '../../ports/AuthRepository.js';
-import { IOtpRepository } from '../../ports/OtpRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
+import { IOtpRepository } from '../../ports/IOtpRepository.js';
 import { InvalidToken, TokenNotFound } from '../../domain/errors/DomainErrors.js';
 import { AuthService } from '../../domain/services/AuthService.js';
 import { authservice } from '../../domain/services/AuthService.js';

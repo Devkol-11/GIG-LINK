@@ -1,17 +1,22 @@
+import { TransactionSource } from 'prisma/generated/prisma/enums.js';
 import { paymentRepository } from '../../adapters/PaymentRepository.js';
 import { unitOfWork } from '../../adapters/UnitOfWork.js';
 import { walletRepository } from '../../adapters/WalletRepository.js';
-import { PaymentStatus } from '../../domain/enums/DomainEnums.js';
+import { Transaction } from '../../domain/aggregate-roots/Transactions.js';
+import { PaymentStatus, TransactionStatus, TransactionType } from '../../domain/enums/DomainEnums.js';
 import { PaymentNotFoundError, WalletNotFoundError } from '../../domain/errors/domainErrors.js';
 import { IPaymentRepository } from '../../ports/IPaymentRepository.js';
 import { IUnitOfWork } from '../../ports/IUnitOfWork.js';
 import { IWalletRepository } from '../../ports/IWalletRepository.js';
 import { PaymentWebHookEvent } from '../dtos/webhookEvent.js';
+import { ITransactionRepository } from '../../ports/ITransactionRepository.js';
+import { transactionRepository } from '../../adapters/TransactionRepository.js';
 
 export class VerifyPaymentWebhookUseCase {
         constructor(
                 private readonly paymentRepository: IPaymentRepository,
                 private readonly walletRepository: IWalletRepository,
+                private readonly transactionRepository: ITransactionRepository,
                 private readonly unitOfwork: IUnitOfWork
         ) {}
 
@@ -34,22 +39,39 @@ export class VerifyPaymentWebhookUseCase {
                         return { status: 'already processed' };
                 }
 
+                const wallet = await this.walletRepository.findById(payment.walletId);
+
+                if (!wallet) {
+                        // should not EVER occur
+                        throw new WalletNotFoundError();
+                        // add logs for prod
+                }
+
                 const result = await this.unitOfwork.transaction(async (trx) => {
                         payment.markAsSuccess();
 
                         await this.paymentRepository.save(payment, trx);
 
-                        const wallet = await this.walletRepository.findById(payment.walletId, trx);
-
-                        if (!wallet) {
-                                // should not EVER occur
-                                throw new WalletNotFoundError();
-                                // add logs for prod
-                        }
-
                         wallet.fund(payment.amountKobo);
 
                         await this.walletRepository.save(wallet, trx);
+
+                        const transaction = Transaction.create({
+                                status: TransactionStatus.SUCCESS,
+                                walletId: payment.walletId,
+                                paymentId: payment.id,
+                                amountKobo: payment.amountKobo,
+                                providerReference: payment.providerReference
+                                        ? payment.providerReference
+                                        : 'nil',
+                                transactionType: TransactionType.CREDIT,
+
+                                description: '',
+                                source: TransactionSource.USER,
+                                metadata: ''
+                        });
+
+                        await this.transactionRepository.save(transaction, trx);
 
                         return { status: 'success' };
                 });
@@ -61,5 +83,6 @@ export class VerifyPaymentWebhookUseCase {
 export const verifyPaymentWebhookUsecase = new VerifyPaymentWebhookUseCase(
         paymentRepository,
         walletRepository,
+        transactionRepository,
         unitOfWork
 );

@@ -14,7 +14,7 @@ export interface TransactionProps {
         readonly walletId: string;
         paymentId: string;
         transactionType: TransactionType_Type;
-        amountCents: number;
+        amountKobo: number;
         status: TransactionStatusType;
         systemReference: string; // idempotency
         providerReference: string;

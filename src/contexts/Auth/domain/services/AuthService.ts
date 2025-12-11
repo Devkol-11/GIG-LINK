@@ -1,5 +1,5 @@
-import { IpasswordHasher } from '../../ports/PasswordHasher.js';
-import { ITokenGenerator } from '../../ports/TokenGenerator.js';
+import { IpasswordHasher } from '../../ports/IPasswordHasher.js';
+import { ITokenGenerator } from '../../ports/ITokenGenerator.js';
 import { randomBytes } from 'crypto';
 //IMPORT IMPLEMANTATIONS
 import { jwtLibary } from '../../adapters/Jwt-impl.js';
@@ -15,21 +15,11 @@ export class AuthService {
                 return this.passwordHasher.hash(password);
         }
 
-        async comparePassword(
-                plainPassoword: string,
-                hashedPassword: string
-        ): Promise<boolean> {
-                return this.passwordHasher.compare(
-                        plainPassoword,
-                        hashedPassword
-                );
+        async comparePassword(plainPassoword: string, hashedPassword: string): Promise<boolean> {
+                return this.passwordHasher.compare(plainPassoword, hashedPassword);
         }
 
-        generateAccessToken(
-                userId: string,
-                email: string,
-                role: string
-        ): string {
+        generateAccessToken(userId: string, email: string, role: string): string {
                 return this.tokenGenerator.generateAccessToken({
                         userId,
                         email,
@@ -40,9 +30,7 @@ export class AuthService {
                 const refreshToken = this.tokenGenerator.generateRefreshToken({
                         userId
                 });
-                const expiresAt = new Date(
-                        Date.now() + days * 24 * 60 * 60 * 1000
-                );
+                const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
                 return { refreshToken, expiresAt };
         }
 

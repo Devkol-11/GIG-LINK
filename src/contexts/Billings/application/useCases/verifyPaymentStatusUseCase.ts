@@ -2,6 +2,8 @@ import { PaymentNotFoundError, ReferenceNotFoundError } from '../../domain/error
 import { IPaymentProvider } from '../../ports/IPaymentProvider.js';
 import { IPaymentRepository } from '../../ports/IPaymentRepository.js';
 import { PaymentStatus } from '../../domain/enums/DomainEnums.js';
+import { paystackAdapter } from '../../adapters/PaystackAdapter.js';
+import { paymentRepository } from '../../adapters/PaymentRepository.js';
 
 export class VerifyPaymentStatusUseCase {
         constructor(
@@ -16,29 +18,32 @@ export class VerifyPaymentStatusUseCase {
                 const providerReference = payment.providerReference;
                 if (!providerReference) throw new ReferenceNotFoundError();
 
-                // CASE 1 — Already successful
                 if (payment.status === PaymentStatus.SUCCESS) {
                         return { status: 'success' };
                 }
 
-                // CASE 2 — Still pending → call provider
                 if (payment.status === PaymentStatus.PENDING) {
                         const providerResponse =
                                 await this.paymentProvider.verifyPayment(providerReference);
 
-                        if (providerResponse.status !== 'success') {
+                        if (providerResponse.status === 'failed') {
+                                payment.markAsFailed();
+                                await this.paymentRepository.save(payment);
                                 return { status: providerResponse.status };
                         }
 
-                        // Provider confirms success → domain mutation
-                        payment.markAsSuccess();
-
-                        await this.paymentRepository.save(payment);
-
-                        return { status: 'success' };
+                        if (providerResponse.status === 'success') {
+                                payment.markAsSuccess();
+                                await this.paymentRepository.save(payment);
+                                return { status: 'success' };
+                        }
                 }
 
-                // CASE 3 — Failed or cancelled or otherwise terminal
-                return { status: 'failed' };
+                return { status: 'pending' };
         }
 }
+
+export const verifyPaymentStatusUseCase = new VerifyPaymentStatusUseCase(
+        paystackAdapter,
+        paymentRepository
+);

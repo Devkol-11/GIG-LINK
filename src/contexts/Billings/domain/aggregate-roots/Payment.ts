@@ -99,7 +99,7 @@ export class Payment {
         }
 
         markAsFailed(): void {
-                if (this.canMarkAsFailed() === false) throw new InvalidPaymentStateError();
+                if (this.canMarkAsFailed() === true) return;
                 this.props.status = PaymentStatus.FAILED;
                 this.props.updatedAt = new Date();
         }
@@ -124,7 +124,7 @@ export class Payment {
         }
 
         canMarkAsFailed(): boolean {
-                return this.props.status !== PaymentStatus.SUCCESS;
+                return this.props.status === PaymentStatus.SUCCESS;
         }
 
         canBeCancelled(): boolean {

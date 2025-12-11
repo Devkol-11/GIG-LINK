@@ -29,6 +29,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   wallet            Wallet?
+  paymentRecepientCode PaymentRecipient?
   profile           UserProfile?
   creatorProfile    Creator?
   freelancerProfile Freelancer?
@@ -261,8 +262,8 @@ enum WalletStatus {
 
 model Payment {
   id                String           @id
-  walletId          String
-  systemReference   String
+  walletId          String            @unique
+  systemReference   String            @unique
   provider          PaymentProvider
   providerReference String?          @unique
   amountKobo       Int
@@ -282,6 +283,18 @@ model Payment {
   @@index([status])
   @@index([createdAt])
   @@map("payments")
+}
+
+model PaymentRecipient {
+  id String @id
+  userId String @unique
+  code String @unique
+  accountNumber String
+  bankName String
+createdAt DateTime
+
+user User @relation(fields: [userId] , references: [id])
+
 }
 
 enum PaymentProvider {

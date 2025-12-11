@@ -13,8 +13,5 @@ export interface IOtpRepository {
 
         markAsUsed(token: string, tx?: Prisma.TransactionClient): Promise<void>;
 
-        deleteAllForUser(
-                userId: string,
-                tx?: Prisma.TransactionClient
-        ): Promise<void>;
+        deleteAllForUser(userId: string, tx?: Prisma.TransactionClient): Promise<void>;
 }

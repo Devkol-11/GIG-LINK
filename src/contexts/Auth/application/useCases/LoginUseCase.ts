@@ -1,10 +1,7 @@
 import { LoginUserCommand, LoginUserResult } from '../dtos/Login.js';
-import { IAuthRepository } from '../../ports/AuthRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
 import { AuthService, authservice } from '../../domain/services/AuthService.js';
-import {
-        InvalidCredentials,
-        UserNotFound
-} from '../../domain/errors/DomainErrors.js';
+import { InvalidCredentials, UserNotFound } from '../../domain/errors/DomainErrors.js';
 import { authRepository } from '../../adapters/AuthRepository.js';
 
 export class LoginUseCase {
@@ -28,8 +25,7 @@ export class LoginUseCase {
                         user.passwordHash
                 );
 
-                if (passwordMatch === false)
-                        throw new InvalidCredentials('wrong password');
+                if (passwordMatch === false) throw new InvalidCredentials('wrong password');
 
                 const accessToken = this.authService.generateAccessToken(
                         user.id,
@@ -37,8 +33,7 @@ export class LoginUseCase {
                         user.role
                 );
 
-                const refreshTokenPayload =
-                        this.authService.generateRefreshToken(user.id, 7);
+                const refreshTokenPayload = this.authService.generateRefreshToken(user.id, 7);
 
                 await this.authRepository.saveRefreshToken(
                         user.id,

@@ -1,10 +1,10 @@
 import { RegisterUserCommand, RegisterUserResult } from '../dtos/Register.js';
-import { IAuthRepository } from '../../ports/AuthRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
 import { AuthService, authservice } from '../../domain/services/AuthService.js';
 import { authRepository } from '../../adapters/AuthRepository.js';
 import { UserConflict } from '../../domain/errors/DomainErrors.js';
 import { UnitOfWork, unitOfWork } from '../../adapters/UnitOfWork.js';
-import { IEventBus } from '../../ports/EventBus.js';
+import { IEventBus } from '../../ports/IEventBus.js';
 import { UserRegisteredEvent } from '../../domain/events/UserRegisteredEvent.js';
 import { ROLE } from '../../../../../prisma/generated/prisma/enums.js';
 import { domainEventBus } from '../../adapters/DomainEventBus-impl.js';
@@ -18,15 +18,13 @@ export class RegisterCreatorUseCase {
         ) {}
 
         async Execute(DTO: RegisterUserCommand): Promise<RegisterUserResult> {
-                const { email, password, firstName, lastName, phoneNumber } =
-                        DTO;
+                const { email, password, firstName, lastName, phoneNumber } = DTO;
 
                 const user = await this.authRepository.findByEmail(email);
 
                 if (user) throw new UserConflict();
 
-                const passwordHash =
-                        await this.authService.hashPassword(password);
+                const passwordHash = await this.authService.hashPassword(password);
 
                 const userData = {
                         email,
@@ -40,25 +38,18 @@ export class RegisterCreatorUseCase {
                         refreshToken: null
                 };
 
-                const { newUser, accessToken, refreshToken } =
-                        await this.unitOfWork.transaction(async (trx) => {
-                                const newUser = await this.authRepository.save(
-                                        userData,
-                                        trx
+                const { newUser, accessToken, refreshToken } = await this.unitOfWork.transaction(
+                        async (trx) => {
+                                const newUser = await this.authRepository.save(userData, trx);
+
+                                const accessToken = this.authService.generateAccessToken(
+                                        newUser.id,
+                                        newUser.email,
+                                        newUser.role
                                 );
 
-                                const accessToken =
-                                        this.authService.generateAccessToken(
-                                                newUser.id,
-                                                newUser.email,
-                                                newUser.role
-                                        );
-
                                 const { refreshToken, expiresAt } =
-                                        this.authService.generateRefreshToken(
-                                                newUser.id,
-                                                7
-                                        );
+                                        this.authService.generateRefreshToken(newUser.id, 7);
 
                                 await this.authRepository.saveRefreshToken(
                                         newUser.id,
@@ -72,7 +63,8 @@ export class RegisterCreatorUseCase {
                                         accessToken,
                                         refreshToken
                                 };
-                        });
+                        }
+                );
 
                 const payload = new UserRegisteredEvent(
                         newUser.id,
@@ -81,10 +73,7 @@ export class RegisterCreatorUseCase {
                         newUser.role
                 );
 
-                await this.eventBus.publish(
-                        payload.eventName,
-                        payload.getEventPayload()
-                );
+                await this.eventBus.publish(payload.eventName, payload.getEventPayload());
 
                 return {
                         message: `Registration Successful , welcome ${newUser.firstName} !`,

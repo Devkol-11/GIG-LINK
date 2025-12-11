@@ -53,8 +53,11 @@ export class PaymentRepository implements IPaymentRepository {
                 return Payment.toEntity(paymentData);
         }
 
-        //-----3: findByWalletId
-        async findByWalletId(walletId: string, trx?: Prisma.TransactionClient): Promise<Payment[]> {
+        //-----3: findAllByWalletId
+        async findAllByWalletId(
+                walletId: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Payment[]> {
                 const client = trx ? trx : prismaDbClient;
 
                 const paymentsData = await client.payment.findMany({
@@ -69,24 +72,33 @@ export class PaymentRepository implements IPaymentRepository {
         async save(payment: Payment, trx?: Prisma.TransactionClient): Promise<Payment> {
                 const client = trx ? trx : prismaDbClient;
 
-                const state = payment.getState();
+                const domain = payment.getState();
 
                 try {
                         const updatedPayment = await client.payment.upsert({
-                                where: { id: state.id },
-                                update: state,
+                                where: { id: domain.id },
+                                update: {
+                                        ...domain,
+                                        cancelReason: domain.cancelReason
+                                                ? domain.cancelReason
+                                                : 'nil'
+                                },
                                 create: {
-                                        id: state.id,
-                                        walletId: state.walletId,
-                                        provider: state.provider,
-                                        amountKobo: state.amountKobo,
-                                        channel: state.channel,
-                                        direction: state.direction,
-                                        currency: state.currency,
-                                        status: state.status,
-                                        providerReference: state.providerReference,
-                                        createdAt: state.createdAt,
-                                        updatedAt: state.updatedAt
+                                        id: domain.id,
+                                        walletId: domain.walletId,
+                                        provider: domain.provider,
+                                        amountKobo: domain.amountKobo,
+                                        channel: domain.channel,
+                                        systemReference: domain.systemReference,
+                                        cancelReason: domain.cancelReason
+                                                ? domain.cancelReason
+                                                : 'nil',
+                                        direction: domain.direction,
+                                        currency: domain.currency,
+                                        status: domain.status,
+                                        providerReference: domain.providerReference,
+                                        createdAt: domain.createdAt,
+                                        updatedAt: domain.updatedAt
                                 }
                         });
 
@@ -167,6 +179,19 @@ export class PaymentRepository implements IPaymentRepository {
                 });
 
                 return paymentsData.map((payment) => Payment.toEntity(payment));
+        }
+
+        async findByWalletId(
+                walletId: string,
+                trx?: Prisma.TransactionClient
+        ): Promise<Payment | null> {
+                const client = trx ? trx : prismaDbClient;
+
+                const paymentRecord = await client.payment.findUnique({ where: { walletId } });
+
+                if (!paymentRecord) return null;
+
+                return Payment.toEntity(paymentRecord);
         }
 }
 export const paymentRepository = new PaymentRepository();

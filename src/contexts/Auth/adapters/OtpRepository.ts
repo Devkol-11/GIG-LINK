@@ -1,6 +1,6 @@
 import type { Otp } from 'prisma/generated/prisma/client.js';
 import { prismaDbClient } from '@core/database/prisma.client.js';
-import { IOtpRepository } from '../ports/OtpRepository.js';
+import { IOtpRepository } from '../ports/IOtpRepository.js';
 import type { Prisma } from 'prisma/generated/prisma/client.js';
 
 export class OtpRepository implements IOtpRepository {
@@ -32,10 +32,7 @@ export class OtpRepository implements IOtpRepository {
                 return record;
         }
 
-        async markAsUsed(
-                token: string,
-                trx: Prisma.TransactionClient
-        ): Promise<void> {
+        async markAsUsed(token: string, trx: Prisma.TransactionClient): Promise<void> {
                 const client = trx ? trx : prismaDbClient;
 
                 await client.otp.update({
@@ -44,10 +41,7 @@ export class OtpRepository implements IOtpRepository {
                 });
         }
 
-        async deleteAllForUser(
-                userId: string,
-                trx?: Prisma.TransactionClient
-        ): Promise<void> {
+        async deleteAllForUser(userId: string, trx?: Prisma.TransactionClient): Promise<void> {
                 const client = trx ? trx : prismaDbClient;
                 await client.otp.deleteMany({
                         where: { userId }

@@ -1,10 +1,9 @@
 export interface IPaymentProvider {
-        initializePayment(
-                request: PaymentInitializationRequest
-        ): Promise<PaymentInitializationResponse>;
+        initializePayment(request: PaymentInitializationRequest): Promise<PaymentInitializationResponse>;
 
         verifyPayment(reference: string): Promise<PaymentVerificationResponse>;
         verifySignature(rawBody: string, signature: string): Promise<boolean>;
+        getTransferRecepient(request: TransferRecepientRequest): Promise<VerifiedRecipientData>;
 }
 
 // DTOs for the payment processor
@@ -30,4 +29,19 @@ export interface PaymentVerificationResponse {
         gatewayResponse: string;
         paidAt?: Date;
         metadata?: Record<string, any>;
+}
+
+export interface TransferRecepientRequest {
+        type: 'nuban';
+        name: string;
+        accountNumber: string;
+        bankCode: string;
+        description?: string;
+        currency: string;
+}
+
+export interface VerifiedRecipientData {
+        recipientCode: string;
+        verifiedAccountName: string; // The crucial verified name
+        accountNumber: string; // The original number (for your records)
 }

@@ -1,4 +1,4 @@
-import { IAuthRepository } from '../../ports/AuthRepository.js';
+import { IAuthRepository } from '../../ports/IAuthRepository.js';
 import { InternalServerError } from '../../domain/errors/DomainErrors.js';
 import { ROLE } from '../../../../../prisma/generated/prisma/enums.js';
 import { User } from 'prisma/generated/prisma/client.js';
@@ -6,7 +6,7 @@ import { authRepository } from '../../adapters/AuthRepository.js';
 import { getGoogleAuthPayload } from '../../adapters/GoogleAuthClient-impl.js';
 import { authservice, AuthService } from '../../domain/services/AuthService.js';
 import { UnitOfWork, unitOfWork } from '../../adapters/UnitOfWork.js';
-import { IEventBus } from '../../ports/EventBus.js';
+import { IEventBus } from '../../ports/IEventBus.js';
 import { UserRegisteredEvent } from '../../domain/events/UserRegisteredEvent.js';
 import { domainEventBus } from '../../adapters/DomainEventBus-impl.js';
 
