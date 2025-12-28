@@ -1,0 +1,98 @@
+import { RegisterUserCommand, RegisterUserResult } from '../dtos/Register.js';
+import { IUserRepository } from '../../ports/IUserRepository.js';
+import { UserService, userService } from '../../domain/services/UserService.js';
+import { userRepository } from '../../adapters/UserRepository.js';
+import { UserConflictError } from '../../domain/errors/DomainErrors.js';
+import { unitOfWork } from '../../adapters/UnitOfWork.js';
+import { IUnitOfWork } from '../../ports/IUnitOfWork.js';
+import { IEventBus } from '../../ports/IEventBus.js';
+import { UserRegisteredEvent } from '../../domain/events/UserRegisteredEvent.js';
+import { UserRole } from '../../domain/enums/DomainEnums.js';
+import { domainEventBus } from '../../adapters/DomainEventBus-impl.js';
+import { User } from '../../domain/entities/User.js';
+
+export class RegisterCreatorUseCase {
+        constructor(
+                private userService: UserService,
+                private userRepository: IUserRepository,
+                private unitOfWork: IUnitOfWork,
+                private eventBus: IEventBus
+        ) {}
+
+        async execute(DTO: RegisterUserCommand): Promise<RegisterUserResult> {
+                const { email, password, firstName, lastName, phoneNumber } = DTO;
+
+                const user = await this.userRepository.findByEmail(email);
+
+                if (user) throw new UserConflictError();
+
+                const passwordHash = await this.userService.hashPassword(password);
+
+                const userData = User.Create({
+                        email,
+                        firstName,
+                        lastName,
+                        phoneNumber,
+                        passwordHash,
+                        role: UserRole.CREATOR,
+                        googleId: null
+                });
+
+                const { newUser, accessToken, refreshToken } = await this.unitOfWork.transaction(
+                        async (trx) => {
+                                const newUser = await this.userRepository.save(userData, trx);
+
+                                const accessToken = this.userService.generateAccessToken(
+                                        newUser.id,
+                                        newUser.email,
+                                        newUser.firstName,
+                                        newUser.role
+                                );
+
+                                const { refreshToken, expiresAt } = this.userService.generateRefreshToken(
+                                        newUser.id,
+                                        7
+                                );
+
+                                await this.userRepository.saveRefreshToken(
+                                        newUser.id,
+                                        refreshToken,
+                                        expiresAt,
+                                        trx
+                                );
+
+                                return {
+                                        newUser,
+                                        accessToken,
+                                        refreshToken
+                                };
+                        }
+                );
+
+                const payload = new UserRegisteredEvent(newUser.email, newUser.firstName, newUser.role);
+
+                await this.eventBus.publish(payload.eventName, payload.getEventPayload());
+
+                return {
+                        message: `Registration Successful , welcome ${newUser.firstName} !`,
+                        user: {
+                                id: newUser.id,
+                                email: newUser.email,
+                                firstName: newUser.firstName,
+                                lastName: newUser.lastName,
+                                isEmailVerified: newUser.isEmailVerified
+                        },
+                        tokens: {
+                                accessToken,
+                                refreshToken
+                        }
+                };
+        }
+}
+
+export const registerCreatorUseCase = new RegisterCreatorUseCase(
+        userService,
+        userRepository,
+        unitOfWork,
+        domainEventBus
+);

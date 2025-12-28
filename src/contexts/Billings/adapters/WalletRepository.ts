@@ -2,7 +2,7 @@ import { IWalletRepository } from '../ports/IWalletRepository.js';
 import { Wallet } from '../domain/aggregate-roots/Wallet.js';
 import { Prisma } from 'prisma/generated/prisma/client.js';
 import { ConcurrencyError } from '../domain/errors/concurrencyError.js';
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 
 export class WalletRepository implements IWalletRepository {
         //-----1: findById
@@ -38,81 +38,21 @@ export class WalletRepository implements IWalletRepository {
                 const state = wallet.getState();
 
                 try {
-                        const updatedWallet = await client.wallet.update({
+                        const updatedWallet = await client.wallet.upsert({
                                 where: {
-                                        id: state.id,
-                                        version: state.version - 1 // Expect the previous version
+                                        id: state.id
                                 },
-                                data: {
-                                        balanceCents: state.balanceCents,
-                                        reservedCents: state.reservedCents,
-                                        version: state.version,
-                                        updatedAt: state.updatedAt
-                                }
+                                update: state,
+                                create: state
                         });
 
                         return Wallet.toEntity(updatedWallet);
                 } catch (error) {
-                        if (
-                                error instanceof Prisma.PrismaClientKnownRequestError &&
-                                error.code === 'P2025'
-                        ) {
+                        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
                                 throw ConcurrencyError.walletModified();
                         }
                         throw error;
                 }
-        }
-
-        //-----4: updateWithVersion
-        async updateWithVersion(wallet: Wallet, trx?: Prisma.TransactionClient): Promise<Wallet> {
-                const client = trx || prismaDbClient;
-
-                const state = wallet.getState();
-
-                try {
-                        const updatedWallet = await client.wallet.update({
-                                where: {
-                                        id: state.id,
-                                        version: state.version - 1
-                                },
-                                data: {
-                                        balanceCents: state.balanceCents,
-                                        reservedCents: state.reservedCents,
-                                        version: state.version,
-                                        updatedAt: new Date()
-                                }
-                        });
-
-                        return Wallet.toEntity(updatedWallet);
-                } catch (error) {
-                        if (
-                                error instanceof Prisma.PrismaClientKnownRequestError &&
-                                error.code === 'P2025'
-                        ) {
-                                throw ConcurrencyError.walletModified();
-                        }
-                        throw error;
-                }
-        }
-
-        //-----5: updateBalance
-        async updateBalance(
-                walletId: string,
-                amount: number,
-                trx?: Prisma.TransactionClient
-        ): Promise<Wallet> {
-                const client = trx || prismaDbClient;
-
-                const updatedWallet = await client.wallet.update({
-                        where: { id: walletId },
-                        data: {
-                                balanceCents: { increment: amount },
-                                version: { increment: 1 },
-                                updatedAt: new Date()
-                        }
-                });
-
-                return Wallet.toEntity(updatedWallet);
         }
 }
 

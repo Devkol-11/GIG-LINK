@@ -1,5 +1,5 @@
 import type { PrismaClient } from 'prisma/generated/prisma/client.js';
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { IUnitOfWork } from '../ports/IUnitOfWork.js';
 
 export class UnitOfWork implements IUnitOfWork {

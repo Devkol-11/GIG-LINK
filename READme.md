@@ -1,53 +1,46 @@
-## 🧠 Overview
+# GIG-LINK API
 
-**Gig-Link** is a backend service for a modern freelance marketplace that connects **creators** and
-**freelancers** through verified contracts, secure escrow payments, and transparent collaboration
-workflows.
+A modern freelance marketplace platform connecting creators and freelancers with secure contracts, escrow
+payments, and transparent workflows.
 
----
+## Quick Start
 
-## ⚙️ Core Features (Planned & In Progress)
+```bash
+npm run dev                    # Start server (http://localhost:3000)
+npm run type check             # Check for TypeScript errors
+npm run db:migrate             # Run database migrations
+```
 
-**Authentication** : User registration and login for both freelancers and creators  
-**Contracts** : Create, manage, and complete contracts betwusers  
-**Applications** : Freelancers apply to gigs with status transitions (accept, reject, withdraw)
-**Escrow System** : Holds payments securely until contract completion  
-**Wallet System** : Handles balance, deposits, withdrawals, and transactions
-**Payments**:Integration with external payment provider (e.g., Paystack/Stripe) **Disputes** :Handle
-disagreements and refunds through admin or automated logic
+## Features
 
----
+- **Authentication** - Secure user registration and login
+- **Marketplace** - Create gigs, apply for jobs, manage contracts
+- **Wallet System** - Deposit, withdraw, manage balances
+- **Escrow Payments** - Secure payment holding until contract completion
+- **Payment Integration** - Paystack integration for payments
+- **Email Notifications** - Welcome, OTP, and status emails
 
-## 🧩 Architecture Overview
+## Documentation
 
-Gig-Link follows a **Domain-Driven Design (DDD)** inspired modular hexagonal architecture with clear
-separation of concerns:
+- **[API.md](API.md)** - Complete API endpoint reference
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Interactive Swagger UI](http://localhost:3000/api-docs)** - Test endpoints live
 
-- **Domain Layer** → Business entities and core logic
-- **Application Layer** → Use cases and orchestration between adapters
-- **Http Layer** → Handles Networking
-- **Adapters** → External integrations
-- **Ports** → Interfaces for external integrations
+## Architecture
 
-This structure ensures maintainability, testability, and scalability as the project grows.
-
----
-
-## 🗂️ Project Structure (Simplified)
+Domain-Driven Design (DDD) with hexagonal architecture:
 
 ```
 src/
-├── contexts/
-├── contexts/
-│   ├── contracts/
-│   │   ├── domain/
-│   │   ├── application/
-│   │   ├── infrastructure/
-│   │   └── interface/
-│   ├── applications/
-│   ├── wallet/
-│   └── escrow/
-├── shared/
+├── contexts/              # Business modules (Auth, User, Marketplace, Billing)
+│   ├── domain/           # Core business logic
+│   ├── application/      # Use cases
+│   ├── http/             # API routes
+│   ├── adapters/         # External integrations
+│   └── ports/            # Interfaces
+├── infrastructure/       # Database, Redis, Email, Payments
+├── shared/              # Utils, helpers, types, middlewares
+└── tests/               # Test utilities
 │   ├── errors/
 │   ├── utils/
 │   └── middleware/
@@ -58,8 +51,8 @@ src/
 
 ## 🧪 Testing
 
-Unit and integration testing are being set up using **Jest**. Each module will have isolated test
-suites covering its use cases and entities.
+Unit and integration testing are being set up using **Jest**. Each module will have isolated test suites
+covering its use cases and entities.
 
 ---
 

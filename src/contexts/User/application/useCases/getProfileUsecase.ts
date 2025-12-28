@@ -1,19 +1,14 @@
 import { IProfileRepository } from '../../ports/IProfileRepository.js';
-import { BusinessError } from '../../domain/errors/BusinessError.js';
-import { profileRepository } from '../../adapters/profileRepository.js';
+import { UserProfileNotFoundError } from '../../domain/errors/DomainErrors.js';
+import { profileRepository } from '../../adapters/ProfileRepository.js';
 
 export class GetProfileUseCase {
         constructor(private profileRepository: IProfileRepository) {}
 
-        async Execute(profileId: string) {
-                const ProfileData =
-                        await this.profileRepository.findProfileById(profileId);
+        async execute(profileId: string) {
+                const ProfileData = await this.profileRepository.findById(profileId);
 
-                console.log(ProfileData);
-
-                if (!ProfileData) {
-                        throw BusinessError.notFound('Profile not found');
-                }
+                if (!ProfileData) throw new UserProfileNotFoundError();
 
                 return ProfileData;
         }

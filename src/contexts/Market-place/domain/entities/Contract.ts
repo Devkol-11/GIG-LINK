@@ -12,6 +12,8 @@ export type ContractProps = {
         applicationId: string;
         creatorId: string;
         freelancerId: string;
+        amountKobo: number;
+        currency: string;
         startDate: Date;
         endDate: Date | null;
         status: ContractStatusType;
@@ -26,14 +28,7 @@ export class Contract {
         /** Factory method to create a new Gig */
 
         public static create(
-                props: Omit<
-                        ContractProps,
-                        | 'id'
-                        | 'status'
-                        | 'paymentStatus'
-                        | 'createdAt'
-                        | 'updatedAt'
-                >
+                props: Omit<ContractProps, 'id' | 'status' | 'paymentStatus' | 'createdAt' | 'updatedAt'>
         ): Contract {
                 return new Contract({
                         id: randomUUID(),
@@ -51,6 +46,10 @@ export class Contract {
 
         public markAsCompleted() {
                 this.props.status = ContractStatus.COMPLETED;
+        }
+
+        public updateEndDate() {
+                this.props.endDate = new Date();
         }
 
         public cancel() {
@@ -86,5 +85,8 @@ export class Contract {
         }
         get paymentStatus() {
                 return this.props.paymentStatus;
+        }
+        get amount() {
+                return this.props.amountKobo;
         }
 }

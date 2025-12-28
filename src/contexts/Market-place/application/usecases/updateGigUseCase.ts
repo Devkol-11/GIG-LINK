@@ -4,7 +4,7 @@ import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 export class UpdateGigUseCase {
         constructor(private readonly gigRepository: GigRepository) {}
 
-        async Execute(
+        async execute(
                 gigId: string,
                 updates: Partial<{
                         title: string;
@@ -22,10 +22,7 @@ export class UpdateGigUseCase {
 
                 if (gig.creatorId !== userId) throw new NotAllowed();
 
-                const updatedGig = await this.gigRepository.update(
-                        gigId,
-                        updates
-                );
+                const updatedGig = await this.gigRepository.update(gigId, updates);
 
                 return updatedGig.getState();
         }

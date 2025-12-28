@@ -1,13 +1,7 @@
-import { UserProfile } from '@prisma/client';
+import { UserProfile } from '../domain/entities/UserProfile.js';
 
 export interface IProfileRepository {
         findUserById(userId: string): Promise<UserProfile | null>;
-        findProfileById(profileId: string): Promise<UserProfile | null>;
-        createUserProfile(
-                data: Partial<UserProfile>
-        ): Promise<UserProfile | null>;
-        updateUserProfile(
-                userId: string,
-                updateData: Partial<UserProfile>
-        ): Promise<UserProfile | null>;
+        findById(profileId: string): Promise<UserProfile | null>;
+        save(data: Partial<UserProfile>): Promise<UserProfile | null>;
 }

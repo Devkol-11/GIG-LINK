@@ -1,7 +1,7 @@
 import { IPaymentRepository } from '../ports/IPaymentRepository.js';
-import { Payment } from '../domain/aggregate-roots/Payment.js';
+import { Payment } from '../domain/entities/Payment.js';
 import { PaymentStatus, PaymentStatusType } from '../domain/enums/DomainEnums.js';
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { Prisma } from 'prisma/generated/prisma/client.js';
 import { ConcurrencyError } from '../domain/errors/concurrencyError.js';
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
@@ -54,10 +54,7 @@ export class PaymentRepository implements IPaymentRepository {
         }
 
         //-----3: findAllByWalletId
-        async findAllByWalletId(
-                walletId: string,
-                trx?: Prisma.TransactionClient
-        ): Promise<Payment[]> {
+        async findAllByWalletId(walletId: string, trx?: Prisma.TransactionClient): Promise<Payment[]> {
                 const client = trx ? trx : prismaDbClient;
 
                 const paymentsData = await client.payment.findMany({
@@ -79,9 +76,9 @@ export class PaymentRepository implements IPaymentRepository {
                                 where: { id: domain.id },
                                 update: {
                                         ...domain,
-                                        cancelReason: domain.cancelReason
-                                                ? domain.cancelReason
-                                                : 'nil'
+                                        cancelReason: domain.cancelReason ?? 'nil',
+                                        failedReason: domain.failedReason ?? 'nil',
+                                        reversedReason: domain.reversedReason ?? 'nil'
                                 },
                                 create: {
                                         id: domain.id,
@@ -90,9 +87,9 @@ export class PaymentRepository implements IPaymentRepository {
                                         amountKobo: domain.amountKobo,
                                         channel: domain.channel,
                                         systemReference: domain.systemReference,
-                                        cancelReason: domain.cancelReason
-                                                ? domain.cancelReason
-                                                : 'nil',
+                                        cancelReason: domain.cancelReason ?? 'nil',
+                                        failedReason: domain.failedReason ?? 'nil',
+                                        reversedReason: domain.reversedReason ?? 'nil',
                                         direction: domain.direction,
                                         currency: domain.currency,
                                         status: domain.status,
@@ -136,10 +133,7 @@ export class PaymentRepository implements IPaymentRepository {
                                 }
                         });
                 } catch (error) {
-                        if (
-                                error instanceof Prisma.PrismaClientKnownRequestError &&
-                                error.code === 'P2025'
-                        ) {
+                        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
                                 throw BusinessError.notFound('Payment not found');
                         }
                         throw error;
@@ -181,10 +175,7 @@ export class PaymentRepository implements IPaymentRepository {
                 return paymentsData.map((payment) => Payment.toEntity(payment));
         }
 
-        async findByWalletId(
-                walletId: string,
-                trx?: Prisma.TransactionClient
-        ): Promise<Payment | null> {
+        async findByWalletId(walletId: string, trx?: Prisma.TransactionClient): Promise<Payment | null> {
                 const client = trx ? trx : prismaDbClient;
 
                 const paymentRecord = await client.payment.findUnique({ where: { walletId } });

@@ -1,4 +1,4 @@
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { Contract } from '../domain/entities/Contract.js';
 import { IContractRepository } from '../ports/IContractRepository.js';
 
@@ -65,9 +65,7 @@ export class ContractRepository implements IContractRepository {
                 return records.map((record) => Contract.toEntity(record));
         }
 
-        async findByApplicationId(
-                applicationId: string
-        ): Promise<Contract | null> {
+        async findByApplicationId(applicationId: string): Promise<Contract | null> {
                 const record = await prismaDbClient.contract.findUnique({
                         where: { applicationId }
                 });
@@ -91,9 +89,7 @@ export class ContractRepository implements IContractRepository {
                         prismaDbClient.contract.count()
                 ]);
 
-                const contracts = records.map((record) =>
-                        Contract.toEntity(record)
-                );
+                const contracts = records.map((record) => Contract.toEntity(record));
                 return { contracts, total };
         }
 

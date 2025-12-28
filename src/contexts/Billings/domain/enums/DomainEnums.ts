@@ -32,11 +32,13 @@ export const TransactionStatus = $Enums.TransactionStatus;
 export type TransactionSourceType = $Enums.TransactionSource;
 export const TransactionSource = $Enums.TransactionSource;
 
+//Escrow-Status
+export type EscrowStatusType = $Enums.EscrowStatus;
+export const EscrowStatus = $Enums.EscrowStatus;
+
+//Escrow-Transaction
+export type EscrowTransactionType = $Enums.EscrowTransactionType;
+export const EscrowTransaction = $Enums.EscrowTransactionType;
+
 //Transaction-metadata
-export type TransactionMetadata =
-        | string
-        | number
-        | boolean
-        | Record<string, any>
-        | any[]
-        | null;
+export type TransactionMetadata = string | number | boolean | Record<string, any> | any[] | null;

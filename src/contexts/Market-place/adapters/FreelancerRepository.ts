@@ -1,4 +1,4 @@
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { Freelancer } from '../domain/entities/Freelancer.js';
 import { IFreelancerRepository } from '../ports/IFreelancerRepository.js';
 
@@ -44,9 +44,7 @@ export class FreelancerRepository implements IFreelancerRepository {
                         prismaDbClient.freelancer.count()
                 ]);
 
-                const freelancers = records.map((record) =>
-                        Freelancer.toEntity(record)
-                );
+                const freelancers = records.map((record) => Freelancer.toEntity(record));
                 return {
                         freelancers,
                         total

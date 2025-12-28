@@ -1,4 +1,4 @@
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { Application } from '../domain/entities/Application.js';
 import { IApplicationRepository } from '../ports/IApplicationRepository.js';
 
@@ -39,9 +39,7 @@ export class ApplicationRepository implements IApplicationRepository {
                         prismaDbClient.application.count({ where: { gigId } })
                 ]);
 
-                const applications = records.map((record) =>
-                        Application.toEntity(record)
-                );
+                const applications = records.map((record) => Application.toEntity(record));
                 return { applications, total };
         }
 
@@ -64,9 +62,7 @@ export class ApplicationRepository implements IApplicationRepository {
                         })
                 ]);
 
-                const applications = records.map((record) =>
-                        Application.toEntity(record)
-                );
+                const applications = records.map((record) => Application.toEntity(record));
                 return { applications, total };
         }
 
@@ -89,16 +85,11 @@ export class ApplicationRepository implements IApplicationRepository {
                         })
                 ]);
 
-                const applications = records.map((record) =>
-                        Application.toEntity(record)
-                );
+                const applications = records.map((record) => Application.toEntity(record));
                 return { applications, total };
         }
 
-        async findByGigAndFreelancer(
-                gigId: string,
-                freelancerId: string
-        ): Promise<Application | null> {
+        async findByGigAndFreelancer(gigId: string, freelancerId: string): Promise<Application | null> {
                 const record = await prismaDbClient.application.findFirst({
                         where: { gigId, freelancerId }
                 });
@@ -121,9 +112,7 @@ export class ApplicationRepository implements IApplicationRepository {
                         prismaDbClient.application.count()
                 ]);
 
-                const applications = records.map((record) =>
-                        Application.toEntity(record)
-                );
+                const applications = records.map((record) => Application.toEntity(record));
                 return { applications, total };
         }
 

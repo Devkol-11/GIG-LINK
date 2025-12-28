@@ -18,11 +18,16 @@ export function securePaths(req: Request, res: Response, next: NextFunction) {
                 });
         }
 
+        // Skip content-type validation for GET and DELETE requests as they typically don't have a body
+        if (req.method === 'GET' || req.method === 'DELETE') {
+                return next();
+        }
+
         const contentType = req.headers['content-type'];
 
         if (!contentType || !contentType?.startsWith('application/json')) {
                 return sendResponse(res, httpStatus.UnsupportedMedia, {
-                        error: 'Unsupported media type , expected application/json'
+                        error: 'Unsupported media type, expected application/json'
                 });
         }
         next();

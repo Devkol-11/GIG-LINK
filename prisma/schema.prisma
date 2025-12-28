@@ -22,20 +22,21 @@ model User {
   lastName        String
   phoneNumber     String?
   isEmailVerified Boolean @default(false)
+  isSuspended    Boolean
   role            ROLE    @default(FREELANCER)
   refreshToken    String?
+  wallet               Wallet?
+  paymentRecepientCode PaymentRecipient?
+  profile              UserProfile?
+  creatorProfile       Creator?
+  freelancerProfile    Freelancer?
+  refreshTokens        RefreshToken[]
+  otp                  Otp[]
+  settings             UserSettings?
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  wallet            Wallet?
-  paymentRecepientCode PaymentRecipient?
-  profile           UserProfile?
-  creatorProfile    Creator?
-  freelancerProfile Freelancer?
-  refreshTokens     RefreshToken[]
-  otp               Otp[]
-  settings          UserSettings?
 
   @@index([role])
   @@index([createdAt])
@@ -106,22 +107,40 @@ model Otp {
 }
 
 model Creator {
-  id               String   @id
-  userId           String   @unique
+  id               String  @id
+  userId           String  @unique
   organizationName String?
-  rating           Float    @default(0)
-  totalGigsPosted  Int      @default(0)
-  
-  verified         Boolean  @default(false)
-  gigs             Gig[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  rating           Float   @default(0)
+  totalGigsPosted  Int     @default(0)
+
+  verified  Boolean  @default(false)
+  gigs      Gig[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([verified])
   @@index([rating])
   @@map("creators")
+}
+model Freelancer {
+  id           String        @id
+  userId       String        @unique
+  skills       String[]
+  bio          String?
+  rating       Float         @default(0)
+  totalJobs    Int           @default(0)
+  verified     Boolean       @default(false)
+  applications Application[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([verified])
+  @@index([rating])
+  @@map("freelancers")
 }
 
 model Gig {
@@ -155,29 +174,13 @@ enum GigStatus {
   CANCELLED
 }
 
-model Freelancer {
-  id           String        @id
-  userId       String        @unique
-  skills       String[]
-  bio          String?
-  rating       Float         @default(0)
-  totalJobs    Int           @default(0)
-  verified     Boolean       @default(false)
-  applications Application[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([verified])
-  @@index([rating])
-  @@map("freelancers")
-}
 
 model Application {
   id           String            @id
   gigId        String
   freelancerId String
+  creatorId     String
   coverLetter  String
   status       ApplicationStatus @default(PENDING)
   createdAt    DateTime          @default(now())
@@ -206,6 +209,8 @@ model Contract {
   applicationId String                @unique
   creatorId     String
   freelancerId  String
+  amountKobo Int
+        currency String
   startDate     DateTime
   endDate       DateTime?
   escrowAccount EscrowAccount?
@@ -238,8 +243,8 @@ enum ContractPaymentStatus {
 model Wallet {
   id            String       @id
   userId        String       @unique
-  balanceCents  Int          @default(0)
-  reservedCents Int          @default(0)
+  balanceKobo  Int          @default(0)
+  reservedKobo Int          @default(0)
   currency      String
   status        WalletStatus @default(ACTIVE)
   createdAt     DateTime     @default(now())
@@ -262,16 +267,18 @@ enum WalletStatus {
 
 model Payment {
   id                String           @id
-  walletId          String            @unique
-  systemReference   String            @unique
+  walletId          String           @unique
+  systemReference   String           @unique
   provider          PaymentProvider
   providerReference String?          @unique
-  amountKobo       Int
+  amountKobo        Int
   currency          String
   direction         PaymentDirection
   status            PaymentStatus
   channel           PaymentChannel
   cancelReason      String
+  failedReason     String
+  reversedReason    String
   meta              Json?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
@@ -286,15 +293,14 @@ model Payment {
 }
 
 model PaymentRecipient {
-  id String @id
-  userId String @unique
-  code String @unique
+  id            String   @id
+  userId        String   @unique
+  code          String   @unique
   accountNumber String
-  bankName String
-createdAt DateTime
+  accountName     String
+  createdAt     DateTime
 
-user User @relation(fields: [userId] , references: [id])
-
+  user User @relation(fields: [userId], references: [id])
 }
 
 enum PaymentProvider {
@@ -314,6 +320,7 @@ enum PaymentStatus {
   SUCCESS
   FAILED
   CANCELLED
+  REVERSED
 }
 
 enum PaymentChannel {
@@ -327,7 +334,7 @@ model Transaction {
   walletId          String
   paymentId         String            @unique
   transactionType   TransactionType
-  amountCents       Int
+  amountKobo       Int
   status            TransactionStatus
   systemReference   String            @unique
   providerReference String            @unique
@@ -372,7 +379,8 @@ model EscrowAccount {
   contractId   String       @unique
   creatorId    String
   freelancerId String
-  balanceCents Int          @default(0)
+  balanceKobo Int          
+expectedAmountKobo  Int
   currency     String
   status       EscrowStatus @default(HELD)
   locked       Boolean      @default(true)
@@ -380,11 +388,9 @@ model EscrowAccount {
   updatedAt    DateTime     @updatedAt
 
   contract     Contract            @relation(fields: [contractId], references: [id], onDelete: Cascade)
-  auditLogs    EscrowAuditLog[]
-  transactions EscrowTransaction[]
-  releases     EscrowRelease[]
-  disputes     EscrowDispute[]
 
+  transactions EscrowTransaction[]
+  
   @@index([creatorId])
   @@index([freelancerId])
   @@index([status])
@@ -395,11 +401,10 @@ model EscrowTransaction {
   id          String                @id
   escrowId    String
   type        EscrowTransactionType
-  amountCents Int
+  amountKobo Int
   reference   String?               @unique
   status      TransactionStatus
   description String?
-  meta        Json?
   createdAt   DateTime              @default(now())
 
   escrowAccount EscrowAccount @relation(fields: [escrowId], references: [id], onDelete: Cascade)
@@ -407,58 +412,6 @@ model EscrowTransaction {
   @@index([escrowId])
   @@index([type])
   @@map("escrow_transactions")
-}
-
-model EscrowRelease {
-  id            String            @id
-  escrowId      String
-  amountCents   Int
-  releaseType   EscrowReleaseType
-  approvedBy    String?
-  releasedAt    DateTime          @default(now())
-  notes         String?
-  transactionId String?
-  meta          Json?
-
-  escrowAccount EscrowAccount @relation(fields: [escrowId], references: [id], onDelete: Cascade)
-
-  @@index([escrowId])
-  @@index([releaseType])
-  @@map("escrow_releases")
-}
-
-model EscrowDispute {
-  id           String              @id
-  escrowId     String
-  raisedById   String
-  reason       String
-  status       EscrowDisputeStatus @default(OPEN)
-  resolution   String?
-  resolvedById String?
-  createdAt    DateTime            @default(now())
-  resolvedAt   DateTime?
-
-  escrowAccount EscrowAccount @relation(fields: [escrowId], references: [id], onDelete: Cascade)
-
-  @@index([escrowId])
-  @@index([status])
-  @@map("escrow_disputes")
-}
-
-model EscrowAuditLog {
-  id        String   @id
-  escrowId  String
-  action    String
-  actorId   String?
-  oldState  Json?
-  newState  Json?
-  createdAt DateTime @default(now())
-
-  escrowAccount EscrowAccount @relation(fields: [escrowId], references: [id], onDelete: Cascade)
-
-  @@index([escrowId])
-  @@index([createdAt])
-  @@map("escrow_audit_logs")
 }
 
 enum EscrowStatus {
@@ -473,17 +426,4 @@ enum EscrowTransactionType {
   RELEASE
   REFUND
   ADJUSTMENT
-}
-
-enum EscrowReleaseType {
-  PARTIAL
-  FULL
-  MILESTONE
-}
-
-enum EscrowDisputeStatus {
-  OPEN
-  IN_REVIEW
-  RESOLVED
-  CLOSED
 }

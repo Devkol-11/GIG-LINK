@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { jwtLibary } from '@src/contexts/Auth/adapters/Jwt-impl.js';
+import { jwtLibary } from '@src/contexts/User/adapters/Jwt-impl.js';
 
 export class AuthMiddlewares {
         constructor() {}
@@ -8,9 +8,7 @@ export class AuthMiddlewares {
                 const authHeader = req.headers.authorization;
 
                 if (!authHeader || !authHeader.startsWith('Bearer')) {
-                        return res
-                                .status(401)
-                                .json({ message: 'Missing or invalid token' });
+                        return res.status(401).json({ message: 'Missing or invalid token' });
                 }
 
                 const token = authHeader.split(' ')[1];
@@ -18,9 +16,7 @@ export class AuthMiddlewares {
                 const decoded = jwtLibary.verifyAccessToken(token);
 
                 if (!decoded) {
-                        return res
-                                .status(401)
-                                .json({ message: 'Invalid or Expired token' });
+                        return res.status(401).json({ message: 'Invalid or Expired token' });
                 }
 
                 Object.defineProperty(req, 'user', {
@@ -41,9 +37,7 @@ export class AuthMiddlewares {
                         }
 
                         if (!allowedRoles.includes(req.user.role)) {
-                                return res
-                                        .status(403)
-                                        .json({ message: 'not allowed' });
+                                return res.status(403).json({ message: 'not allowed' });
                         }
 
                         next();

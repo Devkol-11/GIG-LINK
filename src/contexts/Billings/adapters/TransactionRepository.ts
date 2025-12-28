@@ -1,7 +1,7 @@
 import { ITransactionRepository } from '../ports/ITransactionRepository.js';
-import { Transaction } from '../domain/aggregate-roots/Transactions.js';
+import { Transaction } from '../domain/entities/Transactions.js';
 import { Prisma } from 'prisma/generated/prisma/client.js';
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { TransactionStatus, TransactionStatusType } from '../domain/enums/DomainEnums.js';
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
 
@@ -25,10 +25,7 @@ export class TransactionRepository implements ITransactionRepository {
         }
 
         //-----2: findByWalletId (bulk)
-        async findByWalletId(
-                walletId: string,
-                trx?: Prisma.TransactionClient
-        ): Promise<Transaction[]> {
+        async findByWalletId(walletId: string, trx?: Prisma.TransactionClient): Promise<Transaction[]> {
                 const client = trx ? trx : prismaDbClient;
 
                 const transactionsData = await client.transaction.findMany({
@@ -45,10 +42,7 @@ export class TransactionRepository implements ITransactionRepository {
         }
 
         //-----3: findByPaymentId (bulk)
-        async findByPaymentId(
-                paymentId: string,
-                trx?: Prisma.TransactionClient
-        ): Promise<Transaction[]> {
+        async findByPaymentId(paymentId: string, trx?: Prisma.TransactionClient): Promise<Transaction[]> {
                 const client = trx ? trx : prismaDbClient;
 
                 const transactionsData = await client.transaction.findMany({
@@ -94,16 +88,13 @@ export class TransactionRepository implements ITransactionRepository {
                                         id: state.id,
                                         walletId: state.walletId,
                                         transactionType: state.transactionType,
-                                        amountCents: state.amountCents,
+                                        amountKobo: state.amountKobo,
                                         status: state.status,
                                         providerReference: state.providerReference,
                                         source: state.source,
                                         paymentId: state.paymentId,
                                         description: state.description,
-                                        metadata:
-                                                state.metadata === null
-                                                        ? Prisma.JsonNull
-                                                        : state.metadata,
+                                        metadata: state.metadata === null ? Prisma.JsonNull : state.metadata,
                                         systemReference: state.systemReference,
                                         createdAt: state.createdAt,
                                         updatedAt: new Date()
@@ -143,10 +134,7 @@ export class TransactionRepository implements ITransactionRepository {
                                 }
                         });
                 } catch (error) {
-                        if (
-                                error instanceof Prisma.PrismaClientKnownRequestError &&
-                                error.code === 'P2025'
-                        ) {
+                        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
                                 throw BusinessError.notFound('Transaction not found');
                         }
                         throw error;

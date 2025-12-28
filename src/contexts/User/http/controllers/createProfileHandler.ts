@@ -7,25 +7,17 @@ import {
         createProfileUseCase
 } from '../../application/useCases/createProfileUsecase.js';
 
-export class CreateProfileHandler {
+export class CreateProfileController {
         constructor(private createProfileUseCase: CreateProfileUseCase) {}
 
-        Execute = catchAsync(
-                async (req: Request, res: Response, _next: NextFunction) => {
-                        const userId = req.user.userId;
-                        const profile = req.body;
+        execute = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+                const userId = req.user.userId;
+                const profile = req.body;
 
-                        const response =
-                                await this.createProfileUseCase.Execute(
-                                        userId,
-                                        profile
-                                );
+                const response = await this.createProfileUseCase.execute(userId, profile);
 
-                        sendResponse(res, httpStatus.Created, response);
-                }
-        );
+                sendResponse(res, httpStatus.Created, response);
+        });
 }
 
-export const createProfileHandler = new CreateProfileHandler(
-        createProfileUseCase
-);
+export const createProfileController = new CreateProfileController(createProfileUseCase);

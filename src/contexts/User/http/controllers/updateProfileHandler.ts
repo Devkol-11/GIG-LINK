@@ -7,29 +7,24 @@ import {
         updateProfileUseCase
 } from '../../application/useCases/UpdateProfileUsecase.js';
 
-export class UpdateProfileHandler {
+export class UpdateProfileController {
         constructor(private updateProfileUseCase: UpdateProfileUseCase) {}
 
-        Execute = catchAsync(
-                async (req: Request, res: Response, _next: NextFunction) => {
-                        const userId = req.user.userId;
+        execute = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+                const userId = req.user.userId;
 
-                        const profileId = req.params.id;
+                const profileId = req.params.id;
 
-                        const updateProfileData = req.body;
+                const updateProfileData = req.body;
 
-                        const response =
-                                await this.updateProfileUseCase.Execute(
-                                        userId,
-                                        profileId,
-                                        updateProfileData
-                                );
+                const response = await this.updateProfileUseCase.execute(
+                        userId,
+                        profileId,
+                        updateProfileData
+                );
 
-                        sendResponse(res, httpStatus.Success, response);
-                }
-        );
+                sendResponse(res, httpStatus.Success, response);
+        });
 }
 
-export const updateProfileHandler = new UpdateProfileHandler(
-        updateProfileUseCase
-);
+export const updateProfileController = new UpdateProfileController(updateProfileUseCase);

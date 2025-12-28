@@ -1,28 +1,24 @@
 import { IProfileRepository } from '../../ports/IProfileRepository.js';
-import { BusinessError } from '../../domain/errors/BusinessError.js';
-import { profileRepository } from '../../adapters/profileRepository.js';
+import { profileRepository } from '../../adapters/ProfileRepository.js';
+import { UserProfileNotFoundError } from '../../domain/errors/DomainErrors.js';
+import { UnAuthorizedAccessError } from '../../domain/errors/DomainErrors.js';
 
 export class UpdateAvatarUseCase {
         constructor(private profileRepository: IProfileRepository) {}
 
-        async Execute(userId: string, newAvatarUrl: string) {
-                const ProfileData =
-                        await this.profileRepository.findProfileById(userId);
+        async execute(userId: string, newAvatarUrl: string) {
+                const profile = await this.profileRepository.findById(userId);
 
-                if (!ProfileData) {
-                        throw BusinessError.notFound('profile not found');
+                if (!profile) {
+                        throw new UserProfileNotFoundError();
                 }
 
-                if (userId !== ProfileData.userId) {
-                        throw BusinessError.unauthorized('not allowed');
+                if (userId !== profile.userId) {
+                        throw new UnAuthorizedAccessError();
                 }
 
-                const updatedData =
-                        await this.profileRepository.updateUserProfile(userId, {
-                                avatarUrl: newAvatarUrl
-                        });
-
-                return updatedData;
+                profile.updateAvatar(newAvatarUrl);
+                await this.profileRepository.save(profile);
         }
 }
 

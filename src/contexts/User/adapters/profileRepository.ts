@@ -1,6 +1,6 @@
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { IProfileRepository } from '../ports/IProfileRepository.js';
-import { UserProfile } from 'prisma/generated/prisma/client.js';
+import { UserProfile } from '../domain/entities/UserProfile.js';
 
 export class ProfileRepository implements IProfileRepository {
         async findUserById(userId: string): Promise<UserProfile | null> {
@@ -9,36 +9,31 @@ export class ProfileRepository implements IProfileRepository {
                                 userId: userId
                         }
                 });
-                return record;
+
+                if (!record) return null;
+                return UserProfile.toEntity(record);
         }
 
-        async findProfileById(profileId: string): Promise<UserProfile | null> {
+        async findById(profileId: string): Promise<UserProfile | null> {
                 const record = await prismaDbClient.userProfile.findUnique({
                         where: {
                                 id: profileId
                         }
                 });
-                return record;
+                if (!record) return null;
+                return UserProfile.toEntity(record);
         }
 
-        async createUserProfile(
-                data: Omit<UserProfile, 'createdAt' | 'updatedAt'>
-        ): Promise<UserProfile | null> {
-                const record = await prismaDbClient.userProfile.create({
-                        data
+        async save(data: Omit<UserProfile, 'createdAt' | 'updatedAt'>): Promise<UserProfile | null> {
+                const state = data.getState();
+                const record = await prismaDbClient.userProfile.upsert({
+                        where: { userId: state.userId },
+                        update: state,
+                        create: state
                 });
-                return record;
-        }
 
-        async updateUserProfile(
-                profileId: string,
-                updateData: Partial<UserProfile>
-        ): Promise<UserProfile | null> {
-                const record = await prismaDbClient.userProfile.update({
-                        where: { id: profileId },
-                        data: updateData
-                });
-                return record;
+                if (!record) return null;
+                return UserProfile.toEntity(record);
         }
 }
 

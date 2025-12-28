@@ -1,4 +1,4 @@
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { Gig } from '../domain/entities/Gig.js';
 
 import { IGigRepository } from '../ports/IGigRepository.js';
@@ -61,14 +61,10 @@ export class GigRepository implements IGigRepository {
                         prismaDbClient.gig.count()
                 ]);
 
-                const recordsResult =
-                        records.status === 'fulfilled' ? records.value : [];
-                const totalValue =
-                        total.status === 'fulfilled' ? total.value : 0;
+                const recordsResult = records.status === 'fulfilled' ? records.value : [];
+                const totalValue = total.status === 'fulfilled' ? total.value : 0;
 
-                const gigs = recordsResult.map((record) =>
-                        Gig.toEntity(record)
-                );
+                const gigs = recordsResult.map((record) => Gig.toEntity(record));
                 return {
                         gigs,
                         totalValue

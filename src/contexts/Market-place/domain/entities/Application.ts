@@ -1,14 +1,12 @@
 import { randomUUID } from 'crypto';
-import { ApplicationAcceptedEvent } from '../events/applicationAcceptedEvent.js';
-import {
-        ApplicationStatus,
-        ApplicationStatusType
-} from '../enums/DomainEnums.js';
+import { ApplicationAcceptedEvent } from '../events/application.accepted.event.js';
+import { ApplicationStatus, ApplicationStatusType } from '../enums/DomainEnums.js';
 
 export type ApplicationProps = {
         readonly id: string;
-        gigId: string;
-        freelancerId: string;
+        readonly gigId: string;
+        readonly freelancerId: string;
+        readonly creatorId: string;
         coverLetter: string;
         status: ApplicationStatusType;
         createdAt: Date;
@@ -20,10 +18,7 @@ export class Application {
 
         /** Factory method to create a new Application */
         public static create(
-                props: Omit<
-                        ApplicationProps,
-                        'id' | 'status' | 'createdAt' | 'updatedAt'
-                >
+                props: Omit<ApplicationProps, 'id' | 'status' | 'createdAt' | 'updatedAt'>
         ): Application {
                 return new Application({
                         id: randomUUID(),
@@ -38,10 +33,7 @@ export class Application {
         public accept() {
                 this.props.status = ApplicationStatus.ACCEPTED;
                 this.props.updatedAt = new Date();
-                return new ApplicationAcceptedEvent(
-                        this.props.id,
-                        this.props.freelancerId
-                );
+                return new ApplicationAcceptedEvent(this.props.id, this.props.freelancerId);
         }
         public reject() {
                 this.props.status = ApplicationStatus.REJECTED;
@@ -76,6 +68,9 @@ export class Application {
         }
         get freelancerId() {
                 return this.props.freelancerId;
+        }
+        get creatorId() {
+                return this.props.creatorId;
         }
         get coverLetter() {
                 return this.props.coverLetter;

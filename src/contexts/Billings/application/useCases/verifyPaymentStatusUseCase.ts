@@ -11,7 +11,7 @@ export class VerifyPaymentStatusUseCase {
                 private readonly paymentRepository: IPaymentRepository
         ) {}
 
-        async Execute(systemReference: string) {
+        async execute(systemReference: string) {
                 const payment = await this.paymentRepository.findBySystemReference(systemReference);
                 if (!payment) throw new PaymentNotFoundError();
 
@@ -23,8 +23,7 @@ export class VerifyPaymentStatusUseCase {
                 }
 
                 if (payment.status === PaymentStatus.PENDING) {
-                        const providerResponse =
-                                await this.paymentProvider.verifyPayment(providerReference);
+                        const providerResponse = await this.paymentProvider.verifyPayment(providerReference);
 
                         if (providerResponse.status === 'failed') {
                                 payment.markAsFailed();
@@ -43,7 +42,4 @@ export class VerifyPaymentStatusUseCase {
         }
 }
 
-export const verifyPaymentStatusUseCase = new VerifyPaymentStatusUseCase(
-        paystackAdapter,
-        paymentRepository
-);
+export const verifyPaymentStatusUseCase = new VerifyPaymentStatusUseCase(paystackAdapter, paymentRepository);

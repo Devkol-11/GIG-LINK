@@ -14,13 +14,7 @@ export class AvatarGenerator implements IAvatarGenerator {
                         backgroundColor: ['b6e3f4', 'c0aede', 'd1d4f9'],
                         backgroundType: ['gradientLinear', 'solid'],
                         facialHairProbability: 50,
-                        hair: [
-                                'bangs',
-                                'buns',
-                                'flatTop',
-                                'buns',
-                                'shortCurls'
-                        ],
+                        hair: ['bangs', 'buns', 'flatTop', 'buns', 'shortCurls'],
                         hairColor: ['000000', '1d5dff', 'ff543d'],
                         mood: ['happy', 'hopeful', 'neutral']
                 });

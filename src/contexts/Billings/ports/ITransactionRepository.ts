@@ -1,5 +1,5 @@
 import { Prisma } from 'prisma/generated/prisma/client.js';
-import { Transaction } from '../domain/aggregate-roots/Transactions.js';
+import { Transaction } from '../domain/entities/Transactions.js';
 import { TransactionStatusType } from '../domain/enums/DomainEnums.js';
 
 export interface ITransactionRepository {
@@ -11,10 +11,7 @@ export interface ITransactionRepository {
 
         findByPaymentId(paymentId: string, trx?: Prisma.TransactionClient): Promise<Transaction[]>;
 
-        findByReference(
-                reference: string,
-                trx?: Prisma.TransactionClient
-        ): Promise<Transaction | null>;
+        findByReference(reference: string, trx?: Prisma.TransactionClient): Promise<Transaction | null>;
 
         save(transaction: Transaction, trx?: Prisma.TransactionClient): Promise<Transaction>;
 

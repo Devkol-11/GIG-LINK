@@ -19,9 +19,8 @@ declare global {
                         MAIL_USERNAME: string;
                         MAIL_PASSWORD: string;
                         MAIL_FROM: string;
-                        GOOGLE_CLIENT_ID: string;
-                        GOOGLE_CLIENT_SECRET: string;
-                        GOOGLE_CALLBACK_URL: string;
+                        PAYSTACK_TEST_SECRET_KEY: string;
+                        PAYSTACK_TEST_PUBLIC_KEY: string;
                 }
         }
 }
@@ -32,6 +31,7 @@ declare global {
                         user: JwtPayload & {
                                 userId: string;
                                 email: string;
+                                firstName: string;
                                 role: 'CREATOR' | 'FREELANCER';
                         };
 

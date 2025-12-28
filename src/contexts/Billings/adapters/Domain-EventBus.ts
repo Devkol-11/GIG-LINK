@@ -1,13 +1,13 @@
 import { IEventBus } from '../ports/IEventBus.js';
-import { nodeEmitter } from '@src/infrastructure/message-brokers/adapters/NodeEmitter-impl.js';
+import { bullEventBus } from '@core/BullMQ/BullEventBus.js';
 
 export class DomainEventBus implements IEventBus {
-        publish(event: string, payload: any): Promise<void> {
-                return nodeEmitter.publish(event, payload);
+        publish(event: string, payload: any): void {
+                bullEventBus.publish(event, payload);
         }
 
-        consume(event: string, callback: (payload: any) => Promise<void>): Promise<void> {
-                return nodeEmitter.consume(event, callback);
+        subscribe(event: string, callback: (payload: any) => Promise<void>): void {
+                bullEventBus.subscribe(event, callback);
         }
 }
 

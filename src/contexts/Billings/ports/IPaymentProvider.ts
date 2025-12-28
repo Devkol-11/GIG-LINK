@@ -4,6 +4,9 @@ export interface IPaymentProvider {
         verifyPayment(reference: string): Promise<PaymentVerificationResponse>;
         verifySignature(rawBody: string, signature: string): Promise<boolean>;
         getTransferRecepient(request: TransferRecepientRequest): Promise<VerifiedRecipientData>;
+        initiateTransfer(
+                request: TransferInitializationRequest
+        ): Promise<TransferInitializationResponse>;
 }
 
 // DTOs for the payment processor
@@ -45,3 +48,25 @@ export interface VerifiedRecipientData {
         verifiedAccountName: string; // The crucial verified name
         accountNumber: string; // The original number (for your records)
 }
+
+export interface TransferInitializationRequest {
+        source: 'balance';
+        amount: number;
+        recipient: string;
+        reason?: string;
+        reference: string;
+}
+
+export interface TransferInitializationResponse {
+        providerReference: string;
+        status: boolean;
+        message: string;
+}
+
+export type TransferInitiatedGatewayResponse = {
+        status: true;
+        data: {
+                providerReference: string;
+        };
+        message: string;
+};

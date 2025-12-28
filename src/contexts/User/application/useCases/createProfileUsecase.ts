@@ -1,9 +1,10 @@
 import { IProfileRepository } from '../../ports/IProfileRepository.js';
-import { BusinessError } from '../../domain/errors/BusinessError.js';
-import { UserService } from '../../services/userService.js';
+import { UserProfile } from '../../domain/entities/UserProfile.js';
+import { UserService } from '../../domain/services/UserService.js';
 import { createProfileData } from '../dtos/createProfileDTO.js';
-import { profileRepository } from '../../adapters/profileRepository.js';
-import { userService } from '../../services/userService.js';
+import { UserProfileNotFoundError } from '../../domain/errors/DomainErrors.js';
+import { profileRepository } from '../../adapters/ProfileRepository.js';
+import { userService } from '../../domain/services/UserService.js';
 
 export class CreateProfileUseCase {
         constructor(
@@ -11,30 +12,27 @@ export class CreateProfileUseCase {
                 private userService: UserService
         ) {}
 
-        async Execute(userId: string, profile: createProfileData) {
-                const userProfileData =
-                        await this.profileRepository.findUserById(userId);
+        async execute(userId: string, profile: createProfileData) {
+                const { bio, skills, interests, location } = profile;
+                const userProfileData = await this.profileRepository.findUserById(userId);
 
-                if (userProfileData) {
-                        throw BusinessError.notFound(
-                                'profile already exists for this user'
-                        );
-                }
+                if (!userProfileData) throw new UserProfileNotFoundError();
 
-                const avatarUrl = this.userService.createAvatar();
+                const avatar = this.userService.createAvatar();
 
-                const createdData =
-                        await this.profileRepository.createUserProfile({
-                                ...profile,
-                                userId,
-                                avatarUrl
-                        });
+                const userProfile = UserProfile.Create({
+                        bio,
+                        userId: userProfileData.userId,
+                        skills,
+                        interests,
+                        location,
+                        avatarUrl: avatar
+                });
 
-                return createdData;
+                await this.profileRepository.save(userProfile);
+
+                return { message: 'profile created successfully' };
         }
 }
 
-export const createProfileUseCase = new CreateProfileUseCase(
-        profileRepository,
-        userService
-);
+export const createProfileUseCase = new CreateProfileUseCase(profileRepository, userService);

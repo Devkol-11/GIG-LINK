@@ -4,7 +4,7 @@ import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
 export class GetGigUseCase {
         constructor(private gigRepository: GigRepository) {}
 
-        async Execute(gigId: string) {
+        async execute(gigId: string) {
                 const gig = await this.gigRepository.findById(gigId);
 
                 if (!gig) throw new GigNotFound();

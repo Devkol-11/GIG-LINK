@@ -1,4 +1,4 @@
-import { prismaDbClient } from '@core/database/prisma.client.js';
+import { prismaDbClient } from '@core/Prisma/prisma.client.js';
 import { Creator } from '../domain/entities/Creator.js';
 import { ICreatorRepository } from '../ports/ICreatorRepository.js';
 
@@ -46,9 +46,7 @@ export class CreatorRepository implements ICreatorRepository {
                         prismaDbClient.creator.count()
                 ]);
 
-                const creators = records.map((record) =>
-                        Creator.toEntity(record)
-                );
+                const creators = records.map((record) => Creator.toEntity(record));
                 return { creators, total };
         }
 

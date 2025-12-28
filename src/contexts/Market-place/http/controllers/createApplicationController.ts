@@ -5,33 +5,29 @@ import {
         CreateApplicationUseCase,
         createApplicationUseCase
 } from '../../application/usecases/createApplicationUseCase.js';
+import { httpStatus } from '@src/shared/constants/httpStatusCode.js';
 
 export class CreateApplicationController {
-        constructor(
-                private createApplicationUseCase: CreateApplicationUseCase
-        ) {}
+        constructor(private createApplicationUseCase: CreateApplicationUseCase) {}
 
-        Execute = catchAsync(
-                async (req: Request, res: Response, _next: NextFunction) => {
-                        const gigId = req.params.id;
-                        const freelancerId = req.user?.userId;
+        execute = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+                const gigId = req.params.id;
 
-                        const coverLetter = req.body.coverLetter;
+                const freelancerId = req.user.userId;
 
-                        const response = this.createApplicationUseCase.Execute({
-                                gigId,
-                                freelancerId,
-                                coverLetter
-                        });
+                const coverLetter = req.body.coverLetter;
 
-                        return sendResponse(res, 200, {
-                                message: 'Application creation Successful',
-                                response
-                        });
-                }
-        );
+                const response = this.createApplicationUseCase.execute({
+                        gigId,
+                        freelancerId,
+                        coverLetter
+                });
+
+                return sendResponse(res, 200, {
+                        message: 'Application creation Successful',
+                        response
+                });
+        });
 }
 
-export const createApplicationController = new CreateApplicationController(
-        createApplicationUseCase
-);
+export const createApplicationController = new CreateApplicationController(createApplicationUseCase);

@@ -1,13 +1,14 @@
 import { BusinessError } from '@src/shared/errors/BusinessError.js';
 import { randomUUID } from 'crypto';
 import { WalletStatus, WalletStatusType } from '../enums/DomainEnums.js';
+import { InsufficientWalletBalanceError } from '../errors/domainErrors.js';
 
 export interface WalletProps {
         readonly id: string;
         readonly userId: string;
         status: WalletStatusType;
-        balanceCents: number;
-        reservedCents: number;
+        balanceKobo: number;
+        reservedKobo: number;
         currency: string;
         version: number; // optimistic lock
         readonly createdAt: Date;
@@ -16,9 +17,8 @@ export interface WalletProps {
 
 export class Wallet {
         private constructor(private props: WalletProps) {
-                if (props.balanceCents !== 0)
-                        throw BusinessError.forbidden('Balance must start at Zero');
-                if (props.reservedCents !== 0)
+                if (props.balanceKobo !== 0) throw BusinessError.forbidden('Balance must start at Zero');
+                if (props.reservedKobo !== 0)
                         throw BusinessError.forbidden('Reserved must start at zero');
         }
 
@@ -28,8 +28,8 @@ export class Wallet {
                 props: Omit<
                         WalletProps,
                         | 'id'
-                        | 'balanceCents'
-                        | 'reservedCents'
+                        | 'balanceKobo'
+                        | 'reservedKobo'
                         | 'status'
                         | 'version'
                         | 'createdAt'
@@ -39,8 +39,8 @@ export class Wallet {
         ): Wallet {
                 return new Wallet({
                         id: randomUUID(),
-                        balanceCents: 0,
-                        reservedCents: 0,
+                        balanceKobo: 0,
+                        reservedKobo: 0,
                         version: 0,
                         createdAt: new Date(),
                         updatedAt: new Date(),
@@ -57,10 +57,10 @@ export class Wallet {
                         throw BusinessError.forbidden('wallet not active');
                 if (amount <= 0) throw BusinessError.forbidden('invalid amount');
                 // max single deposit (domain rule)
-                const MAX_SINGLE_FUND = 200_000 * 100; // cents
+                const MAX_SINGLE_FUND = 200_000 * 100; // Kobo
                 if (amount > MAX_SINGLE_FUND)
                         throw BusinessError.forbidden('exceeds maximum single top-up');
-                this.props.balanceCents += amount;
+                this.props.balanceKobo += amount;
                 this.props.updatedAt = new Date();
                 this.incrementVersion();
         }
@@ -69,27 +69,29 @@ export class Wallet {
                 if (this.props.status !== WalletStatus.ACTIVE)
                         throw BusinessError.forbidden('wallet not active');
                 if (amount <= 0) throw BusinessError.forbidden('invalid amount');
-                if (amount > this.availableCents)
-                        throw BusinessError.forbidden('insufficient funds');
-                this.props.balanceCents -= amount;
+                if (amount > this.availableAmount) throw BusinessError.forbidden('insufficient funds');
+                this.props.balanceKobo -= amount;
                 this.props.updatedAt = new Date();
                 this.incrementVersion();
         }
 
         reserve(amount: number) {
-                if (amount > this.availableCents)
-                        throw BusinessError.forbidden('insufficient funds');
-                this.props.balanceCents -= amount;
-                this.props.reservedCents += amount;
+                if (amount > this.availableAmount) throw BusinessError.forbidden('insufficient funds');
+                this.props.balanceKobo -= amount;
+                this.props.reservedKobo += amount;
                 this.props.updatedAt = new Date();
                 this.incrementVersion();
         }
         releaseReserved(amount: number) {
-                if (amount > this.props.reservedCents)
+                if (amount > this.props.reservedKobo)
                         throw BusinessError.forbidden('insufficient funds in reserved');
-                this.props.reservedCents -= amount;
+                this.props.reservedKobo -= amount;
                 this.props.updatedAt = new Date();
                 this.incrementVersion();
+        }
+
+        checkBalance() {
+                if (this.props.balanceKobo === 0) throw new InsufficientWalletBalanceError();
         }
 
         // ----- PRIVATE METHODS -----
@@ -110,8 +112,8 @@ export class Wallet {
 
         // ----- GETTERS -----
 
-        get availableCents() {
-                return this.props.balanceCents - this.props.reservedCents;
+        get availableAmount() {
+                return this.props.balanceKobo - this.props.reservedKobo;
         }
         get id() {
                 return this.props.id;

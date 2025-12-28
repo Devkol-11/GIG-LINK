@@ -1,12 +1,6 @@
 import { GigRepository, gigRepository } from '../../adapters/GigRepository.js';
-import {
-        FreelancerRepository,
-        freelancerRepository
-} from '../../adapters/FreelancerRepository.js';
-import {
-        ApplicationRepository,
-        applicationRepository
-} from '../../adapters/ApplicationRepository.js';
+import { FreelancerRepository, freelancerRepository } from '../../adapters/FreelancerRepository.js';
+import { ApplicationRepository, applicationRepository } from '../../adapters/ApplicationRepository.js';
 import { Application } from '../../domain/entities/Application.js';
 import { createApplicationDTO } from '../dtos/createApplicationDTO.js';
 import {
@@ -16,8 +10,6 @@ import {
         NotAllowed,
         NotFound
 } from '../../domain/errors/DomainErrors.js';
-import { Freelancer } from '../../domain/entities/Freelancer.js';
-import { Gig } from '../../domain/entities/Gig.js';
 
 export class CreateApplicationUseCase {
         constructor(
@@ -26,11 +18,10 @@ export class CreateApplicationUseCase {
                 private readonly freelancerRepository: FreelancerRepository
         ) {}
 
-        async Execute(data: createApplicationDTO) {
+        async execute(data: createApplicationDTO) {
                 const { gigId, freelancerId, coverLetter } = data;
 
-                const freeLancer =
-                        await this.freelancerRepository.findById(freelancerId);
+                const freeLancer = await this.freelancerRepository.findById(freelancerId);
 
                 if (!freeLancer) {
                         throw new NotFound('FreeLancer not found');
@@ -42,11 +33,10 @@ export class CreateApplicationUseCase {
 
                 if (!gig) throw new GigNotFound();
 
-                const existingGig =
-                        await this.applicationRepository.findByGigAndFreelancer(
-                                gigId,
-                                freelancerId
-                        );
+                const existingGig = await this.applicationRepository.findByGigAndFreelancer(
+                        gigId,
+                        freelancerId
+                );
                 if (existingGig) throw new GigConflict();
 
                 gig.checkStatus();
@@ -54,12 +44,12 @@ export class CreateApplicationUseCase {
                 const newApplication = Application.create({
                         gigId,
                         freelancerId,
-                        coverLetter
+                        coverLetter,
+                        creatorId: gig.creatorId
                 });
 
-                const savedApplication =
-                        await this.applicationRepository.save(newApplication);
-                return savedApplication.getState();
+                await this.applicationRepository.save(newApplication);
+                return { message: 'Application sent successfully' };
         }
 }
 

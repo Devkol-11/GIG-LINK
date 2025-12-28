@@ -2,28 +2,20 @@ import { Request, Response, NextFunction } from 'express';
 import { catchAsync } from '@src/shared/helpers/catchAsync.js';
 import { sendResponse } from '@src/shared/helpers/sendResponse.js';
 import { httpStatus } from '@src/shared/constants/httpStatusCode.js';
-import {
-        UpdateAvatarUseCase,
-        updateAvatarUseCase
-} from '../../application/useCases/updateAvatarUsecase.js';
+import { UpdateAvatarUseCase, updateAvatarUseCase } from '../../application/useCases/updateAvatarUsecase.js';
 
-export class UpdateAvatarHandler {
+export class UpdateAvatarController {
         constructor(private updateAvatarUseCase: UpdateAvatarUseCase) {}
 
-        Execute = catchAsync(
-                async (req: Request, res: Response, _next: NextFunction) => {
-                        const userId = req.user.id;
+        execute = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+                const userId = req.user.id;
 
-                        const { newAvatarUrl } = req.body;
+                const { newAvatarUrl } = req.body;
 
-                        const response = await this.updateAvatarUseCase.Execute(
-                                userId,
-                                newAvatarUrl
-                        );
+                const response = await this.updateAvatarUseCase.execute(userId, newAvatarUrl);
 
-                        sendResponse(res, httpStatus.Success, response);
-                }
-        );
+                sendResponse(res, httpStatus.Success, response);
+        });
 }
 
-export const updateAvatarHandler = new UpdateAvatarHandler(updateAvatarUseCase);
+export const updateAvatarController = new UpdateAvatarController(updateAvatarUseCase);

@@ -270,3 +270,24 @@ C:\Users\HP\Desktop\GIG-LINK-API\backend\src\contexts\Auth\adapters\AuthReposito
   53 async findByEmail(email: string): Promise<User | null> {
 → 54         const record = await prismaDbClient.user.findUnique(
 connect ECONNABORTED 13.41.250.251:5432
+[2025-12-28T15:20:55.669Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:55.677Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:55.786Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:55.990Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:56.303Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:56.730Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:57.251Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:57.861Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:58.580Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:20:59.389Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:21:00.297Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:21:01.307Z] [31merror[39m: Redis: Max reconnection attempts reached
+[2025-12-28T15:21:01.309Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com:18372
+[2025-12-28T15:21:01.310Z] [31merror[39m: Redis: Initialization failed - Max reconnection attempts reached
+[2025-12-28T15:21:01.317Z] [31merror[39m: Failed to initialize infrastructure: Redis initialization failed: Max reconnection attempts reached
+[2025-12-28T15:21:01.318Z] [31merror[39m: Error starting the server Redis initialization failed: Max reconnection attempts reached
+[2025-12-28T15:21:18.714Z] [31merror[39m: Redis: Disconnection error - The client is closed
+[2025-12-28T15:28:41.218Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-28T15:28:46.239Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-28T15:28:51.365Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-28T15:28:56.619Z] [31merror[39m: Redis: Connection error - Connection timeout

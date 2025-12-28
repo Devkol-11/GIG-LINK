@@ -4,16 +4,8 @@ import { createGigDTO } from '../dtos/createGigDTO.js';
 
 export class CreateGigUseCase {
         constructor(private gigRepository: GigRepository) {}
-        async Execute(data: createGigDTO) {
-                const {
-                        title,
-                        description,
-                        price,
-                        category,
-                        creatorId,
-                        tags,
-                        deadline
-                } = data;
+        async execute(data: createGigDTO) {
+                const { title, description, price, category, creatorId, tags, deadline } = data;
 
                 const newGig = Gig.create({
                         title,
@@ -25,9 +17,9 @@ export class CreateGigUseCase {
                         creatorId
                 });
 
-                const savedGig = await this.gigRepository.save(newGig);
+                await this.gigRepository.save(newGig);
 
-                return savedGig.getState();
+                return { message: 'gig created successfully', gig: newGig };
         }
 }
 

@@ -1,25 +1,27 @@
 import { Paystack } from 'paystack-sdk';
 import crypto from 'crypto';
-
 import {
         IPaymentProvider,
         PaymentInitializationRequest,
         PaymentInitializationResponse,
         PaymentVerificationResponse,
+        TransferInitializationRequest,
+        TransferInitializationResponse,
+        TransferInitiatedGatewayResponse,
         TransferRecepientRequest,
         VerifiedRecipientData
 } from '../ports/IPaymentProvider.js';
 import { SystemError } from '@src/shared/errors/SystemError.js';
-import { logger } from '@core/logging/winston.js';
 import { ExternalGatewayError } from '@src/shared/errors/ExternalGatewayError.js';
+import { config } from '@src/infrastructure/EnvConfig/env.js';
+import { logger } from '@core/Winston/winston.js';
 
 export class PaystackAdapter implements IPaymentProvider {
         private client;
 
         constructor(private readonly secretKey: string) {
                 if (!secretKey || secretKey === '') {
-                        logger.warn('Paystack api key not provided');
-                        const err = new SystemError();
+                        const err = new SystemError('Paystack api key not provided');
                         logger.warn(err);
                         throw err;
                 }
@@ -55,8 +57,7 @@ export class PaystackAdapter implements IPaymentProvider {
                                 accessCode: response.data.access_code
                         };
                 } catch (err: any) {
-                        // fix error type mismatch later
-                        if (!err.response || err.code === 'ETIMEDOUT')
+                        if (!err.response || err.code === 'ETIMEDOUT' || err.code === 'ECONNREFUSED')
                                 throw new ExternalGatewayError('paystack', err.message);
                         logger.warn(err);
                         throw err;
@@ -84,8 +85,7 @@ export class PaystackAdapter implements IPaymentProvider {
                                 gatewayResponse: response.data.gateway_response
                         };
                 } catch (err: any) {
-                        // fix error type mismatch later
-                        if (!err.response || err.code === 'ETIMEDOUT')
+                        if (!err.response || err.code === 'ETIMEDOUT' || err.code === 'ECONNREFUSED')
                                 throw new ExternalGatewayError('paystack', err.message);
                         logger.warn(err);
                         throw err;
@@ -116,10 +116,45 @@ export class PaystackAdapter implements IPaymentProvider {
                                 verifiedAccountName: response.data.details.account_name,
                                 accountNumber: response.data.details.account_number
                         };
-                } catch (err) {
-                        // fix error type mismatch later
-                        if (!(err as any).response || (err as any).code === 'ETIMEDOUT')
-                                throw new ExternalGatewayError('paystack', (err as any).message);
+                } catch (err: any) {
+                        if (!err.response || err.code === 'ETIMEDOUT' || err.code === 'ECONNREFUSED')
+                                throw new ExternalGatewayError('paystack', err.message);
+                        logger.warn(err);
+                        throw err;
+                }
+        }
+
+        async initiateTransfer(
+                request: TransferInitializationRequest
+        ): Promise<TransferInitializationResponse> {
+                try {
+                        const { source, amount, recipient, reason, reference } = request;
+
+                        const response = await this.client.transfer.initiate({
+                                source,
+                                amount,
+                                recipient,
+                                reason,
+                                reference
+                        });
+
+                        if (!response.message || !response.status)
+                                throw new ExternalGatewayError(
+                                        'paystack',
+                                        `failed to initiate transfer : ${response.message}`
+                                );
+
+                        const initiatedResponse = response as TransferInitiatedGatewayResponse;
+
+                        return {
+                                providerReference: initiatedResponse.data.providerReference,
+                                status: initiatedResponse.status,
+                                message: initiatedResponse.message
+                        };
+                } catch (err: any) {
+                        if (!err.response || err.code === 'ETIMEDOUT' || err.code === 'ECONNREFUSED') {
+                                throw new ExternalGatewayError('paystack', err.message);
+                        }
                         logger.warn(err);
                         throw err;
                 }
@@ -135,4 +170,4 @@ export class PaystackAdapter implements IPaymentProvider {
         }
 }
 
-export const paystackAdapter = new PaystackAdapter('');
+export const paystackAdapter = new PaystackAdapter(config.PAYSTACK_TEST_SECRET_KEY);

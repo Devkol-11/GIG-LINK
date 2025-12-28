@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '@src/infrastructure/logging/winston.js';
+import { logger } from '@core/Winston/winston.js';
 import { sendError } from '../helpers/sendError.js';
 import { SystemError } from '../errors/SystemError.js';
 import { BusinessError } from '../errors/BusinessError.js';
@@ -26,10 +26,7 @@ export const globalErrorHandler = (
                 });
         }
 
-        if (
-                err.isConcurrencyError ||
-                (err.statusCode && err.statusCode < 500)
-        ) {
+        if (err.isConcurrencyError || (err.statusCode && err.statusCode < 500)) {
                 const statusCode = err.statusCode;
 
                 return sendError(res, statusCode, {

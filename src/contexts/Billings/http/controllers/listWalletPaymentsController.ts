@@ -10,15 +10,13 @@ import {
 export class ListWalletPaymentController {
         constructor(private readonly listWalletPaymentUseCase: ListWalletPaymentUseCase) {}
 
-        Execute = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+        execute = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
                 const walletId = req.params.walletId;
 
-                const response = await this.listWalletPaymentUseCase.Execute(walletId);
+                const response = await this.listWalletPaymentUseCase.execute(walletId);
 
                 return sendResponse(res, httpStatus.Success, response);
         });
 }
 
-export const listWalletPaymentController = new ListWalletPaymentController(
-        listWalletPaymentsUseCase
-);
+export const listWalletPaymentController = new ListWalletPaymentController(listWalletPaymentsUseCase);

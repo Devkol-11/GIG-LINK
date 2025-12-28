@@ -1,30 +1,33 @@
 import { IProfileRepository } from '../../ports/IProfileRepository.js';
-import { BusinessError } from '../../domain/errors/BusinessError.js';
-import { profileRepository } from '../../adapters/profileRepository.js';
+import { UnAuthorizedAccessError, UserProfileNotFoundError } from '../../domain/errors/DomainErrors.js';
+import { profileRepository } from '../../adapters/ProfileRepository.js';
 
+export interface updateProfileData {
+        bio: string;
+        skills: string[];
+        interests: string[];
+        location: string;
+}
 export class UpdateProfileUseCase {
         constructor(private profileRepository: IProfileRepository) {}
 
-        async Execute(
-                userId: string,
-                profileId: string,
-                updateProfileData: object
-        ) {
-                console.log(userId);
-                const ProfileData =
-                        await this.profileRepository.findProfileById(profileId);
+        async execute(userId: string, profileId: string, updates: updateProfileData) {
+                const profile = await this.profileRepository.findById(profileId);
 
-                if (!ProfileData) {
-                        throw BusinessError.notFound('profile not found');
+                if (!profile) {
+                        throw new UserProfileNotFoundError();
                 }
 
-                if (userId !== ProfileData.userId) {
-                        throw BusinessError.unauthorized('not allowed');
+                if (userId !== profile.userId) {
+                        throw new UnAuthorizedAccessError();
                 }
 
-                await this.profileRepository.updateUserProfile(profileId, {
-                        ...updateProfileData
-                });
+                profile.updateBio(updates.bio);
+                profile.updateSkills(updates.skills);
+                profile.updateInterests(updates.interests);
+                profile.updateLocation(updates.location);
+
+                await this.profileRepository.save(profile);
 
                 return {
                         message: 'Profile Update Successful'
