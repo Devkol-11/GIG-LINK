@@ -291,3 +291,40 @@ connect ECONNABORTED 13.41.250.251:5432
 [2025-12-28T15:28:46.239Z] [31merror[39m: Redis: Connection error - Connection timeout
 [2025-12-28T15:28:51.365Z] [31merror[39m: Redis: Connection error - Connection timeout
 [2025-12-28T15:28:56.619Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-29T01:30:53.131Z] [31merror[39m: Redis: Connection error - 1C050000:error:0A00010B:SSL routines:ssl3_get_record:wrong version number:c:\ws\deps\openssl\openssl\ssl\record\ssl3_record.c:355:
+
+[2025-12-29T01:32:20.530Z] [31merror[39m: Redis: Connection error - A02B0000:error:0A00010B:SSL routines:ssl3_get_record:wrong version number:c:\ws\deps\openssl\openssl\ssl\record\ssl3_record.c:355:
+
+[2025-12-29T01:35:11.384Z] [31merror[39m: Redis: Connection error - 40490000:error:0A00010B:SSL routines:ssl3_get_record:wrong version number:c:\ws\deps\openssl\openssl\ssl\record\ssl3_record.c:355:
+
+[2025-12-29T01:40:55.580Z] [31merror[39m: Redis: Connection error - 7C310000:error:0A00010B:SSL routines:ssl3_get_record:wrong version number:c:\ws\deps\openssl\openssl\ssl\record\ssl3_record.c:355:
+
+[2025-12-29T01:51:17.623Z] [31merror[39m: Redis: Connection error - 54510000:error:0A00010B:SSL routines:ssl3_get_record:wrong version number:c:\ws\deps\openssl\openssl\ssl\record\ssl3_record.c:355:
+
+[2025-12-29T02:04:40.796Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-29T02:04:40.798Z] [31merror[39m: Failed to initialize infrastructure: Connection timeout
+[2025-12-29T02:04:40.798Z] [31merror[39m: Error starting the server Connection timeout
+[2025-12-29T02:06:09.879Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-29T02:06:09.895Z] [31merror[39m: Failed to initialize infrastructure: Connection timeout
+[2025-12-29T02:06:09.902Z] [31merror[39m: Error starting the server Connection timeout
+[2025-12-29T02:06:26.375Z] [31merror[39m: Failed to initialize infrastructure: Worker requires a connection
+[2025-12-29T02:06:26.394Z] [31merror[39m: Error starting the server Worker requires a connection
+[2025-12-29T02:11:28.583Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com
+[2025-12-29T02:11:28.602Z] [31merror[39m: Failed to initialize infrastructure: getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com
+[2025-12-29T02:11:28.603Z] [31merror[39m: Error starting the server getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com
+[2025-12-29T02:15:09.874Z] [31merror[39m: Redis: Connection error - getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com
+[2025-12-29T02:15:09.922Z] [31merror[39m: Failed to initialize infrastructure: getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com
+[2025-12-29T02:15:09.932Z] [31merror[39m: Error starting the server getaddrinfo ENOTFOUND redis-18372.c277.us-east-1-3.ec2.cloud.redislabs.com
+[2025-12-29T02:25:51.762Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-29T02:25:51.765Z] [31merror[39m: Failed to initialize infrastructure: Connection timeout
+[2025-12-29T02:25:51.766Z] [31merror[39m: Error starting the server Connection timeout
+[2025-12-29T23:11:37.203Z] [31merror[39m: Redis: Connection error - Connection timeout
+[2025-12-29T23:11:37.208Z] [31merror[39m: Failed to initialize infrastructure: Connection timeout
+[2025-12-29T23:11:37.209Z] [31merror[39m: Error starting the server Connection timeout
+[2025-12-29T23:14:19.950Z] [31merror[39m: Failed to initialize infrastructure: Worker requires a connection
+[2025-12-29T23:14:19.952Z] [31merror[39m: Error starting the server Worker requires a connection
+[2025-12-29T23:16:51.814Z] [31merror[39m: Failed to initialize infrastructure: Worker requires a connection
+[2025-12-29T23:16:51.816Z] [31merror[39m: Error starting the server Worker requires a connection
+[2025-12-29T23:31:33.523Z] [31merror[39m:  User already exists
+[2025-12-29T23:34:15.172Z] [31merror[39m:  User already exists
+[2025-12-30T00:06:28.404Z] [31merror[39m:  User already exists

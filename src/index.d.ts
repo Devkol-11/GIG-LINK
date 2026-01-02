@@ -32,7 +32,7 @@ declare global {
                                 userId: string;
                                 email: string;
                                 firstName: string;
-                                role: 'CREATOR' | 'FREELANCER';
+                                role: 'CREATOR' | 'FREELANCER' | 'SUPER_ADMIN';
                         };
 
                         rawBody: string;

@@ -32,11 +32,7 @@ export class PrismaDbProvider {
 
         public async connectDB() {
                 try {
-                        logger.info('connecting to the database..');
-
                         await this.client.$connect();
-
-                        logger.info('connected to database..');
                 } catch (error) {
                         logger.info('error connecting to the database');
                         process.exit(1);
@@ -45,11 +41,7 @@ export class PrismaDbProvider {
 
         public async disconnectDB() {
                 try {
-                        logger.info('disconnecting database..');
-
                         await this.client.$disconnect();
-
-                        logger.info('database disconnected successfully');
                 } catch (error) {
                         logger.warn('Failed to close pool', error);
                 }

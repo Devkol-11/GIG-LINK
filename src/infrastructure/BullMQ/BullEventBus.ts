@@ -1,5 +1,6 @@
 import { queueManager, Worker } from './bullQueue.js';
 import { logger } from '../Winston/winston.js';
+import { config } from '../EnvConfig/env.js';
 
 interface EventHandler {
         (payload: any): Promise<void>;
@@ -27,6 +28,7 @@ export class BullEventBus {
         async publish(eventName: string, payload: any): Promise<void> {
                 try {
                         const eventQueue = this.getEventQueue();
+                        logger.info(`Adding event to queue: ${eventName}`, { payload });
                         await eventQueue.add(eventName, payload, {
                                 attempts: 3,
                                 backoff: {
@@ -36,6 +38,8 @@ export class BullEventBus {
                                 removeOnComplete: true,
                                 removeOnFail: false
                         });
+
+                        logger.info('Event added to queue successfully');
 
                         logger.info(`Event published: ${eventName}`, { payload });
                 } catch (error) {
@@ -62,24 +66,35 @@ export class BullEventBus {
          * Start listening for events
          */
         startListener(): void {
-                const worker = new Worker('events', async (job) => {
-                        const { name, data } = job;
+                const worker = new Worker(
+                        'events',
+                        async (job) => {
+                                const { name, data } = job;
 
-                        const handlers = this.listeners[name] || [];
+                                const handlers = this.listeners[name] || [];
 
-                        if (handlers.length === 0) {
-                                logger.warn(`No handlers found for event: ${name}`);
-                                return;
+                                if (handlers.length === 0) {
+                                        logger.warn(`No handlers found for event: ${name}`);
+                                        return;
+                                }
+
+                                try {
+                                        await Promise.all(handlers.map((handler) => handler(data)));
+                                        logger.info(`Event processed successfully: ${name}`);
+                                } catch (error) {
+                                        logger.error(`Error processing event ${name}:`, error);
+                                        throw error; // Bull will retry based on job configuration
+                                }
+                        },
+                        {
+                                connection: {
+                                        host: config.REDIS_HOST,
+                                        port: config.REDIS_PORT,
+                                        username: config.REDIS_USERNAME,
+                                        password: config.REDIS_PASSWORD
+                                }
                         }
-
-                        try {
-                                await Promise.all(handlers.map((handler) => handler(data)));
-                                logger.info(`Event processed successfully: ${name}`);
-                        } catch (error) {
-                                logger.error(`Error processing event ${name}:`, error);
-                                throw error; // Bull will retry based on job configuration
-                        }
-                });
+                );
 
                 worker.on('error', (error) => {
                         logger.error('Worker error:', error);

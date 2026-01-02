@@ -36,14 +36,14 @@ export class BullQueueManager {
                 }
 
                 try {
-                        const connection = redis.getConnection();
+                        const connection = redis.getConnectionOptions();
 
                         if (!connection) {
                                 throw new Error('Redis connection not available');
                         }
 
                         const queue = new Queue(queueName, {
-                                connection: connection as any
+                                connection: connection
                         });
 
                         queue.on('error', (error: Error) => {

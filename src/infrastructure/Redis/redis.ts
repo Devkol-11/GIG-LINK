@@ -1,10 +1,10 @@
-import { Redis } from 'ioredis';
+import { createClient } from 'redis';
 import { logger } from '../Winston/winston.js';
 import { config } from '../EnvConfig/env.js';
 
 export class RedisSingleton {
         private static instance: RedisSingleton | null = null;
-        private redisClient: Redis;
+        private redisClient: any | null = null;
         private isConnected: boolean = false;
         private connectionPromise: Promise<void> | null = null;
 
@@ -17,24 +17,24 @@ export class RedisSingleton {
                 return this.instance;
         }
 
-        private createClient(): Redis {
-                return new Redis({
-                        host: config.REDIS_HOST || 'localhost',
-                        port: Number(config.REDIS_PORT) || 6379,
-                        password: config.REDIS_PASSWORD || undefined,
-                        db: Number(config.REDIS_DB || 0),
-                        tls: config.REDIS_HOST?.includes('cloud') ? { rejectUnauthorized: false } : undefined,
-                        retryStrategy: (times) => {
-                                const delay = Math.min(times * 50, 2000);
-                                return delay;
-                        },
-                        maxRetriesPerRequest: 3,
-                        connectTimeout: 10000,
-                        commandTimeout: 5000,
-                        enableReadyCheck: true,
-                        enableOfflineQueue: true,
-                        lazyConnect: true
-                }) as unknown as Redis;
+        private createClient() {
+                return createClient({
+                        username: config.REDIS_USERNAME,
+                        password: config.REDIS_PASSWORD,
+                        socket: {
+                                host: config.REDIS_HOST,
+                                port: config.REDIS_PORT
+                        }
+                });
+        }
+
+        public getConnectionOptions() {
+                return {
+                        host: config.REDIS_HOST,
+                        port: config.REDIS_PORT,
+                        username: config.REDIS_USERNAME,
+                        password: config.REDIS_PASSWORD
+                };
         }
 
         public async initialize(): Promise<void> {
@@ -81,7 +81,7 @@ export class RedisSingleton {
                                         resolve();
                                 });
 
-                                this.redisClient.on('error', (err) => {
+                                this.redisClient.on('error', (err: Error) => {
                                         clearTimeout(timeout);
                                         clearListeners();
                                         logger.error(`Redis: Connection error - ${err.message}`);
@@ -108,7 +108,10 @@ export class RedisSingleton {
                 return this.isConnected && this.redisClient !== null;
         }
 
-        public getConnection(): Redis | null {
+        public getConnection() {
+                if (!this.isConnected || this.redisClient == null) {
+                        throw new Error('Redis client not connected. Call initialize() first.');
+                }
                 return this.redisClient;
         }
 

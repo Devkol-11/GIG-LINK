@@ -23,14 +23,14 @@ model User {
   phoneNumber     String?
   isEmailVerified Boolean @default(false)
   isSuspended    Boolean
-  role            ROLE    @default(FREELANCER)
+  role            ROLE_USER  
   refreshToken    String?
   wallet               Wallet?
   paymentRecepientCode PaymentRecipient?
   profile              UserProfile?
   creatorProfile       Creator?
   freelancerProfile    Freelancer?
-  refreshTokens        RefreshToken[]
+  refreshTokens        Refresh_Token_User[]
   otp                  Otp[]
   settings             UserSettings?
 
@@ -43,16 +43,11 @@ model User {
   @@map("users")
 }
 
-enum ROLE {
-  CREATOR
-  FREELANCER
-  ADMIN
-}
-
-model RefreshToken {
+model Refresh_Token_User {
   id        String   @id @default(uuid())
   userId    String
-  token     String   @unique
+  tokenHash    String   @unique
+  is_revoked   Boolean  @default(false)
   expiresAt DateTime
   createdAt DateTime @default(now())
 
@@ -60,7 +55,46 @@ model RefreshToken {
 
   @@index([userId])
   @@index([expiresAt])
-  @@map("refresh_tokens")
+  @@map("refresh_tokens_user")
+}
+
+enum ROLE_USER {
+  CREATOR
+  FREELANCER
+}
+
+
+model Admin {
+  id        String   @id @default(uuid())
+  firstName    String
+  lastName     String 
+  email    String   @unique
+  role   ROLE_ADMIN   @default(SUPER_ADMIN)
+  passwordHash String
+  refreshToken  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  refreshTokens Refresh_Token_Admin[]
+
+  @@map("admins")
+}
+
+enum ROLE_ADMIN{
+  SUPER_ADMIN
+  SUPPORTER
+}
+
+model Refresh_Token_Admin{
+  id String @id  @default(uuid())
+  adminId String 
+  tokenHash  String
+  is_revoked Boolean @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  admin  Admin? @relation(fields: [adminId] ,references: [id] , onDelete: Cascade)
+  @@index([adminId])
+  @@map("refresh_tokens_admin")
 }
 
 model UserProfile {
@@ -360,6 +394,7 @@ enum TransactionType {
   RELEASE
   REFUND
 }
+
 
 enum TransactionStatus {
   PENDING

@@ -10,7 +10,7 @@ import { UserRegisteredEvent } from '../../domain/events/UserRegisteredEvent.js'
 import { UserRole } from '../../domain/enums/DomainEnums.js';
 import { domainEventBus } from '../../adapters/DomainEventBus-impl.js';
 import { User } from '../../domain/entities/User.js';
-
+import { logger } from '@core/Winston/winston.js';
 export class RegisterCreatorUseCase {
         constructor(
                 private userService: UserService,
@@ -42,6 +42,8 @@ export class RegisterCreatorUseCase {
                         async (trx) => {
                                 const newUser = await this.userRepository.save(userData, trx);
 
+                                logger.info('user saved successfully in database');
+
                                 const accessToken = this.userService.generateAccessToken(
                                         newUser.id,
                                         newUser.email,
@@ -49,15 +51,19 @@ export class RegisterCreatorUseCase {
                                         newUser.role
                                 );
 
-                                const { refreshToken, expiresAt } = this.userService.generateRefreshToken(
-                                        newUser.id,
-                                        7
+                                const { refreshToken, refreshTokenHash } =
+                                        await this.userService.generateRefreshToken();
+
+                                const EXPIRES_AT = 7;
+
+                                const refreshTokenExpiry = new Date(
+                                        Date.now() + EXPIRES_AT * 24 * 60 * 60 * 1000
                                 );
 
                                 await this.userRepository.saveRefreshToken(
                                         newUser.id,
-                                        refreshToken,
-                                        expiresAt,
+                                        refreshTokenHash,
+                                        refreshTokenExpiry,
                                         trx
                                 );
 
@@ -69,9 +75,17 @@ export class RegisterCreatorUseCase {
                         }
                 );
 
+                logger.info(`New creator registered: ${newUser.email}`);
+
                 const payload = new UserRegisteredEvent(newUser.email, newUser.firstName, newUser.role);
 
+                logger.info(`Event payload: ${JSON.stringify(payload)}`);
+
+                logger.info('publishing UserRegisteredEvent to event bus');
+
                 await this.eventBus.publish(payload.eventName, payload.getEventPayload());
+
+                logger.info('UserRegisteredEvent published successfully');
 
                 return {
                         message: `Registration Successful , welcome ${newUser.firstName} !`,

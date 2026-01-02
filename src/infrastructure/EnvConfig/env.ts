@@ -1,4 +1,4 @@
-import path, { parse } from 'path';
+import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { logger } from '@core/Winston/winston.js';
@@ -38,7 +38,8 @@ export const config = Object.freeze({
         REDIS_HOST: getEnvVar('REDIS_HOST'),
         REDIS_PORT: getEnvVar('REDIS_PORT') ? parseInt(getEnvVar('REDIS_PORT')) : undefined,
         REDIS_PASSWORD: getEnvVar('REDIS_PASSWORD'),
-        REDIS_DB: getEnvVar('REDIS_DB')
+        REDIS_DB: getEnvVar('REDIS_DB'),
+        REDIS_USERNAME: getEnvVar('REDIS_USERNAME')
 });
 
 logger.info(` Loaded environment variables from: ${ENV_PATH}`);

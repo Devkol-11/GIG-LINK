@@ -48,15 +48,19 @@ export class RegisterFreeLancerUseCase {
                                         newUser.role
                                 );
 
-                                const { refreshToken, expiresAt } = this.userService.generateRefreshToken(
-                                        newUser.id,
-                                        7
+                                const { refreshToken, refreshTokenHash } =
+                                        await this.userService.generateRefreshToken();
+
+                                const EXPIRES_AT = 7;
+
+                                const refreshTokenExpiry = new Date(
+                                        Date.now() + EXPIRES_AT * 24 * 60 * 60 * 1000
                                 );
 
                                 await this.userRepository.saveRefreshToken(
                                         newUser.id,
-                                        refreshToken,
-                                        expiresAt,
+                                        refreshTokenHash,
+                                        refreshTokenExpiry,
                                         trx
                                 );
 

@@ -10,11 +10,15 @@ export class CacheService {
          * @param value - Value to cache (will be stringified if object)
          * @param ttl - Time to live in seconds (default: 1 hour)
          */
-        static async set(key: string, value: any, ttl: number = this.DEFAULT_TTL): Promise<void> {
+        static async set(key: string, value: any, ttl: number = this.DEFAULT_TTL) {
                 try {
                         const client = redis.getConnection();
+
+                        if (client == null) return null;
+
                         const serializedValue = typeof value === 'string' ? value : JSON.stringify(value);
-                        await client.setEx(key, ttl, serializedValue);
+
+                        await client.setex(key, ttl, serializedValue);
                 } catch (error) {
                         logger.error(`Cache set error for key ${key}:`, error);
                         // Don't throw - cache failures shouldn't break the app
@@ -29,7 +33,11 @@ export class CacheService {
         static async get<T>(key: string): Promise<T | null> {
                 try {
                         const client = redis.getConnection();
+
+                        if (client == null) return null;
+
                         const value = await client.get(key);
+
                         if (!value) return null;
 
                         try {
@@ -47,9 +55,11 @@ export class CacheService {
          * Delete a cache key
          * @param key - Cache key
          */
-        static async delete(key: string): Promise<void> {
+        static async delete(key: string) {
                 try {
                         const client = redis.getConnection();
+                        if (client == null) return;
+
                         await client.del(key);
                 } catch (error) {
                         logger.error(`Cache delete error for key ${key}:`, error);
@@ -95,7 +105,7 @@ export class CacheService {
         static async increment(key: string, increment: number = 1): Promise<number> {
                 try {
                         const client = redis.getConnection();
-                        return await client.incrBy(key, increment);
+                        return await client.incrby(key, increment);
                 } catch (error) {
                         logger.error(`Cache increment error for key ${key}:`, error);
                         throw error;

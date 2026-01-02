@@ -30,19 +30,17 @@ export class LoginUseCase {
                         user.role
                 );
 
-                const refreshTokenPayload = this.userService.generateRefreshToken(user.id, 7);
+                const { refreshToken, refreshTokenHash } = await this.userService.generateRefreshToken();
+                const EXPIRES_AT = 7;
+                const refreshTokenExpiry = new Date(Date.now() + EXPIRES_AT * 24 * 60 * 60 * 1000);
 
-                await this.userRepository.saveRefreshToken(
-                        user.id,
-                        refreshTokenPayload.refreshToken,
-                        refreshTokenPayload.expiresAt
-                );
+                await this.userRepository.saveRefreshToken(user.id, refreshTokenHash, refreshTokenExpiry);
 
                 return {
                         message: 'Login successful , Welcome back !',
                         tokens: {
                                 accessToken: accessToken,
-                                refreshToken: refreshTokenPayload.refreshToken
+                                refreshToken: refreshToken
                         }
                 };
         }

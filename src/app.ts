@@ -9,6 +9,7 @@ import { userRoutes } from './contexts/User/http/routes/UserRoutes.js';
 import { authRoutes } from '@src/contexts/User/http/routes/AuthRoutes.js';
 import { marketplaceRoutes } from '@src/contexts/Market-place/http/routes/marketPlaceRoutes.js';
 import { billingRoutes } from '@src/contexts/Billings/http/routes/billingRoutes.js';
+import { adminRoutes } from '@src/contexts/Admin/routes/adminRoutes.js';
 
 import { globalErrorHandler } from '@src/shared/middlewares/globalErrorHandler.js';
 
@@ -56,3 +57,5 @@ ExpressApplication.use('/api/v1/billing', billingRoutes);
 
 // Global error handler
 ExpressApplication.use(globalErrorHandler);
+
+ExpressApplication.use('/api/v1/admin', adminRoutes);

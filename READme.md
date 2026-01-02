@@ -61,9 +61,9 @@ covering its use cases and entities.
 - **Runtime:** Node.js + TypeScript (ES Modules)
 - **ORM:** Prisma
 - **Database:** PostgreSQL
-- **Message-broker:** Rabbit-mq
+- **Message-broker:** Bull-mq
 - **Caching:** Redis
-- **Architecture:** Domain-Driven Design + Hexagonal architecture
+- **Architecture:** Event-Driven Architecture + Domain-Driven Design + Hexagonal architecture
 - **Testing:** Jest
 - **Bench-marking:** Auto-cannon
 - **Payment Provider:** Paystack

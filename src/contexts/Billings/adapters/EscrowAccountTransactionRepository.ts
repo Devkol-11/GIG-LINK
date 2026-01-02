@@ -9,7 +9,9 @@ export class EscrowAccountTransactionRepository implements IEscrowAccountTransac
                 trx?: Prisma.TransactionClient
         ): Promise<EscrowAccountTransaction> {
                 const client = trx ?? prismaDbClient;
+
                 const data = escrowAccountTransaction.getState();
+
                 const record = await client.escrowTransaction.create({ data });
                 return EscrowAccountTransaction.toEntity(record);
         }

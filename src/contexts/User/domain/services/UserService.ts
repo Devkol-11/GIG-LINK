@@ -29,20 +29,19 @@ export class UserService {
                         role
                 });
         }
-        generateRefreshToken(userId: string, days: number) {
-                const refreshToken = this.tokenGenerator.generateRefreshToken({
-                        userId
-                });
-                const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
-                return { refreshToken, expiresAt };
-        }
 
         verifyAccessToken(token: string): any {
                 return this.tokenGenerator.verifyAccessToken(token);
         }
+        async generateRefreshToken() {
+                const refreshToken = randomBytes(32).toString('base64url');
+                const refreshTokenHash = await this.hashRefreshToken(refreshToken);
+                return { refreshToken, refreshTokenHash };
+        }
 
-        verifyRefreshToken(token: string): any {
-                return this.tokenGenerator.verifyRefreshToken(token);
+        async hashRefreshToken(token: string) {
+                const tokenHash = await this.passwordHasher.hash(token);
+                return tokenHash;
         }
 
         generateOTP(ttlMinutes = 10) {
