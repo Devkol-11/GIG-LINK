@@ -1,0 +1,18 @@
+import { Router } from "express";
+import { marketPlaceController } from "./market-place.controller.js";
+import { createApplicationSchema, createContractSchema, createGigSchema, idParamSchema, paginationQuerySchema, updateApplicationStatusSchema, updateContractStatusSchema, updateGigSchema, } from "./market-place.schema.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { authMiddleware } from "../../utils/auth.middleware.js";
+import { validate } from "../../utils/validate.js";
+export const marketPlaceRouter = Router();
+marketPlaceRouter.get("/gigs", validate(paginationQuerySchema), asyncHandler(marketPlaceController.listGigs));
+marketPlaceRouter.get("/gigs/:id", validate(idParamSchema), asyncHandler(marketPlaceController.getGig));
+marketPlaceRouter.post("/gigs", authMiddleware, validate(createGigSchema), asyncHandler(marketPlaceController.createGig));
+marketPlaceRouter.put("/gigs/:id", authMiddleware, validate(updateGigSchema), asyncHandler(marketPlaceController.updateGig));
+marketPlaceRouter.delete("/gigs/:id", authMiddleware, validate(idParamSchema), asyncHandler(marketPlaceController.deleteGig));
+marketPlaceRouter.post("/applications", authMiddleware, validate(createApplicationSchema), asyncHandler(marketPlaceController.createApplication));
+marketPlaceRouter.get("/applications", authMiddleware, asyncHandler(marketPlaceController.listApplications));
+marketPlaceRouter.put("/applications/:id", authMiddleware, validate(updateApplicationStatusSchema), asyncHandler(marketPlaceController.updateApplicationStatus));
+marketPlaceRouter.post("/contracts", authMiddleware, validate(createContractSchema), asyncHandler(marketPlaceController.createContract));
+marketPlaceRouter.get("/contracts/:id", authMiddleware, validate(idParamSchema), asyncHandler(marketPlaceController.getContract));
+marketPlaceRouter.put("/contracts/:id", authMiddleware, validate(updateContractStatusSchema), asyncHandler(marketPlaceController.updateContractStatus));

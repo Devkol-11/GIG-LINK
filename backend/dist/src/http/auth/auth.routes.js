@@ -1,0 +1,11 @@
+import { Router } from "express";
+import { authController } from "./auth.controller.js";
+import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema, } from "./auth.schema.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { validate } from "../../utils/validate.js";
+export const authRouter = Router();
+authRouter.post("/register/free-lancer", validate(registerSchema), asyncHandler(authController.registerFreelancer));
+authRouter.post("/register/creator", validate(registerSchema), asyncHandler(authController.registerCreator));
+authRouter.post("/login", validate(loginSchema), asyncHandler(authController.login));
+authRouter.post("/forgot-password", validate(forgotPasswordSchema), asyncHandler(authController.forgotPassword));
+authRouter.post("/reset-password", validate(resetPasswordSchema), asyncHandler(authController.resetPassword));

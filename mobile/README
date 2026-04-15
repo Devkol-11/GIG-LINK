@@ -1,0 +1,23 @@
+# GigLink Mobile
+
+A mobile app built with React Native (Expo) and TypeScript.
+
+## Getting Started
+
+1. Clone the repo
+2. Install dependencies: `npm install`
+3. Run project: `npx expo start`
+
+## Tech Stack
+
+Expo · TypeScript · Redux Toolkit · RTK Query · NativeWind · Moti · React Navigation
+
+## Folder Structure
+
+src/
+├─ components/
+├─ screens/
+├─ features/
+├─ store/
+├─ theme/
+└─ utils/
